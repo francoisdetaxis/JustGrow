@@ -1,11 +1,3 @@
 ﻿################################################################################
 # Ce fichier .gitignore a été automatiquement créé par Microsoft(R) Visual Studio.
 ################################################################################
-
-/JustGrow/JustGrow.vcxproj.user
-/JustGrow/JustGrow.vcxproj.filters
-/JustGrow/JustGrow.vcxproj
-/JustGrow/JustGrow.sln
-/JustGrow/.vs/JustGrow/v16/Browse.VC.opendb
-/JustGrow/.vs/JustGrow/v16/Browse.VC.db
-/JustGrow/.vs/JustGrow/v16
