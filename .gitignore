@@ -18,3 +18,13 @@ JustGrow/Debug/main.obj
 JustGrow/Debug/vc142.idb
 JustGrow/Debug/vc142.pdb
 JustGrow/Debug/JustGrow.log
+JustGrow/.vs/JustGrow/v16/.suo
+JustGrow/.vs/JustGrow/v16/Browse.VC.db
+JustGrow/Debug/JustGrow.exe
+JustGrow/Debug/JustGrow.ilk
+JustGrow/Debug/JustGrow.log
+JustGrow/Debug/JustGrow.pdb
+*.tlog
+*.idb
+*.pdb
+*.vcxproj
