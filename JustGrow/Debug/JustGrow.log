@@ -1,2 +1,14 @@
 ﻿  main.cpp
+C:\Users\franc\OneDrive\Bureau\JustGrow\JustGrow\main.cpp(49,73): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\franc\OneDrive\Bureau\JustGrow\JustGrow\main.cpp(49,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\franc\OneDrive\Bureau\JustGrow\JustGrow\main.cpp(86,44): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\Users\franc\OneDrive\Bureau\JustGrow\JustGrow\main.cpp(86,31): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
   JustGrow.vcxproj -> C:\Users\franc\OneDrive\Bureau\JustGrow\JustGrow\Debug\JustGrow.exe
