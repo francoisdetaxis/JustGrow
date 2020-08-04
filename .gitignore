@@ -28,3 +28,8 @@ JustGrow/Debug/JustGrow.pdb
 *.idb
 *.pdb
 *.vcxproj
+/.vs
+*.sln
+*.filters
+*.user
+/JustGrow/Debug
