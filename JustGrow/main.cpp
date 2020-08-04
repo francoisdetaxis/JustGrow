@@ -1,36 +1,37 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
 //using namespace sf;
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
 
 int main()
 {
-
+	//grosse salope
 
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "SFML works!", sf::Style::Fullscreen);
-	sf::CircleShape shape(100.f);
 	sf::Texture texture;
-
-
-	if (!texture.loadFromFile("./resources/Idle/idle_sprite.png"))
+	sf::Sprite sprite;
+	sf::IntRect rect1;
+	sf::Clock clock;
+	sf::Music music;
+	rect1.left = 0;
+	rect1.top = 0;
+	rect1.height = 660;
+	rect1.width = 660;
+	
+	if (!texture.loadFromFile("./resources/image/running_man.png"))
 	{
 		//TODO handle error
 		return -1;
 	}
+	int kekchose = 150;
 
-	//texture.setRepeated(true);
+	if (!music.openFromFile("music.ogg"))
+		return -1; // error
 
-
-	sf::Sprite sprite;
+	sprite.setPosition((SCREEN_WIDTH / 2) - kekchose, ((SCREEN_HEIGHT / 2) - kekchose));
 	sprite.setTexture(texture);
-	//sprite.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-
-
-
-
-
-	shape.setFillColor(sf::Color::Green);
 
 	while (window.isOpen())
 	{
@@ -41,22 +42,27 @@ int main()
 				window.close();
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
 				window.close();
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-			{
-				shape.setFillColor(sf::Color::Red);
+
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)){
+				
 			}
-			else {
-				shape.setFillColor(sf::Color::Green);
-			}
+
 
 
 
 		}
 
-		window.clear();
+		sprite.setTextureRect(rect1);
+		if (clock.getElapsedTime().asMilliseconds() > 50) {
+			clock.restart();
+			if (rect1.left > 9240){
+				rect1.left = 0;
+			} else 
+				rect1.left += 660;
+		}
 
+		window.clear();
 		window.draw(sprite);
-		//window.draw(shape);
 		window.display();
 	}
 
