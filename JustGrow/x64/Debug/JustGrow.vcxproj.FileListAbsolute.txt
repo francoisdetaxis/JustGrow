@@ -1,2 +1,0 @@
-C:\Users\franc\OneDrive\Bureau\JustGrow\JustGrow\x64\Debug\JustGrow.exe
-C:\Users\franc\OneDrive\Bureau\JustGrow\JustGrow\x64\Debug\JustGrow.pdb
