@@ -24,9 +24,9 @@ int main()
 			}
 
 		}
-		if (monster.getClockTime() > 50) {
+		if (monster.getClockTime() > 25) {
 			monster.restartclock();
-			monster.nextFrame();
+			//monster.nextFrame();
 
 			if (monster.getRect().left >= monster.getMaxLeft()) {
 				monster.resetRect();
