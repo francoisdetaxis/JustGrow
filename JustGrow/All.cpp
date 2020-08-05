@@ -15,3 +15,4 @@ All::All(sf::Texture texture)
 {
 	a_texture = texture;
 }
+

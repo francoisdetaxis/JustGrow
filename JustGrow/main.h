@@ -5,6 +5,7 @@
 #include <string>
 
 #include "All.h"
+#include "Monster.h"
 
 
 #define SCREEN_WIDTH 1920
