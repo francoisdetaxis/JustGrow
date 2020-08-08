@@ -3,12 +3,12 @@
 
 class All
 {
-	public :
-		All::All(sf::Texture texture);
-		void setTexture(sf::Texture texture);
-		sf::Texture getTexture(void);
+public:
+	All::All(sf::Texture texture);
+	void setTexture(sf::Texture texture);
+	sf::Texture getTexture(void);
 
-	private :
+private:
 
 	sf::Texture a_texture;
 	sf::Sprite a_sprite;
@@ -18,4 +18,3 @@ class All
 	sf::Vector2i a_mouseposi;
 	sf::Vector2f a_mouseposf;
 };
-

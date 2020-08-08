@@ -1,22 +1,17 @@
 #include "Monster.h"
 
-Monster::Monster(std::string monsterPath, std::string monsterHitSoundPath, int frames)
+Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::string, sf::SoundBuffer> sounds)
 {
-	//load texture from file
-	if (!a_monsterTexture.loadFromFile(monsterPath)) {
-		//TODO handle error
-	}
 
-	//load hit sound from file
-	if (!a_soundBuffer.loadFromFile(monsterHitSoundPath)) {
-		//TODO handle error
-	}
+	a_monsterTexture = textures["monster1"];
+	a_soundBuffer = sounds["hitSound1"];
+	a_backgroundTexture = textures["platform1"];
 
 	//size of 1 frame (frames must be squares)
 	a_frameSize = a_monsterTexture.getSize().y;
 
 	//total number of frames
-	a_framesTotal = frames;
+	a_framesTotal = a_monsterTexture.getSize().x / a_monsterTexture.getSize().y;
 
 	//max length of the sprite (there's 30 frames)
 	a_maxLeft = (a_framesTotal - 1) * a_frameSize;
@@ -42,11 +37,13 @@ Monster::Monster(std::string monsterPath, std::string monsterHitSoundPath, int f
 	//hitbox borders (shape) = hitbox rect
 	a_hitboxBorders.setPosition(a_monsterSprite.getPosition().x, a_monsterSprite.getPosition().y);
 	a_hitboxBorders.setSize(sf::Vector2f(a_monsterRect.height, a_monsterRect.width));
+	a_hitboxBorders.setFillColor(sf::Color::Transparent);
 	a_hitboxBorders.setOutlineColor(sf::Color::Red);
 	a_hitboxBorders.setOutlineThickness(5.f);
 
-	//set monster sprite texture
+	//set sprites textures
 	a_monsterSprite.setTexture(a_monsterTexture);
+	a_backgroundSprite.setTexture(a_backgroundTexture);
 
 }
 
@@ -58,6 +55,7 @@ int Monster::getFrameSize()
 void Monster::setPosition(int x, int y)
 {
 	a_monsterSprite.setPosition(x, y);
+	a_backgroundSprite.setPosition(x, y + a_frameSize / 5);
 
 	//hitbox rect = monster rect initial position
 	// TOP = y position of the top left corner
@@ -68,16 +66,6 @@ void Monster::setPosition(int x, int y)
 	//hitbox borders (shape) = hitbox rect
 	a_hitboxBorders.setPosition(a_monsterSprite.getPosition().x, a_monsterSprite.getPosition().y);
 	a_hitboxBorders.setSize(sf::Vector2f(a_monsterRect.height, a_monsterRect.width));
-}
-
-sf::RectangleShape Monster::getHitboxShape()
-{
-	return a_hitboxBorders;
-}
-
-void Monster::setRect(sf::IntRect rect)
-{
-	a_monsterSprite.setTextureRect(rect);
 }
 
 void Monster::nextFrame()
@@ -93,29 +81,22 @@ void Monster::nextFrame()
 			a_monsterRect.left += a_frameSize;
 		}
 	}
-
 }
-
-sf::Sprite Monster::getSprite()
-{
-	return a_monsterSprite;
-}
-
 
 bool Monster::isHit(sf::RenderWindow* window)
 {
-	//DEBUG VERSION
-	//sf::Vector2i pos = sf::Mouse::getPosition(*window);
-	//if (a_monsterHitbox.contains(pos))
-	//	return true;
-	//else
-	//	return false;
-
-	//SHORT VERSION
 	return a_monsterHitbox.contains(sf::Mouse::getPosition(*window));
 }
 
 void Monster::playSound()
 {
 	a_hitSound.play();
+}
+
+void Monster::draw(sf::RenderWindow* window)
+{
+	window->draw(a_backgroundSprite);
+	window->draw(a_hitboxBorders);
+	window->draw(a_monsterSprite);
+
 }

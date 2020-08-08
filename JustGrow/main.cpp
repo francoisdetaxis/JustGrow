@@ -3,7 +3,14 @@
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::Fullscreen);
-	Monster monster("./resources/image/sprites/running_man.png", "./resources/sound/hit_sound.wav", 15);
+
+	//load textures
+	std::map<std::string, sf::Texture> textures = loadTextures();
+
+	//load sounds
+	std::map<std::string, sf::SoundBuffer> sounds = loadSounds();
+
+	Monster monster(textures, sounds);
 	//set the position to the center of the screen
 	monster.setPosition((SCREEN_WIDTH - monster.getFrameSize()) / 2, (SCREEN_HEIGHT - monster.getFrameSize()) / 2);
 
@@ -22,15 +29,13 @@ int main()
 					monster.playSound();
 				}
 			}
-
 		}
 
 		monster.nextFrame();
 
 		//DRAW EVERYTHING
 		window.clear();
-		window.draw(monster.getHitboxShape());
-		window.draw(monster.getSprite());
+		monster.draw(&window);
 		window.display();
 	}
 
