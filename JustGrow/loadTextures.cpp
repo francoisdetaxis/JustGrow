@@ -14,7 +14,6 @@ std::map<std::string, sf::Texture> loadTextures()
 	platform2.loadFromFile("./resources/image/platforms/platform2.png");
 	platform3.loadFromFile("./resources/image/platforms/platform3.png");
 
-
 	std::map<std::string, sf::Texture> textures{
 		{"monster1", monster1},
 		{"platform1", platform1},

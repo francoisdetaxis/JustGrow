@@ -2,9 +2,16 @@
 
 Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::string, sf::SoundBuffer> sounds)
 {
+	a_textures = textures;
+	a_sounds = sounds;
 
+	//initial monster texture
 	a_monsterTexture = textures["monster1"];
+
+	//initial hit sound
 	a_soundBuffer = sounds["hitSound1"];
+	
+	//initial platform
 	a_backgroundTexture = textures["platform1"];
 
 	//size of 1 frame (frames must be squares)
@@ -96,7 +103,23 @@ void Monster::playSound()
 void Monster::draw(sf::RenderWindow* window)
 {
 	window->draw(a_backgroundSprite);
-	window->draw(a_hitboxBorders);
+	//window->draw(a_hitboxBorders);
 	window->draw(a_monsterSprite);
 
+}
+
+void Monster::nextMob()
+{
+	//TODO
+	
+}
+
+void Monster::nextPlatform()
+{
+	//TODO
+}
+
+void Monster::dealDmg()
+{
+	//TODO
 }

@@ -17,10 +17,15 @@ public:
 	void Monster::nextFrame();
 	bool Monster::isHit(sf::RenderWindow* window);
 	void Monster::playSound();
+	void Monster::nextMob();
+	void Monster::nextPlatform();
+	void Monster::dealDmg();
 
 private:
 
 	//attributes
+	std::map<std::string, sf::Texture> a_textures;
+	std::map<std::string, sf::SoundBuffer> a_sounds;
 	sf::Clock a_clock;
 	sf::Texture a_monsterTexture;
 	sf::Texture a_backgroundTexture;

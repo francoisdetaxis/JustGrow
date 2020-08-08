@@ -27,11 +27,13 @@ int main()
 				if (event.mouseButton.button == sf::Mouse::Left && monster.isHit(&window))
 				{
 					monster.playSound();
+					monster.dealDmg();
 				}
 			}
 		}
 
 		monster.nextFrame();
+		monster.nextMob();
 
 		//DRAW EVERYTHING
 		window.clear();
