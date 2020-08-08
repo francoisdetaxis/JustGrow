@@ -3,7 +3,7 @@
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::Fullscreen);
-	Monster monster;
+	Monster monster("./resources/image/sprites/running_man.png", "./resources/sound/hit_sound.wav", 15);
 	//set the position to the center of the screen
 	monster.setPosition((SCREEN_WIDTH - monster.getFrameSize()) / 2, (SCREEN_HEIGHT - monster.getFrameSize()) / 2);
 
@@ -24,17 +24,10 @@ int main()
 			}
 
 		}
-		if (monster.getClockTime() > 25) {
-			monster.restartclock();
-			//monster.nextFrame();
 
-			if (monster.getRect().left >= monster.getMaxLeft()) {
-				monster.resetRect();
-			}
-			else
-				monster.nextFrame();
-		}
+		monster.nextFrame();
 
+		//DRAW EVERYTHING
 		window.clear();
 		window.draw(monster.getHitboxShape());
 		window.draw(monster.getSprite());

@@ -4,23 +4,23 @@
 class Monster
 {
 public:
+
 	//constructors
-	Monster();
+	Monster::Monster(std::string monsterPath, std::string monsterHitSoundPath, int frames);
+
 	//getters and setters
 	void Monster::setRect(sf::IntRect rect);
-	sf::IntRect Monster::getRect();
-	void Monster::resetRect();
 	sf::Sprite Monster::getSprite();
-	void Monster::nextFrame();
-	int Monster::getMaxLeft();
-	int Monster::getClockTime();
-	void Monster::restartclock();
-	bool Monster::isHit(sf::RenderWindow* window);
-	void Monster::playSound();
 	void Monster::setPosition(int x, int y);
 	sf::RectangleShape Monster::getHitboxShape();
 	int Monster::getFrameSize();
 
+	//other methods
+	void Monster::nextFrame();
+	bool Monster::isHit(sf::RenderWindow* window);
+	void Monster::playSound();
+
+private:
 
 	//attributes
 	sf::Clock a_clock;
@@ -33,5 +33,6 @@ public:
 	int a_frameSize;
 	int a_maxLeft;
 	sf::RectangleShape a_hitboxBorders;
+	int a_framesTotal;
 };
 

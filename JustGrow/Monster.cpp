@@ -1,29 +1,36 @@
 #include "Monster.h"
 
-Monster::Monster()
+Monster::Monster(std::string monsterPath, std::string monsterHitSoundPath, int frames)
 {
-	//max length of the sprite
-	a_maxLeft = 9240;
+	//load texture from file
+	if (!a_monsterTexture.loadFromFile(monsterPath)) {
+		//TODO handle error
+	}
 
-	//size of 1 frame
-	a_frameSize = 660;
+	//load hit sound from file
+	if (!a_soundBuffer.loadFromFile(monsterHitSoundPath)) {
+		//TODO handle error
+	}
+
+	//size of 1 frame (frames must be squares)
+	a_frameSize = a_monsterTexture.getSize().y;
+
+	//total number of frames
+	a_framesTotal = frames;
+
+	//max length of the sprite (there's 30 frames)
+	a_maxLeft = (a_framesTotal - 1) * a_frameSize;
 
 	//Monster rectangle
 	a_monsterRect.left = 0;
 	a_monsterRect.top = 0;
-	a_monsterRect.height = 660;
-	a_monsterRect.width = 660;
+	a_monsterRect.height = a_frameSize;
+	a_monsterRect.width = a_frameSize;
 
 	//Monster hitbox
 	a_monsterHitbox.height = a_monsterRect.height;
 	a_monsterHitbox.width = a_monsterRect.width;
-	
-	if (!a_monsterTexture.loadFromFile("./resources/image/running_man.png")) {
-		//TODO handle error
-	}
-	if (!a_soundBuffer.loadFromFile("./resources/sound/hit_sound.wav")) {
-		//TODO handle error
-	}
+
 	a_hitSound.setBuffer(a_soundBuffer);
 
 	//hitbox rect = monster rect initial position
@@ -31,7 +38,7 @@ Monster::Monster()
 	// LEFT = x position of the top left corner
 	a_monsterHitbox.left = a_monsterSprite.getPosition().x;
 	a_monsterHitbox.top = a_monsterSprite.getPosition().y;
-	
+
 	//hitbox borders (shape) = hitbox rect
 	a_hitboxBorders.setPosition(a_monsterSprite.getPosition().x, a_monsterSprite.getPosition().y);
 	a_hitboxBorders.setSize(sf::Vector2f(a_monsterRect.height, a_monsterRect.width));
@@ -73,23 +80,20 @@ void Monster::setRect(sf::IntRect rect)
 	a_monsterSprite.setTextureRect(rect);
 }
 
-
-
-sf::IntRect Monster::getRect()
-{
-	return a_monsterRect;
-}
-
-void Monster::resetRect()
-{
-	a_monsterRect.left = 0;
-}
-
 void Monster::nextFrame()
 {
-	a_monsterSprite.setTextureRect(a_monsterRect);
-	a_monsterRect.left += a_frameSize;
-	
+	if (a_clock.getElapsedTime().asMilliseconds() > 50) {
+		a_clock.restart();
+
+		if (a_monsterRect.left >= a_maxLeft) {
+			a_monsterRect.left = 0;
+		}
+		else {
+			a_monsterSprite.setTextureRect(a_monsterRect);
+			a_monsterRect.left += a_frameSize;
+		}
+	}
+
 }
 
 sf::Sprite Monster::getSprite()
@@ -97,22 +101,8 @@ sf::Sprite Monster::getSprite()
 	return a_monsterSprite;
 }
 
-int Monster::getMaxLeft()
-{
-	return a_maxLeft;
-}
 
-int Monster::getClockTime()
-{
-	return a_clock.getElapsedTime().asMilliseconds();
-}
-
-void Monster::restartclock()
-{
-	a_clock.restart();
-}
-
-bool Monster::isHit(sf::RenderWindow *window)
+bool Monster::isHit(sf::RenderWindow* window)
 {
 	//DEBUG VERSION
 	//sf::Vector2i pos = sf::Mouse::getPosition(*window);
