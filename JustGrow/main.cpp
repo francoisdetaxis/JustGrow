@@ -10,7 +10,10 @@ int main()
 	//load sounds
 	std::map<std::string, sf::SoundBuffer> sounds = loadSounds();
 
-	Monster monster(textures, sounds);
+	//load fonts
+	std::map<std::string, sf::Font> fonts = loadFonts();
+
+	Monster monster(textures, sounds, fonts);
 	//set the position to the center of the screen
 	monster.setPosition((SCREEN_WIDTH - monster.getFrameSize()) / 2, (SCREEN_HEIGHT - monster.getFrameSize()) / 2);
 

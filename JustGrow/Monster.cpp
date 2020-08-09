@@ -1,18 +1,33 @@
 #include "Monster.h"
 
-Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::string, sf::SoundBuffer> sounds)
+Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::string, sf::SoundBuffer> sounds, std::map<std::string, sf::Font> fonts)
 {
 	a_textures = textures;
 	a_sounds = sounds;
+	a_fonts = fonts;
+
+	//initial monster hp
+	a_hp = 10;
+
+	//initial hp font & text
+	a_hpFont = fonts["hpFont"];
+	a_hpText.setFont(a_hpFont);
+	a_hpText.setString(std::to_string(a_hp) + " HP");
+	a_hpText.setColor(sf::Color::Red);
 
 	//initial monster texture
 	a_monsterTexture = textures["monster1"];
 
 	//initial hit sound
 	a_soundBuffer = sounds["hitSound1"];
+	a_hitSound.setBuffer(a_soundBuffer);
 	
 	//initial platform
 	a_backgroundTexture = textures["platform1"];
+
+	//initial hp bar
+	a_hpBarEmptyTexture = textures["hpBarEmpty"];
+	a_hpBarFullTexture = textures["hpBarFull"];
 
 	//size of 1 frame (frames must be squares)
 	a_frameSize = a_monsterTexture.getSize().y;
@@ -20,7 +35,7 @@ Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::stri
 	//total number of frames
 	a_framesTotal = a_monsterTexture.getSize().x / a_monsterTexture.getSize().y;
 
-	//max length of the sprite (there's 30 frames)
+	//max length of the monster sprite
 	a_maxLeft = (a_framesTotal - 1) * a_frameSize;
 
 	//Monster rectangle
@@ -32,8 +47,6 @@ Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::stri
 	//Monster hitbox
 	a_monsterHitbox.height = a_monsterRect.height;
 	a_monsterHitbox.width = a_monsterRect.width;
-
-	a_hitSound.setBuffer(a_soundBuffer);
 
 	//hitbox rect = monster rect initial position
 	// TOP = y position of the top left corner
@@ -51,6 +64,8 @@ Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::stri
 	//set sprites textures
 	a_monsterSprite.setTexture(a_monsterTexture);
 	a_backgroundSprite.setTexture(a_backgroundTexture);
+	a_hpBarEmptySprite.setTexture(a_hpBarEmptyTexture);
+	a_hpBarFullSprite.setTexture(a_hpBarFullTexture);
 
 }
 
@@ -63,6 +78,9 @@ void Monster::setPosition(int x, int y)
 {
 	a_monsterSprite.setPosition(x, y);
 	a_backgroundSprite.setPosition(x, y + a_frameSize / 5);
+	a_hpBarEmptySprite.setPosition(x + a_frameSize / 5, y + a_frameSize / 1.25);
+	a_hpBarFullSprite.setPosition(x + a_frameSize / 5, y + a_frameSize / 1.25);
+	a_hpText.setPosition(x + a_frameSize / 2.5, y + a_frameSize / 1.40);
 
 	//hitbox rect = monster rect initial position
 	// TOP = y position of the top left corner
@@ -105,6 +123,9 @@ void Monster::draw(sf::RenderWindow* window)
 	window->draw(a_backgroundSprite);
 	//window->draw(a_hitboxBorders);
 	window->draw(a_monsterSprite);
+	window->draw(a_hpBarEmptySprite);
+	window->draw(a_hpBarFullSprite);
+	window->draw(a_hpText);
 
 }
 
