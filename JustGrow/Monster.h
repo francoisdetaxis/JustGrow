@@ -1,5 +1,4 @@
 #pragma once
-#include "main.h"
 
 class Monster
 {
@@ -11,6 +10,8 @@ public:
 	//getters and setters
 	void Monster::setPosition(int x, int y);
 	int Monster::getFrameSize();
+	void setHp(int hp);
+	int getHp();
 
 	//other methods
 	void Monster::draw(sf::RenderWindow* window);
@@ -19,7 +20,6 @@ public:
 	void Monster::playSound();
 	void Monster::nextMob();
 	void Monster::nextPlatform();
-	void Monster::dealDmg();
 
 private:
 
@@ -38,13 +38,16 @@ private:
 	sf::Sprite a_hpBarFullSprite;
 	sf::Sprite a_hpBarEmptySprite;
 	sf::IntRect a_monsterRect;
+	sf::IntRect a_hpRect;
 	sf::IntRect a_monsterHitbox;
 	sf::SoundBuffer a_soundBuffer;
 	sf::Sound a_hitSound;
 	sf::Text a_hpText;
 	int a_frameSize;
-	int a_hp;
+	int a_currentHp;
+	int a_maxHp;
 	int a_maxLeft;
+	int a_hpFrameWidth;
 	sf::RectangleShape a_hitboxBorders;
 	int a_framesTotal;
 };

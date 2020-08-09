@@ -1,4 +1,4 @@
-#include "Monster.h"
+#include "main.h"
 
 Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::string, sf::SoundBuffer> sounds, std::map<std::string, sf::Font> fonts)
 {
@@ -7,12 +7,13 @@ Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::stri
 	a_fonts = fonts;
 
 	//initial monster hp
-	a_hp = 10;
+	a_maxHp = 10;
+	a_currentHp = 10;
 
 	//initial hp font & text
 	a_hpFont = fonts["hpFont"];
 	a_hpText.setFont(a_hpFont);
-	a_hpText.setString(std::to_string(a_hp) + " HP");
+	a_hpText.setString(std::to_string(a_currentHp) + " HP");
 	a_hpText.setColor(sf::Color::Red);
 
 	//initial monster texture
@@ -28,6 +29,10 @@ Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::stri
 	//initial hp bar
 	a_hpBarEmptyTexture = textures["hpBarEmpty"];
 	a_hpBarFullTexture = textures["hpBarFull"];
+	a_hpFrameWidth = a_hpBarFullTexture.getSize().x;
+
+	a_hpRect.height = a_hpBarFullTexture.getSize().y;
+	a_hpRect.width = a_hpBarFullTexture.getSize().x;
 
 	//size of 1 frame (frames must be squares)
 	a_frameSize = a_monsterTexture.getSize().y;
@@ -66,7 +71,7 @@ Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::stri
 	a_backgroundSprite.setTexture(a_backgroundTexture);
 	a_hpBarEmptySprite.setTexture(a_hpBarEmptyTexture);
 	a_hpBarFullSprite.setTexture(a_hpBarFullTexture);
-
+	a_hpBarFullSprite.setTextureRect(a_hpRect);
 }
 
 int Monster::getFrameSize()
@@ -81,6 +86,10 @@ void Monster::setPosition(int x, int y)
 	a_hpBarEmptySprite.setPosition(x + a_frameSize / 5, y + a_frameSize / 1.25);
 	a_hpBarFullSprite.setPosition(x + a_frameSize / 5, y + a_frameSize / 1.25);
 	a_hpText.setPosition(x + a_frameSize / 2.5, y + a_frameSize / 1.40);
+
+	//TODO WTF ?
+	//a_hpRect.top = y + a_frameSize / 1.25;
+	//a_hpRect.left = x + a_frameSize / 5;
 
 	//hitbox rect = monster rect initial position
 	// TOP = y position of the top left corner
@@ -140,7 +149,21 @@ void Monster::nextPlatform()
 	//TODO
 }
 
-void Monster::dealDmg()
+void Monster::setHp(int hp)
 {
-	//TODO
+	if (hp < 0)
+	{
+		//TODO kill monster
+	}
+	else {
+		a_currentHp = hp;
+		a_hpText.setString(std::to_string(a_currentHp) + " HP");
+		a_hpRect.width = a_currentHp * a_hpFrameWidth / a_maxHp;
+		a_hpBarFullSprite.setTextureRect(a_hpRect);
+	}
+}
+
+int Monster::getHp()
+{
+	return a_currentHp;
 }

@@ -3,7 +3,8 @@
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::Fullscreen);
-
+	window.setMouseCursorVisible(false); // Hide cursor
+	
 	//load textures
 	std::map<std::string, sf::Texture> textures = loadTextures();
 
@@ -13,7 +14,12 @@ int main()
 	//load fonts
 	std::map<std::string, sf::Font> fonts = loadFonts();
 
+	//create monster
 	Monster monster(textures, sounds, fonts);
+
+	//create player
+	Player player(textures);
+
 	//set the position to the center of the screen
 	monster.setPosition((SCREEN_WIDTH - monster.getFrameSize()) / 2, (SCREEN_HEIGHT - monster.getFrameSize()) / 2);
 
@@ -30,7 +36,7 @@ int main()
 				if (event.mouseButton.button == sf::Mouse::Left && monster.isHit(&window))
 				{
 					monster.playSound();
-					monster.dealDmg();
+					player.dealDmg(&monster);
 				}
 			}
 		}
@@ -41,6 +47,7 @@ int main()
 		//DRAW EVERYTHING
 		window.clear();
 		monster.draw(&window);
+		player.drawCursor(&window, &monster);
 		window.display();
 	}
 
