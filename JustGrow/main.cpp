@@ -21,7 +21,7 @@ int main()
 	Player player(textures);
 
 	//set the position to the center of the screen
-	monster.setPosition((SCREEN_WIDTH - monster.getFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getFrameWidth()) / 2);
+	monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
 
 	while (window.isOpen())
 	{

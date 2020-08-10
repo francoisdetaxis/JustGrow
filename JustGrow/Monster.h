@@ -10,7 +10,8 @@ public:
 
 	//getters and setters
 	void setPosition(int x, int y);
-	int getFrameWidth();
+	int getMonsterFrameWidth();
+	int getMonsterFrameHeight();
 	void setHp(int hp);
 	int getHp();
 
@@ -38,7 +39,7 @@ private:
 	sf::Sprite a_backgroundSprite;
 	sf::Sprite a_hpBarFullSprite;
 	sf::Sprite a_hpBarEmptySprite;
-	sf::IntRect a_monsterRect;
+	sf::IntRect a_monsterSpriteRect;
 	sf::IntRect a_hpRect;
 	sf::IntRect a_monsterHitbox;
 	sf::SoundBuffer a_soundBuffer;
@@ -50,6 +51,6 @@ private:
 	int a_maxHp;
 	int a_maxLeft;
 	int a_hpFrameWidth;
-	sf::RectangleShape a_hitboxBorders;
+	sf::RectangleShape a_hitboxBordersShape;
 	int a_framesTotal;
 };

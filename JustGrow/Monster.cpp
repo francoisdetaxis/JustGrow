@@ -45,14 +45,14 @@ Monster::Monster(std::map<std::string, Mytexture> textures, std::map<std::string
 	a_maxLeft = (a_framesTotal - 1) * a_monsterSpriteWidth;
 
 	//Monster rectangle
-	a_monsterRect.left = 0;
-	a_monsterRect.top = 0;
-	a_monsterRect.height = a_monsterSpriteWidth;
-	a_monsterRect.width = a_monsterSpriteWidth;
+	a_monsterSpriteRect.left = 0;
+	a_monsterSpriteRect.top = 0;
+	a_monsterSpriteRect.height = a_monsterSpriteHeight;
+	a_monsterSpriteRect.width = a_monsterSpriteWidth;
 
 	//Monster hitbox
-	a_monsterHitbox.height = a_monsterRect.height;
-	a_monsterHitbox.width = a_monsterRect.width;
+	a_monsterHitbox.height = a_monsterSpriteHeight;
+	a_monsterHitbox.width = a_monsterSpriteWidth;
 
 	//hitbox rect = monster rect initial position
 	// TOP = y position of the top left corner
@@ -61,11 +61,11 @@ Monster::Monster(std::map<std::string, Mytexture> textures, std::map<std::string
 	a_monsterHitbox.top = a_monsterSprite.getPosition().y;
 
 	//hitbox borders (shape) = hitbox rect
-	a_hitboxBorders.setPosition(a_monsterSprite.getPosition().x, a_monsterSprite.getPosition().y);
-	a_hitboxBorders.setSize(sf::Vector2f(a_monsterRect.height, a_monsterRect.width));
-	a_hitboxBorders.setFillColor(sf::Color::Transparent);
-	a_hitboxBorders.setOutlineColor(sf::Color::Red);
-	a_hitboxBorders.setOutlineThickness(5.f);
+	a_hitboxBordersShape.setPosition(a_monsterSprite.getPosition().x, a_monsterSprite.getPosition().y);
+	a_hitboxBordersShape.setSize(sf::Vector2f(a_monsterSpriteWidth, a_monsterSpriteHeight));
+	a_hitboxBordersShape.setFillColor(sf::Color::Transparent);
+	a_hitboxBordersShape.setOutlineColor(sf::Color::Red);
+	a_hitboxBordersShape.setOutlineThickness(5.f);
 
 	//set sprites textures
 	a_monsterSprite.setTexture(a_monsterTexture);
@@ -75,26 +75,41 @@ Monster::Monster(std::map<std::string, Mytexture> textures, std::map<std::string
 	a_hpBarFullSprite.setTextureRect(a_hpRect);
 }
 
-int Monster::getFrameWidth()
+int Monster::getMonsterFrameWidth()
 {
 	return a_monsterSpriteWidth;
 }
 
+int Monster::getMonsterFrameHeight()
+{
+	return a_monsterSpriteHeight;
+
+}
+
 void Monster::setPosition(int x, int y)
 {
+	float centeredXbackground, centeredYbackground;
+
+	//setPosition monster
 	a_monsterSprite.setPosition(x, y);
-	
 
-	//TODO FIX THIS SHIT
+	//setPosition HP bar
+	centeredXbackground = x + (((float)a_monsterSpriteWidth - (float)a_hpBarEmptyTexture.getSize().x) / 2);
+	centeredYbackground = y + (((float)a_monsterSpriteHeight - (float)a_hpBarEmptyTexture.getSize().y) / 2);
+	a_hpBarEmptySprite.setPosition(centeredXbackground, centeredYbackground);
+	a_hpBarFullSprite.setPosition(centeredXbackground, centeredYbackground);
 
-	a_backgroundSprite.setPosition(x, y + a_monsterSpriteWidth / 5);
-	a_hpBarEmptySprite.setPosition(x + a_monsterSpriteWidth / 5, y + a_monsterSpriteWidth / 1.25);
-	a_hpBarFullSprite.setPosition(x + a_monsterSpriteWidth / 5, y + a_monsterSpriteWidth / 1.25);
-	a_hpText.setPosition(x + a_monsterSpriteWidth / 2.5, y + a_monsterSpriteWidth / 1.40);
+	//setPosition HP Text
+	centeredXbackground = x + (((float)a_monsterSpriteWidth - 10) / 2);
+	centeredYbackground = y + (((float)a_monsterSpriteHeight - 10) / 2);
+	a_hpText.setPosition(centeredXbackground, centeredYbackground);
 
+	//setPostion background
+	centeredXbackground = x + (((float)a_monsterSpriteWidth - (float)a_backgroundTexture.getSize().x) / 2);
+	centeredYbackground = y + (((float)a_monsterSpriteHeight - (float)a_backgroundTexture.getSize().y) / 2);
+	a_backgroundSprite.setPosition(centeredXbackground, centeredYbackground);
 
-
-	//TODO WTF ?
+	//TODO WTF ? why does this work without setting top and left for hpRect ?
 	//a_hpRect.top = y + a_frameSize / 1.25;
 	//a_hpRect.left = x + a_frameSize / 5;
 
@@ -105,8 +120,8 @@ void Monster::setPosition(int x, int y)
 	a_monsterHitbox.top = a_monsterSprite.getPosition().y;
 
 	//hitbox borders (shape) = hitbox rect
-	a_hitboxBorders.setPosition(a_monsterSprite.getPosition().x, a_monsterSprite.getPosition().y);
-	a_hitboxBorders.setSize(sf::Vector2f(a_monsterRect.height, a_monsterRect.width));
+	a_hitboxBordersShape.setPosition(a_monsterSprite.getPosition().x, a_monsterSprite.getPosition().y);
+	a_hitboxBordersShape.setSize(sf::Vector2f(a_monsterHitbox.width, a_monsterHitbox.height));
 }
 
 void Monster::nextFrame()
@@ -114,12 +129,12 @@ void Monster::nextFrame()
 	if (a_clock.getElapsedTime().asMilliseconds() > 50) {
 		a_clock.restart();
 
-		if (a_monsterRect.left >= a_maxLeft) {
-			a_monsterRect.left = 0;
+		if (a_monsterSpriteRect.left >= a_maxLeft) {
+			a_monsterSpriteRect.left = 0;
 		}
 		else {
-			a_monsterSprite.setTextureRect(a_monsterRect);
-			a_monsterRect.left += a_monsterSpriteWidth;
+			a_monsterSprite.setTextureRect(a_monsterSpriteRect);
+			a_monsterSpriteRect.left += a_monsterSpriteWidth;
 		}
 	}
 }
@@ -137,7 +152,7 @@ void Monster::playSound()
 void Monster::draw(sf::RenderWindow* window)
 {
 	window->draw(a_backgroundSprite);
-	window->draw(a_hitboxBorders); //comment to hide hitbox borders
+	window->draw(a_hitboxBordersShape); //comment to hide hitbox borders
 	window->draw(a_monsterSprite);
 	window->draw(a_hpBarEmptySprite);
 	window->draw(a_hpBarFullSprite);
