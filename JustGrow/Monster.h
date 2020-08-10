@@ -1,15 +1,16 @@
 #pragma once
+#include "Mytexture.h"
 
 class Monster
 {
 public:
 
 	//constructors
-	Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::string, sf::SoundBuffer> sounds, std::map<std::string, sf::Font> fonts);
+	Monster(std::map<std::string, Mytexture> textures, std::map<std::string, sf::SoundBuffer> sounds, std::map<std::string, sf::Font> fonts);
 
 	//getters and setters
-	void Monster::setPosition(int x, int y);
-	int Monster::getFrameSize();
+	void setPosition(int x, int y);
+	int getFrameWidth();
 	void setHp(int hp);
 	int getHp();
 
@@ -24,7 +25,7 @@ public:
 private:
 
 	//attributes
-	std::map<std::string, sf::Texture> a_textures;
+	std::map<std::string, Mytexture> a_textures;
 	std::map<std::string, sf::SoundBuffer> a_sounds;
 	std::map<std::string, sf::Font> a_fonts;
 	sf::Font a_hpFont;
@@ -43,7 +44,8 @@ private:
 	sf::SoundBuffer a_soundBuffer;
 	sf::Sound a_hitSound;
 	sf::Text a_hpText;
-	int a_frameSize;
+	int a_monsterSpriteWidth;
+	int a_monsterSpriteHeight;
 	int a_currentHp;
 	int a_maxHp;
 	int a_maxLeft;

@@ -6,7 +6,7 @@ int main()
 	window.setMouseCursorVisible(false); // Hide cursor
 	
 	//load textures
-	std::map<std::string, sf::Texture> textures = loadTextures();
+	std::map<std::string, Mytexture> textures = loadTextures();
 
 	//load sounds
 	std::map<std::string, sf::SoundBuffer> sounds = loadSounds();
@@ -21,7 +21,7 @@ int main()
 	Player player(textures);
 
 	//set the position to the center of the screen
-	monster.setPosition((SCREEN_WIDTH - monster.getFrameSize()) / 2, (SCREEN_HEIGHT - monster.getFrameSize()) / 2);
+	monster.setPosition((SCREEN_WIDTH - monster.getFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getFrameWidth()) / 2);
 
 	while (window.isOpen())
 	{

@@ -1,3 +1,3 @@
 #pragma once
 
-std::map<std::string, sf::Texture> loadTextures();
+std::map<std::string, Mytexture> loadTextures();

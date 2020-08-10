@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "Monster.h"
+#include "Mytexture.h"
 #include "Player.h"
 #include "loadTextures.h"
 #include "loadSounds.h"

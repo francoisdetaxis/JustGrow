@@ -1,12 +1,12 @@
 #include "main.h"
 
-Player::Player(std::map<std::string, sf::Texture> textures)
+Player::Player(std::map<std::string, Mytexture> textures)
 {
 	a_textures = textures;
 
 	//prepare cursor textures and sprites
-	a_attackCursorTexture = textures["attackCursor"];
-	a_handCursorTexture = textures["handCursor"];
+	a_attackCursorTexture = textures["attackCursor"].getTexture();
+	a_handCursorTexture = textures["handCursor"].getTexture();
 	a_attackCursorSprite.setTexture(a_attackCursorTexture);
 	a_handCursorSprite.setTexture(a_handCursorTexture);
 

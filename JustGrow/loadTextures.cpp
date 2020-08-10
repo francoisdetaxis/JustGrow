@@ -1,50 +1,33 @@
 #include "main.h"
 
-std::map<std::string, sf::Texture> loadTextures()
+std::map<std::string, Mytexture> loadTextures()
 {
 	//monsters
-	sf::Texture monster1;
+
+	Mytexture monster1_idle("./resources/image/sprites/monster1-idle.png", 12);
 
 	//platforms
-	sf::Texture platform1;
-	sf::Texture platform2;
-	sf::Texture platform3;
+	Mytexture platform1("./resources/image/platforms/platform1.png", 1);
+	Mytexture platform2("./resources/image/platforms/platform2.png", 1);
+	Mytexture platform3("./resources/image/platforms/platform3.png", 1);
 
 	//hp bars
-	sf::Texture hpBarEmpty;
-	sf::Texture hpBarFull;
+	Mytexture hpBarEmpty("./resources/image/hpbar/hpbarempty.png", 1);
+	Mytexture hpBarFull("./resources/image/hpbar/hpbarfull.png", 1);
 
 	//cursors
-	sf::Texture attackCursor;
-	sf::Texture handCursor;
+	Mytexture attackCursor("./resources/image/cursors/sword-cursor.png", 1);
+	Mytexture handCursor("./resources/image/cursors/hand-cursor.png", 1);
 
-
-	//monsters
-	monster1.loadFromFile("./resources/image/sprites/running_man.png");
-
-	//platforms
-	platform1.loadFromFile("./resources/image/platforms/platform1.png");
-	platform2.loadFromFile("./resources/image/platforms/platform2.png");
-	platform3.loadFromFile("./resources/image/platforms/platform3.png");
-
-	//hp bars
-	hpBarEmpty.loadFromFile("./resources/image/hpbar/hpbarempty.png");
-	hpBarFull.loadFromFile("./resources/image/hpbar/hpbarfull.png");
-
-	//cursors
-	attackCursor.loadFromFile("./resources/image/cursors/sword-cursor.png");
-	handCursor.loadFromFile("./resources/image/cursors/hand-cursor.png");
-
-	std::map<std::string, sf::Texture> textures{
-		{"monster1", monster1},
+	std::map<std::string, Mytexture> textures{
+		{"monster1_idle", monster1_idle},
 		{"platform1", platform1},
 		{"platform2", platform2},
 		{"platform3", platform3},
-		{"hpBarFull", hpBarFull},
 		{"hpBarEmpty", hpBarEmpty},
+		{"hpBarFull", hpBarFull},
 		{"attackCursor", attackCursor},
 		{"handCursor", handCursor}
 	};
-
 	return textures;
 }

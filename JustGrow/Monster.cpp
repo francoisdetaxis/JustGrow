@@ -1,6 +1,6 @@
 #include "main.h"
 
-Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::string, sf::SoundBuffer> sounds, std::map<std::string, sf::Font> fonts)
+Monster::Monster(std::map<std::string, Mytexture> textures, std::map<std::string, sf::SoundBuffer> sounds, std::map<std::string, sf::Font> fonts)
 {
 	a_textures = textures;
 	a_sounds = sounds;
@@ -17,37 +17,38 @@ Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::stri
 	a_hpText.setColor(sf::Color::Red);
 
 	//initial monster texture
-	a_monsterTexture = textures["monster1"];
+	a_monsterTexture = textures["monster1_idle"].getTexture();
 
 	//initial hit sound
 	a_soundBuffer = sounds["hitSound1"];
 	a_hitSound.setBuffer(a_soundBuffer);
 	
 	//initial platform
-	a_backgroundTexture = textures["platform1"];
+	a_backgroundTexture = textures["platform1"].getTexture();
 
 	//initial hp bar
-	a_hpBarEmptyTexture = textures["hpBarEmpty"];
-	a_hpBarFullTexture = textures["hpBarFull"];
+	a_hpBarEmptyTexture = textures["hpBarEmpty"].getTexture();
+	a_hpBarFullTexture = textures["hpBarFull"].getTexture();
 	a_hpFrameWidth = a_hpBarFullTexture.getSize().x;
 
 	a_hpRect.height = a_hpBarFullTexture.getSize().y;
 	a_hpRect.width = a_hpBarFullTexture.getSize().x;
 
-	//size of 1 frame (frames must be squares)
-	a_frameSize = a_monsterTexture.getSize().y;
-
 	//total number of frames
-	a_framesTotal = a_monsterTexture.getSize().x / a_monsterTexture.getSize().y;
+	a_framesTotal = textures["monster1_idle"].getFramesNb();
+
+	//size of 1 frame
+	a_monsterSpriteWidth = a_monsterTexture.getSize().x / a_framesTotal;
+	a_monsterSpriteHeight = a_monsterTexture.getSize().y;
 
 	//max length of the monster sprite
-	a_maxLeft = (a_framesTotal - 1) * a_frameSize;
+	a_maxLeft = (a_framesTotal - 1) * a_monsterSpriteWidth;
 
 	//Monster rectangle
 	a_monsterRect.left = 0;
 	a_monsterRect.top = 0;
-	a_monsterRect.height = a_frameSize;
-	a_monsterRect.width = a_frameSize;
+	a_monsterRect.height = a_monsterSpriteWidth;
+	a_monsterRect.width = a_monsterSpriteWidth;
 
 	//Monster hitbox
 	a_monsterHitbox.height = a_monsterRect.height;
@@ -74,18 +75,24 @@ Monster::Monster(std::map<std::string, sf::Texture> textures, std::map<std::stri
 	a_hpBarFullSprite.setTextureRect(a_hpRect);
 }
 
-int Monster::getFrameSize()
+int Monster::getFrameWidth()
 {
-	return a_frameSize;
+	return a_monsterSpriteWidth;
 }
 
 void Monster::setPosition(int x, int y)
 {
 	a_monsterSprite.setPosition(x, y);
-	a_backgroundSprite.setPosition(x, y + a_frameSize / 5);
-	a_hpBarEmptySprite.setPosition(x + a_frameSize / 5, y + a_frameSize / 1.25);
-	a_hpBarFullSprite.setPosition(x + a_frameSize / 5, y + a_frameSize / 1.25);
-	a_hpText.setPosition(x + a_frameSize / 2.5, y + a_frameSize / 1.40);
+	
+
+	//TODO FIX THIS SHIT
+
+	a_backgroundSprite.setPosition(x, y + a_monsterSpriteWidth / 5);
+	a_hpBarEmptySprite.setPosition(x + a_monsterSpriteWidth / 5, y + a_monsterSpriteWidth / 1.25);
+	a_hpBarFullSprite.setPosition(x + a_monsterSpriteWidth / 5, y + a_monsterSpriteWidth / 1.25);
+	a_hpText.setPosition(x + a_monsterSpriteWidth / 2.5, y + a_monsterSpriteWidth / 1.40);
+
+
 
 	//TODO WTF ?
 	//a_hpRect.top = y + a_frameSize / 1.25;
@@ -112,7 +119,7 @@ void Monster::nextFrame()
 		}
 		else {
 			a_monsterSprite.setTextureRect(a_monsterRect);
-			a_monsterRect.left += a_frameSize;
+			a_monsterRect.left += a_monsterSpriteWidth;
 		}
 	}
 }
@@ -130,7 +137,7 @@ void Monster::playSound()
 void Monster::draw(sf::RenderWindow* window)
 {
 	window->draw(a_backgroundSprite);
-	//window->draw(a_hitboxBorders);
+	window->draw(a_hitboxBorders); //comment to hide hitbox borders
 	window->draw(a_monsterSprite);
 	window->draw(a_hpBarEmptySprite);
 	window->draw(a_hpBarFullSprite);
