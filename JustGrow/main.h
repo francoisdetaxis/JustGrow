@@ -4,6 +4,7 @@
 #include <SFML/Audio.hpp>
 #include <string>
 #include <iostream>
+#include <random>
 
 #include "Monster.h"
 #include "Mytexture.h"

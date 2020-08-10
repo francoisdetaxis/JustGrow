@@ -14,6 +14,7 @@ public:
 	int getMonsterFrameHeight();
 	void setHp(int hp);
 	int getHp();
+	const sf::Vector2f getPosition();
 
 	//other methods
 	void Monster::draw(sf::RenderWindow* window);

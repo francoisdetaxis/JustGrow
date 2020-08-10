@@ -18,7 +18,7 @@ int main()
 	Monster monster(textures, sounds, fonts);
 
 	//create player
-	Player player(textures);
+	Player player(textures, fonts);
 
 	//set the position to the center of the screen
 	monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
@@ -48,6 +48,7 @@ int main()
 		window.clear();
 		monster.draw(&window);
 		player.drawCursor(&window, &monster);
+		player.drawDmg(&window);
 		window.display();
 	}
 

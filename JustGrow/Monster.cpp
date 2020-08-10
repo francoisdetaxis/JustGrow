@@ -24,7 +24,7 @@ Monster::Monster(std::map<std::string, Mytexture> textures, std::map<std::string
 	a_hitSound.setBuffer(a_soundBuffer);
 	
 	//initial platform
-	a_backgroundTexture = textures["platform1"].getTexture();
+	a_backgroundTexture = textures["platform6"].getTexture();
 
 	//initial hp bar
 	a_hpBarEmptyTexture = textures["hpBarEmpty"].getTexture();
@@ -88,26 +88,29 @@ int Monster::getMonsterFrameHeight()
 
 void Monster::setPosition(int x, int y)
 {
-	float centeredXbackground, centeredYbackground;
+	float centeredX, centeredY, offsetY, offsetX;
 
 	//setPosition monster
 	a_monsterSprite.setPosition(x, y);
 
 	//setPosition HP bar
-	centeredXbackground = x + (((float)a_monsterSpriteWidth - (float)a_hpBarEmptyTexture.getSize().x) / 2);
-	centeredYbackground = y + (((float)a_monsterSpriteHeight - (float)a_hpBarEmptyTexture.getSize().y) / 2);
-	a_hpBarEmptySprite.setPosition(centeredXbackground, centeredYbackground);
-	a_hpBarFullSprite.setPosition(centeredXbackground, centeredYbackground);
+	centeredX = x + (((float)a_monsterSpriteWidth - (float)a_hpBarEmptyTexture.getSize().x) / 2);
+	centeredY = y + (((float)a_monsterSpriteHeight - (float)a_hpBarEmptyTexture.getSize().y) / 2);
+	offsetY = 0.65 * a_monsterSpriteHeight;
+	a_hpBarEmptySprite.setPosition(centeredX, centeredY + offsetY);
+	a_hpBarFullSprite.setPosition(centeredX, centeredY + offsetY);
 
 	//setPosition HP Text
-	centeredXbackground = x + (((float)a_monsterSpriteWidth - 10) / 2);
-	centeredYbackground = y + (((float)a_monsterSpriteHeight - 10) / 2);
-	a_hpText.setPosition(centeredXbackground, centeredYbackground);
+	centeredX = x + (((float)a_monsterSpriteWidth - a_hpText.getGlobalBounds().width) / 2);
+	centeredY = y + (((float)a_monsterSpriteHeight - a_hpText.getGlobalBounds().height) / 2);
+	offsetY = 0.55 * a_monsterSpriteHeight;
+	a_hpText.setPosition(centeredX, centeredY + offsetY);
 
 	//setPostion background
-	centeredXbackground = x + (((float)a_monsterSpriteWidth - (float)a_backgroundTexture.getSize().x) / 2);
-	centeredYbackground = y + (((float)a_monsterSpriteHeight - (float)a_backgroundTexture.getSize().y) / 2);
-	a_backgroundSprite.setPosition(centeredXbackground, centeredYbackground);
+	centeredX = x + (((float)a_monsterSpriteWidth - (float)a_backgroundTexture.getSize().x) / 2);
+	centeredY = y + (((float)a_monsterSpriteHeight - (float)a_backgroundTexture.getSize().y) / 2);
+	offsetY = 0.2 * a_monsterSpriteHeight;
+	a_backgroundSprite.setPosition(centeredX, centeredY + offsetY);
 
 	//TODO WTF ? why does this work without setting top and left for hpRect ?
 	//a_hpRect.top = y + a_frameSize / 1.25;
@@ -152,7 +155,7 @@ void Monster::playSound()
 void Monster::draw(sf::RenderWindow* window)
 {
 	window->draw(a_backgroundSprite);
-	window->draw(a_hitboxBordersShape); //comment to hide hitbox borders
+	//window->draw(a_hitboxBordersShape); //comment to hide hitbox borders
 	window->draw(a_monsterSprite);
 	window->draw(a_hpBarEmptySprite);
 	window->draw(a_hpBarFullSprite);
@@ -188,4 +191,9 @@ void Monster::setHp(int hp)
 int Monster::getHp()
 {
 	return a_currentHp;
+}
+
+const sf::Vector2f Monster::getPosition()
+{
+	return a_monsterSprite.getPosition();
 }
