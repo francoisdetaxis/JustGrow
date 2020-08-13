@@ -148,6 +148,10 @@ void Monster::nextFrame()
 				a_isHurt = false; //we are at the end of the hurt animation
 				this->idle();
 			}
+			//else if (a_isHurt && a_currentHp <= 0) {
+			//	a_isHurt = false;
+			//	//this->die();
+			//}
 			if (a_isDead) {
 				a_isDead = false;
 				this->nextMob();
@@ -282,6 +286,7 @@ void Monster::die()
 	a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
 	a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
 
+	a_isHurt = false;
 	a_isDead = true;
 	a_clock.restart();
 }
@@ -345,8 +350,13 @@ void Monster::nextMob()
 	//change monster texture to the next monster
 	//TODO
 	//make these "monster" and "_IDLE" in #define ?
-	std::string nextMonster = "monster" + std::to_string(a_currentMonsterNb + 1);
+
+	//Reset to first monster once we went through all the textures...
+	if (a_currentMonsterNb == 3)
+		a_currentMonsterNb = 0;
+
 	a_currentMonsterNb++;
+	std::string nextMonster = "monster" + std::to_string(a_currentMonsterNb);
 	a_currentMonsterIdle = a_textures[nextMonster + "_idle"];
 	a_currentMonsterHurt = a_textures[nextMonster + "_hurt"];
 	a_currentMonsterDying = a_textures[nextMonster + "_dying"];
@@ -372,10 +382,10 @@ void Monster::nextMob()
 	//Maximum life increase + full life for the next monster
 	//TODO
 	//find formula to increase hp of monsters
-	a_maxHp += 10;
+	//a_maxHp += 10;
 	this->setHp(a_maxHp);
 
-	//set isDead to false
 	a_isDead = false;
+	a_clock.restart();
 }
 
