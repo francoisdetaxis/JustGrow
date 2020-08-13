@@ -15,6 +15,7 @@ Mytexture::Mytexture(std::string path, int framesNb)
 {
 	a_framesNb = framesNb;
 	a_texture.loadFromFile(path);
+
 }
 
 int Mytexture::getFramesNb()
@@ -26,3 +27,6 @@ sf::Texture Mytexture::getTexture()
 {
 	return a_texture;
 }
+
+
+

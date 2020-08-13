@@ -11,6 +11,7 @@ public:
 	int getFramesNb();
 	sf::Texture getTexture();
 
+
 private:
 	//attributes
 	sf::Texture a_texture;
