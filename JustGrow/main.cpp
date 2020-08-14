@@ -1,9 +1,13 @@
 #include "main.h"
+bool isLoading = true;
 
-int main()
+int main(int argc, char* argv[])
 {
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::Fullscreen);
 	window.setMouseCursorVisible(false); // Hide cursor
+
+	//loading screen in a separate thread
+	std::thread loadingScreenThread(displayLoadingScreen, &window);
 
 	//displayDragon(&window);
 
@@ -26,10 +30,12 @@ int main()
 
 	//monster to the RIGHT
 	//monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) -50, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
-
 	//centered monster
 	monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
 
+	// synchronize threads:
+	isLoading = false;
+	loadingScreenThread.join();
 
 	while (window.isOpen())
 	{
