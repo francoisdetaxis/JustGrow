@@ -98,9 +98,14 @@ void Player::dealDmg(Monster* monster)
 
 void Player::drawDmg(sf::RenderWindow* window)
 {
+	sf::Vector2f currentPos;
+	
+
 	for (int i = 0; i < a_dmgTexts.size(); i++) {
 		if (a_dmgClocks[i].getElapsedTime().asSeconds() <= 3)
 		{
+			currentPos = a_dmgTexts[i].getPosition();
+			a_dmgTexts[i].setPosition(currentPos.x, currentPos.y - 1);
 			window->draw(a_dmgTexts[i]);
 		}
 		else {

@@ -5,6 +5,8 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::Fullscreen);
 	window.setMouseCursorVisible(false); // Hide cursor
 
+	//displayDragon(&window);
+
 	//load textures
 	std::map<std::string, Mytexture> textures = loadTextures();
 
@@ -21,7 +23,13 @@ int main()
 	Player player(textures, fonts);
 
 	//set the position to the center of the screen
-	monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) -50, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
+
+	//monster to the RIGHT
+	//monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) -50, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
+
+	//centered monster
+	monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
+
 
 	while (window.isOpen())
 	{

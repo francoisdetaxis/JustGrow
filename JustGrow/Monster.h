@@ -4,6 +4,13 @@
 class Monster
 {
 public:
+	enum State
+	{
+		HURT,
+		IDLE,
+		DEAD
+	};	
+
 	//constructors
 	Monster(std::map<std::string, Mytexture> textures, std::map<std::string, sf::SoundBuffer> sounds, std::map<std::string, sf::Font> fonts);
 
@@ -28,6 +35,9 @@ public:
 	void idle();
 
 private:
+	//animation speed
+	int a_fps;
+
 	//all textures, sounds and fonts
 	std::map<std::string, Mytexture> a_textures;
 	std::map<std::string, sf::SoundBuffer> a_sounds;
@@ -65,9 +75,7 @@ private:
 	int a_currentMonsterSpriteFramesNb;
 	int a_currentMonsterNb;
 	sf::Clock a_clock;
-	//TODO switch these bools to an enum 'monsterState'...?
-	bool a_isDead;
-	bool a_isHurt;
+	Monster::State a_state;
 
 	//SOUNDS
 	sf::SoundBuffer a_hitSoundBuffer;

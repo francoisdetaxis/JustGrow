@@ -7,13 +7,14 @@ Monster::Monster(std::map<std::string, Mytexture> textures, std::map<std::string
 	a_sounds = sounds;
 	a_fonts = fonts;
 
+	a_fps = 50;
+
 	//initial monster hp
 	a_maxHp = 10;
 	a_currentHp = 10;
 
 	//initial booleans
-	a_isDead = false;
-	a_isHurt = false;
+	a_state = IDLE;
 
 	//INITIALIZE MONSTER
 	a_currentMonsterNb = 1;
@@ -136,25 +137,41 @@ void Monster::setPosition(int x, int y)
 
 void Monster::nextFrame()
 {
+	switch (a_state) {
+	case HURT:
+		a_fps = 50;
+		break;
+	case IDLE:
+		a_fps = 50;
+		break;
+	case DEAD:
+		//TODO adapt dying animation speed with current dps of click/heroes : less dps --> slower and more dps --> faster
+		a_fps = 50;
+		break;
+	default:
+		break;
+	}
+
 	//TODO end of ishurt animation and isdying animations to implement in this method
 	int time = a_clock.getElapsedTime().asMilliseconds();
-	if (time > 50) {
+	if (time > a_fps) {
 		a_clock.restart();
 
 		if (a_currentMonsterSpriteRect.left >= a_currentMonsterSpriteMaxWidth) {
 			//end of the sprite is reached
 			a_currentMonsterSpriteRect.left = 0;
-			if (a_isHurt) {
-				a_isHurt = false; //we are at the end of the hurt animation
+
+			switch (a_state) {
+			case HURT:
 				this->idle();
-			}
-			//else if (a_isHurt && a_currentHp <= 0) {
-			//	a_isHurt = false;
-			//	//this->die();
-			//}
-			if (a_isDead) {
-				a_isDead = false;
+				break;
+			case IDLE:
+				break;
+			case DEAD:
 				this->nextMob();
+				break;
+			default:
+				break;
 			}
 		}
 		else {
@@ -236,7 +253,6 @@ void Monster::setHp(int hp)
 {
 	if (hp <= 0)
 	{
-		this->die();
 		a_currentHp = 0;
 		a_hpText.setString(std::to_string(a_currentHp) + " HP");
 		a_hpRect.width = a_currentHp * a_hpFrameWidth / a_maxHp;
@@ -253,7 +269,13 @@ void Monster::setHp(int hp)
 void Monster::takeDmg(int dmgTaken)
 {
 	this->setHp(a_currentHp - dmgTaken);
-	this->hurt();
+	if (a_currentHp <= 0)
+	{
+		this->die();
+	}
+	else {
+		this->hurt();
+	}
 }
 
 int Monster::getHp()
@@ -268,32 +290,38 @@ const sf::Vector2f Monster::getPosition()
 
 void Monster::die()
 {
-	//dyng texture
-	a_currentMonsterDyingTexture = a_currentMonsterDying.getTexture();
-	//dying frames number
-	a_currentMonsterSpriteFramesNb = a_currentMonsterDying.getFramesNb();
-	//set texture
-	a_currentMonsterSprite.setTexture(a_currentMonsterDyingTexture);
+	if (a_state != DEAD)
+	{
+		//dyng texture
+		a_currentMonsterDyingTexture = a_currentMonsterDying.getTexture();
+		//dying frames number
+		a_currentMonsterSpriteFramesNb = a_currentMonsterDying.getFramesNb();
+		//set texture
+		a_currentMonsterSprite.setTexture(a_currentMonsterDyingTexture);
 
-	//size of 1 frame
-	a_currentMonsterSpriteWidth = a_currentMonsterDyingTexture.getSize().x / a_currentMonsterSpriteFramesNb;
-	a_currentMonsterSpriteHeight = a_currentMonsterDyingTexture.getSize().y;
-	//max length of the monster sprite
-	a_currentMonsterSpriteMaxWidth = (a_currentMonsterSpriteFramesNb - 1) * a_currentMonsterSpriteWidth;
-	//Monster rectangle
-	a_currentMonsterSpriteRect.left = 0;
-	a_currentMonsterSpriteRect.top = 0;
-	a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
-	a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
+		//size of 1 frame
+		a_currentMonsterSpriteWidth = a_currentMonsterDyingTexture.getSize().x / a_currentMonsterSpriteFramesNb;
+		a_currentMonsterSpriteHeight = a_currentMonsterDyingTexture.getSize().y;
+		//max length of the monster sprite
+		a_currentMonsterSpriteMaxWidth = (a_currentMonsterSpriteFramesNb - 1) * a_currentMonsterSpriteWidth;
+		//Monster rectangle
+		a_currentMonsterSpriteRect.left = 0;
+		a_currentMonsterSpriteRect.top = 0;
+		a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
+		a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
 
-	a_isHurt = false;
-	a_isDead = true;
-	a_clock.restart();
+		a_state = DEAD;
+		a_clock.restart();
+	}
+	else {
+
+	}
+
 }
 
 void Monster::hurt()
 {
-	if (!a_isHurt)
+	if (a_state != HURT)
 	{
 		//change to hurt monster texture
 		a_currentMonsterHurtTexture = a_currentMonsterHurt.getTexture();
@@ -311,38 +339,44 @@ void Monster::hurt()
 		a_currentMonsterSpriteRect.top = 0;
 		a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
 		a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
-		a_isHurt = true;
+		a_state = HURT;
 		a_clock.restart();
 	}
 	else {
 		a_currentMonsterSpriteRect.left = 0;
 		a_clock.restart();
 	}
-
-
 }
 
 void Monster::idle()
 {
-	//change to hurt monster texture
-	a_currentMonsterIdleTexture = a_currentMonsterIdle.getTexture();
-	//hurt frames number
-	a_currentMonsterSpriteFramesNb = a_currentMonsterIdle.getFramesNb();
-	//set texture
-	a_currentMonsterSprite.setTexture(a_currentMonsterIdleTexture);
-	//size of 1 frame
-	a_currentMonsterSpriteWidth = a_currentMonsterIdleTexture.getSize().x / a_currentMonsterSpriteFramesNb;
-	a_currentMonsterSpriteHeight = a_currentMonsterIdleTexture.getSize().y;
-	//max length of the monster sprite
-	a_currentMonsterSpriteMaxWidth = (a_currentMonsterSpriteFramesNb - 1) * a_currentMonsterSpriteWidth;
-	//Monster rectangle
-	a_currentMonsterSpriteRect.left = 0;
-	a_currentMonsterSpriteRect.top = 0;
-	a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
-	a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
+	if (a_state != IDLE)
+	{
+		//change to hurt monster texture
+		a_currentMonsterIdleTexture = a_currentMonsterIdle.getTexture();
+		//hurt frames number
+		a_currentMonsterSpriteFramesNb = a_currentMonsterIdle.getFramesNb();
+		//set texture
+		a_currentMonsterSprite.setTexture(a_currentMonsterIdleTexture);
+		//size of 1 frame
+		a_currentMonsterSpriteWidth = a_currentMonsterIdleTexture.getSize().x / a_currentMonsterSpriteFramesNb;
+		a_currentMonsterSpriteHeight = a_currentMonsterIdleTexture.getSize().y;
+		//max length of the monster sprite
+		a_currentMonsterSpriteMaxWidth = (a_currentMonsterSpriteFramesNb - 1) * a_currentMonsterSpriteWidth;
+		//Monster rectangle
+		a_currentMonsterSpriteRect.left = 0;
+		a_currentMonsterSpriteRect.top = 0;
+		a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
+		a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
 
-	//!!!!!!!!!!!!!!!!!!!!!!!
-	a_clock.restart();
+		//!!!!!!!!!!!!!!!!!!!!!!!
+		a_state = IDLE;
+		a_clock.restart();
+	}
+	else {
+
+	}
+
 }
 
 void Monster::nextMob()
@@ -385,7 +419,7 @@ void Monster::nextMob()
 	//a_maxHp += 10;
 	this->setHp(a_maxHp);
 
-	a_isDead = false;
+	a_state = IDLE;
 	a_clock.restart();
 }
 
