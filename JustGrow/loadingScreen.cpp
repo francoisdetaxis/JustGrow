@@ -7,8 +7,9 @@ void displayLoadingScreen(sf::RenderWindow* window)
 
 	sf::Texture loadingScreenTexture;
 	sf::Sprite loadingScreenSprite;
-    loadingScreenTexture.loadFromFile("./resources/image/loading.png");
+	loadingScreenTexture.loadFromFile("./resources/image/logo.png");
 	loadingScreenSprite.setTexture(loadingScreenTexture);
+	loadingScreenSprite.setPosition((SCREEN_WIDTH - loadingScreenTexture.getSize().x) / 2, (SCREEN_HEIGHT - loadingScreenTexture.getSize().y) / 2);
 	while (isLoading)
 	{
 		window->clear();
