@@ -3,12 +3,8 @@ extern bool isLoading;
 
 void displayLoadingScreen(sf::RenderWindow* window)
 {
-	//TODO FIX
-	sf::Context context;
-	context.setActive(true);
-	//sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::Fullscreen);
-	//window.setMouseCursorVisible(false); // Hide cursor
-	//DRAGON ANIMATION
+	window->setActive(true);
+
 	sf::Texture loadingScreenTexture;
 	sf::Sprite loadingScreenSprite;
     loadingScreenTexture.loadFromFile("./resources/image/loading.png");
@@ -18,5 +14,8 @@ void displayLoadingScreen(sf::RenderWindow* window)
 		window->clear();
 		window->draw(loadingScreenSprite);
 		window->display();
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
+
+	window->setActive(false);
 }

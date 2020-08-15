@@ -8,6 +8,12 @@
 #include <queue>
 #include <thread>
 
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+
 #include "loadingScreen.h"
 #include "Monster.h"
 #include "Mytexture.h"

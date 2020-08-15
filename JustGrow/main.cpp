@@ -5,6 +5,7 @@ int main(int argc, char* argv[])
 {
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::Fullscreen);
 	window.setMouseCursorVisible(false); // Hide cursor
+	window.setActive(false);
 
 	//loading screen in a separate thread
 	std::thread loadingScreenThread(displayLoadingScreen, &window);
@@ -34,6 +35,8 @@ int main(int argc, char* argv[])
 	monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
 
 	// synchronize threads:
+	window.setActive(true);
+
 	isLoading = false;
 	loadingScreenThread.join();
 
