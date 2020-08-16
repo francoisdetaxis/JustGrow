@@ -1,29 +1,26 @@
 #include "main.h"
 
-Player::Player(std::map<std::string, Mytexture> textures, std::map<std::string, sf::Font> fonts)
+Player::Player(std::map<std::string, Mytexture>* textures, std::map<std::string, sf::Font>* fonts)
 {
-	a_textures = textures;
-	a_fonts = fonts;
+	_textures = textures;
+	_fonts = fonts;
 
 	//initialize crit chance (%)
-	a_critChance = 5;
-	a_critMultiplier = 2;
+	_critChance = 5;
+	_critMultiplier = 2;
 
 	//dmg display font
-	a_dmgFont = fonts["dmgFont"];
+	_dmgFont = (*fonts)["dmgFont"];
 
 	//prepare cursor textures and sprites
-	//a_attackCursorTexture = findMyTexture(textures, "attackCursor").getTexture();
-	a_attackCursorTexture = textures["attackCursor"].getTexture();
-	//a_handCursorTexture = findMyTexture(textures, "handCursor").getTexture();
-	a_handCursorTexture = textures["handCursor"].getTexture();
+	_attackCursor = (*textures)["attackCursor"];
+	_handCursor = (*textures)["handCursor"];
 
-	a_attackCursorSprite.setTexture(a_attackCursorTexture);
-	a_handCursorSprite.setTexture(a_handCursorTexture);
+	_attackCursorSprite.setTexture(*_attackCursor.getTexture());
+	_handCursorSprite.setTexture(*_handCursor.getTexture());
 
 	//initialize player damage
-	//TODO load player dmg from save
-	a_dmg = 1;
+	_dmg = 1;
 }
 
 void Player::drawCursor(sf::RenderWindow* window, Monster* monster)
@@ -31,13 +28,13 @@ void Player::drawCursor(sf::RenderWindow* window, Monster* monster)
 	if (monster->isHit(window))
 	{
 		//draw sword cursor
-		a_attackCursorSprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window)));
-		window->draw(a_attackCursorSprite);
+		_attackCursorSprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window)));
+		window->draw(_attackCursorSprite);
 	}
 	else {
 		//draw hand cursor
-		a_handCursorSprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window)));
-		window->draw(a_handCursorSprite);
+		_handCursorSprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window)));
+		window->draw(_handCursorSprite);
 	}
 }
 
@@ -49,16 +46,15 @@ void Player::dealDmg(Monster* monster)
 
 	//create Text, set font, size, color...
 	sf::Text dmgText;
-	dmgText.setFont(a_dmgFont);
+	dmgText.setFont(_dmgFont);
 
 	int random_crit = uniCrit(rng);
 
-	if (random_crit <= a_critChance)
+	if (random_crit <= _critChance)
 	{
 		//crit occurs
-		monster->takeDmg(a_critMultiplier * a_dmg);
-		//monster->setHp(monster->getHp() - (a_critMultiplier * a_dmg));
-		dmgText.setString(std::to_string(a_critMultiplier * a_dmg));
+		monster->takeDmg(_critMultiplier * _dmg);
+		dmgText.setString(std::to_string(_critMultiplier * _dmg));
 		dmgText.setCharacterSize(96);
 		dmgText.setFillColor(sf::Color::Red);
 		dmgText.setOutlineColor(sf::Color::Black);
@@ -66,14 +62,13 @@ void Player::dealDmg(Monster* monster)
 	else {
 		//normal hit
 		//change monster hp
-		monster->takeDmg(a_dmg);
-		//monster->setHp(monster->getHp() - a_dmg);
-		dmgText.setString(std::to_string(a_dmg));
+		monster->takeDmg(_dmg);
+		dmgText.setString(std::to_string(_dmg));
 		dmgText.setCharacterSize(48);
 		dmgText.setFillColor(sf::Color::Yellow);
 		dmgText.setOutlineColor(sf::Color::Black);
 	}
-	
+
 	//SET RANDOM POSITION FOR DMG TEXT
 	//generate random x, y coords near monster and set dmg text position
 	int x, y, offsetX, offsetY;
@@ -88,29 +83,28 @@ void Player::dealDmg(Monster* monster)
 	int random_y = uniY(rng);
 	dmgText.setPosition(random_x, random_y);
 
-	//add to Text dmg queue	
-	a_dmgTexts.push_back(dmgText);
+	//add to Text dmg queue
+	_dmgTexts.push_back(dmgText);
 
 	//create clock and add it to the clock queue
 	sf::Clock dmgClock;
-	a_dmgClocks.push_back(dmgClock);
+	_dmgClocks.push_back(dmgClock);
 }
 
 void Player::drawDmg(sf::RenderWindow* window)
 {
 	sf::Vector2f currentPos;
-	
 
-	for (int i = 0; i < a_dmgTexts.size(); i++) {
-		if (a_dmgClocks[i].getElapsedTime().asSeconds() <= 3)
+	for (int i = 0; i < _dmgTexts.size(); i++) {
+		if (_dmgClocks[i].getElapsedTime().asSeconds() <= 3)
 		{
-			currentPos = a_dmgTexts[i].getPosition();
-			a_dmgTexts[i].setPosition(currentPos.x, currentPos.y - 1);
-			window->draw(a_dmgTexts[i]);
+			//TODO give cool animation to dmg text
+			currentPos = _dmgTexts[i].getPosition();
+			window->draw(_dmgTexts[i]);
 		}
 		else {
-			a_dmgClocks.pop_front();
-			a_dmgTexts.pop_front();
+			_dmgClocks.pop_front();
+			_dmgTexts.pop_front();
 		}
 	}
 }

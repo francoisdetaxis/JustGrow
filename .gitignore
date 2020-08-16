@@ -33,3 +33,6 @@ JustGrow/Debug/JustGrow.pdb
 *.filters
 *.user
 /JustGrow/Debug
+/JustGrow/.vs/VSWorkspaceState.json
+/JustGrow/.vs/ProjectSettings.json
+/JustGrow/.vs/slnx.sqlite

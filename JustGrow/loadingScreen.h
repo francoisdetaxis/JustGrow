@@ -1,3 +1,3 @@
 #pragma once
 
-void displayLoadingScreen(sf::RenderWindow *window);
+void displayLoadingScreen(sf::RenderWindow* window);

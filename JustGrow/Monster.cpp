@@ -1,97 +1,83 @@
 #include "main.h"
 
-//Monster::Monster(std::deque<Mytexture> textures, std::map<std::string, sf::SoundBuffer> sounds, std::map<std::string, sf::Font> fonts)
-Monster::Monster(std::map<std::string, Mytexture> textures, std::map<std::string, sf::SoundBuffer> sounds, std::map<std::string, sf::Font> fonts)
+Monster::Monster(std::map<std::string, Mytexture>* textures, std::map<std::string, sf::SoundBuffer>* sounds, std::map<std::string, sf::Font>* fonts)
 {
-	a_textures = textures;
-	a_sounds = sounds;
-	a_fonts = fonts;
+	_textures = textures;
+	_sounds = sounds;
+	_fonts = fonts;
 
-	a_fps = 50;
+	_fps = 50;
 
 	//initial monster hp
-	a_maxHp = 10;
-	a_currentHp = 10;
+	_maxHp = 10;
+	_currentHp = 10;
 
 	//initial booleans
-	a_state = IDLE;
+	_state = Monster::State::IDLE;
 
 	//INITIALIZE MONSTER
-	a_currentMonsterNb = 1;
-	a_currentMonsterIdle = textures["monster1_idle"];
-	a_currentMonsterHurt = textures["monster1_hurt"];
-	a_currentMonsterDying = textures["monster1_dying"];
+	_currentMonsterNb = 1;
+	_currentMonsterIdle = (*textures)["monster1_idle"];
+	_currentMonsterHurt = (*textures)["monster1_hurt"];
+	_currentMonsterDying = (*textures)["monster1_dying"];
 	//total number of frames
-	a_currentMonsterSpriteFramesNb = a_currentMonsterIdle.getFramesNb();
+	_currentMonsterSpriteFramesNb = _currentMonsterIdle.getFramesNb();
 	//set current monster texture
-	a_currentMonsterIdleTexture = a_currentMonsterIdle.getTexture();
-	a_currentMonsterSprite.setTexture(a_currentMonsterIdleTexture);
+	//_currentMonsterIdleTexture = _currentMonsterIdle.getTexture();
+	_currentMonsterSprite.setTexture(*_currentMonsterIdle.getTexture());
 	//size of 1 frame
-	a_currentMonsterSpriteWidth = a_currentMonsterSprite.getTextureRect().width / a_currentMonsterSpriteFramesNb;
-	a_currentMonsterSpriteHeight = a_currentMonsterSprite.getTextureRect().height;
+	_currentMonsterSpriteWidth = _currentMonsterSprite.getTextureRect().width / _currentMonsterSpriteFramesNb;
+	_currentMonsterSpriteHeight = _currentMonsterSprite.getTextureRect().height;
 	//max length of the monster sprite
-	a_currentMonsterSpriteMaxWidth = (a_currentMonsterSpriteFramesNb - 1) * a_currentMonsterSpriteWidth;
+	_currentMonsterSpriteMaxWidth = (_currentMonsterSpriteFramesNb - 1) * _currentMonsterSpriteWidth;
 	//Monster rectangle
-	a_currentMonsterSpriteRect.left = 0;
-	a_currentMonsterSpriteRect.top = 0;
-	a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
-	a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
+	_currentMonsterSpriteRect.left = 0;
+	_currentMonsterSpriteRect.top = 0;
+	_currentMonsterSpriteRect.height = _currentMonsterSpriteHeight;
+	_currentMonsterSpriteRect.width = _currentMonsterSpriteWidth;
 
 	//initial hit sound && set all buffers
-	a_hit1Buffer = sounds["hit1"];
-	a_hit2Buffer = sounds["hit2"];
-	a_hit3Buffer = sounds["hit3"];
-	a_hitSound.setBuffer(a_hit1Buffer);
-	a_currentHitSound = 1;
+	_hit1Buffer = (*sounds)["hit1"];
+	_hit2Buffer = (*sounds)["hit2"];
+	_hit3Buffer = (*sounds)["hit3"];
+	_hitSound.setBuffer(_hit1Buffer);
+	_currentHitSound = 1;
 
 	//initial platform
-	//Mytexture platform = textures["platform6"];
-	a_backgroundTexture = textures["platform6"].getTexture();
-	a_backgroundSprite.setTexture(a_backgroundTexture);
+	//TODO make a platform class ?
+	_platform = (*textures)["platform6"];
+	_platformSprite.setTexture(*_platform.getTexture());
 
 	//Monster hitbox
-	a_currentMonsterHitboxRect.height = a_currentMonsterSpriteHeight;
-	a_currentMonsterHitboxRect.width = a_currentMonsterSpriteWidth;
+	_currentMonsterHitboxRect.height = _currentMonsterSpriteHeight;
+	_currentMonsterHitboxRect.width = _currentMonsterSpriteWidth;
 
 	//hitbox rect = monster rect initial position
-	// TOP = y position of the top left corner
-	// LEFT = x position of the top left corner
-	a_currentMonsterHitboxRect.left = a_currentMonsterSprite.getPosition().x;
-	a_currentMonsterHitboxRect.top = a_currentMonsterSprite.getPosition().y;
+	_currentMonsterHitboxRect.left = _currentMonsterSprite.getPosition().x;
+	_currentMonsterHitboxRect.top = _currentMonsterSprite.getPosition().y;
 
 	//hitbox borders (shape) = hitbox rect
-	a_hitboxBordersShape.setPosition(a_currentMonsterSprite.getPosition().x, a_currentMonsterSprite.getPosition().y);
-	a_hitboxBordersShape.setSize(sf::Vector2f(a_currentMonsterSpriteWidth, a_currentMonsterSpriteHeight));
-	a_hitboxBordersShape.setFillColor(sf::Color::Transparent);
-	a_hitboxBordersShape.setOutlineColor(sf::Color::Red);
-	a_hitboxBordersShape.setOutlineThickness(5.f);
+	_hitboxBordersShape.setPosition(_currentMonsterSprite.getPosition().x, _currentMonsterSprite.getPosition().y);
+	_hitboxBordersShape.setSize(sf::Vector2f(_currentMonsterSpriteWidth, _currentMonsterSpriteHeight));
+	_hitboxBordersShape.setFillColor(sf::Color::Transparent);
+	_hitboxBordersShape.setOutlineColor(sf::Color::Red);
+	_hitboxBordersShape.setOutlineThickness(5.f);
 
 	//HP TEXT
-	a_hpFont = fonts["hpFont"];
-	a_hpText.setFont(a_hpFont);
-	a_hpText.setString(std::to_string(a_currentHp) + " HP");
-	a_hpText.setColor(sf::Color::Red);
+	_hpFont = (*fonts)["hpFont"];
+	_hpText.setFont(_hpFont);
+	_hpText.setString(std::to_string(_currentHp) + " HP");
+	_hpText.setColor(sf::Color::Red);
 
 	//HP BAR
-	a_hpBarEmptyTexture = textures["hpBarEmpty"].getTexture();
-	a_hpBarFullTexture = textures["hpBarFull"].getTexture();
-	a_hpFrameWidth = a_hpBarFullTexture.getSize().x;
-	a_hpRect.height = a_hpBarFullTexture.getSize().y;
-	a_hpRect.width = a_hpBarFullTexture.getSize().x;
-	a_hpBarEmptySprite.setTexture(a_hpBarEmptyTexture);
-	a_hpBarFullSprite.setTexture(a_hpBarFullTexture);
-	a_hpBarFullSprite.setTextureRect(a_hpRect);
-}
-
-int Monster::getMonsterFrameWidth()
-{
-	return a_currentMonsterSpriteWidth;
-}
-
-int Monster::getMonsterFrameHeight()
-{
-	return a_currentMonsterSpriteHeight;
-
+	_hpBarEmptyTexture = *(*textures)["hpBarEmpty"].getTexture();
+	_hpBarFullTexture = *(*textures)["hpBarFull"].getTexture();
+	_hpFrameWidth = _hpBarFullTexture.getSize().x;
+	_hpRect.height = _hpBarFullTexture.getSize().y;
+	_hpRect.width = _hpBarFullTexture.getSize().x;
+	_hpBarEmptySprite.setTexture(_hpBarEmptyTexture);
+	_hpBarFullSprite.setTexture(_hpBarFullTexture);
+	_hpBarFullSprite.setTextureRect(_hpRect);
 }
 
 void Monster::setPosition(int x, int y)
@@ -99,75 +85,72 @@ void Monster::setPosition(int x, int y)
 	float centeredX, centeredY, offsetY, offsetX;
 
 	//setPosition monster
-	a_currentMonsterSprite.setPosition(x, y);
+	_currentMonsterSprite.setPosition(x, y);
 
 	//setPosition HP bar
-	centeredX = x + (((float)a_currentMonsterSpriteWidth - (float)a_hpBarEmptyTexture.getSize().x) / 2);
-	centeredY = y + (((float)a_currentMonsterSpriteHeight - (float)a_hpBarEmptyTexture.getSize().y) / 2);
-	offsetY = 0.65 * a_currentMonsterSpriteHeight;
-	a_hpBarEmptySprite.setPosition(centeredX, centeredY + offsetY);
-	a_hpBarFullSprite.setPosition(centeredX, centeredY + offsetY);
+	centeredX = x + (((float)_currentMonsterSpriteWidth - (float)_hpBarEmptyTexture.getSize().x) / 2);
+	centeredY = y + (((float)_currentMonsterSpriteHeight - (float)_hpBarEmptyTexture.getSize().y) / 2);
+	offsetY = 0.65 * _currentMonsterSpriteHeight;
+	_hpBarEmptySprite.setPosition(centeredX, centeredY + offsetY);
+	_hpBarFullSprite.setPosition(centeredX, centeredY + offsetY);
 
 	//setPosition HP Text
-	centeredX = x + (((float)a_currentMonsterSpriteWidth - a_hpText.getGlobalBounds().width) / 2);
-	centeredY = y + (((float)a_currentMonsterSpriteHeight - a_hpText.getGlobalBounds().height) / 2);
-	offsetY = 0.55 * a_currentMonsterSpriteHeight;
-	a_hpText.setPosition(centeredX, centeredY + offsetY);
+	centeredX = x + (((float)_currentMonsterSpriteWidth - _hpText.getGlobalBounds().width) / 2);
+	centeredY = y + (((float)_currentMonsterSpriteHeight - _hpText.getGlobalBounds().height) / 2);
+	offsetY = 0.55 * _currentMonsterSpriteHeight;
+	_hpText.setPosition(centeredX, centeredY + offsetY);
 
-	//setPostion background
-	centeredX = x + (((float)a_currentMonsterSpriteWidth - (float)a_backgroundTexture.getSize().x) / 2);
-	centeredY = y + (((float)a_currentMonsterSpriteHeight - (float)a_backgroundTexture.getSize().y) / 2);
-	offsetY = 0.2 * a_currentMonsterSpriteHeight;
-	a_backgroundSprite.setPosition(centeredX, centeredY + offsetY);
+	//setPostion platform
+	centeredX = x + (((float)_currentMonsterSpriteWidth - (float)_platform.getTexture()->getSize().x) / 2);
+	centeredY = y + (((float)_currentMonsterSpriteHeight - (float)_platform.getTexture()->getSize().y) / 2);
+	offsetY = 0.2 * _currentMonsterSpriteHeight;
+	_platformSprite.setPosition(centeredX, centeredY + offsetY);
 
 	//TODO WTF ? why does this work without setting top and left for hpRect ?
 	//a_hpRect.top = y + a_frameSize / 1.25;
 	//a_hpRect.left = x + a_frameSize / 5;
 
 	//hitbox rect = monster rect initial position
-	// TOP = y position of the top left corner
-	// LEFT = x position of the top left corner
-	a_currentMonsterHitboxRect.left = a_currentMonsterSprite.getPosition().x;
-	a_currentMonsterHitboxRect.top = a_currentMonsterSprite.getPosition().y;
+	_currentMonsterHitboxRect.left = _currentMonsterSprite.getPosition().x;
+	_currentMonsterHitboxRect.top = _currentMonsterSprite.getPosition().y;
 
 	//hitbox borders (shape) = hitbox rect
-	a_hitboxBordersShape.setPosition(a_currentMonsterSprite.getPosition().x, a_currentMonsterSprite.getPosition().y);
-	a_hitboxBordersShape.setSize(sf::Vector2f(a_currentMonsterHitboxRect.width, a_currentMonsterHitboxRect.height));
+	_hitboxBordersShape.setPosition(_currentMonsterSprite.getPosition().x, _currentMonsterSprite.getPosition().y);
+	_hitboxBordersShape.setSize(sf::Vector2f(_currentMonsterHitboxRect.width, _currentMonsterHitboxRect.height));
 }
 
 void Monster::nextFrame()
 {
-	switch (a_state) {
-	case HURT:
-		a_fps = 50;
+	switch (_state) {
+	case Monster::State::HURT:
+		_fps = 50;
 		break;
-	case IDLE:
-		a_fps = 50;
+	case Monster::State::IDLE:
+		_fps = 50;
 		break;
-	case DEAD:
+	case Monster::State::DEAD:
 		//TODO adapt dying animation speed with current dps of click/heroes : less dps --> slower and more dps --> faster
-		a_fps = 50;
+		_fps = 50;
 		break;
 	default:
 		break;
 	}
 
 	//TODO end of ishurt animation and isdying animations to implement in this method
-	int time = a_clock.getElapsedTime().asMilliseconds();
-	if (time > a_fps) {
-		a_clock.restart();
+	if (_monsterAnimationClock.getElapsedTime().asMilliseconds() > _fps) {
+		_monsterAnimationClock.restart();
 
-		if (a_currentMonsterSpriteRect.left >= a_currentMonsterSpriteMaxWidth) {
+		if (_currentMonsterSpriteRect.left >= _currentMonsterSpriteMaxWidth) {
 			//end of the sprite is reached
-			a_currentMonsterSpriteRect.left = 0;
+			_currentMonsterSpriteRect.left = 0;
 
-			switch (a_state) {
-			case HURT:
+			switch (_state) {
+			case Monster::State::HURT:
 				this->idle();
 				break;
-			case IDLE:
+			case Monster::State::IDLE:
 				break;
-			case DEAD:
+			case Monster::State::DEAD:
 				this->nextMob();
 				break;
 			default:
@@ -176,15 +159,10 @@ void Monster::nextFrame()
 		}
 		else {
 			//there are still frames to go on the sprite
-			a_currentMonsterSprite.setTextureRect(a_currentMonsterSpriteRect);
-			a_currentMonsterSpriteRect.left += a_currentMonsterSpriteWidth;
+			_currentMonsterSprite.setTextureRect(_currentMonsterSpriteRect);
+			_currentMonsterSpriteRect.left += _currentMonsterSpriteWidth;
 		}
 	}
-}
-
-bool Monster::isHit(sf::RenderWindow* window)
-{
-	return a_currentMonsterHitboxRect.contains(sf::Mouse::getPosition(*window));
 }
 
 void Monster::playSound()
@@ -210,66 +188,62 @@ void Monster::playSound()
 	//}
 
 	//PLAY HIT SOUNDS IN THE SAME ORDER REPEATEDLY
-	switch (a_currentHitSound) {
+	switch (_currentHitSound) {
 	case 1:
-		a_hitSound.setBuffer(a_hit2Buffer);
-		a_currentHitSound = 2;
+		_hitSound.setBuffer(_hit2Buffer);
+		_currentHitSound = 2;
 		break;
 	case 2:
-		a_hitSound.setBuffer(a_hit3Buffer);
-		a_currentHitSound = 3;
+		_hitSound.setBuffer(_hit3Buffer);
+		_currentHitSound = 3;
 		break;
 	case 3:
-		a_hitSound.setBuffer(a_hit1Buffer);
-		a_currentHitSound = 1;
+		_hitSound.setBuffer(_hit1Buffer);
+		_currentHitSound = 1;
 		break;
 	}
-	a_hitSound.play();
+	_hitSound.play();
 }
 
-void Monster::draw(sf::RenderWindow* window)
+void Monster::draw(sf::RenderWindow* window, bool debug = false)
 {
 	//draw background
-	window->draw(a_backgroundSprite);
+	window->draw(_platformSprite);
 
 	//debug --> show hitbox
-	//window->draw(a_hitboxBordersShape); //comment to hide hitbox borders
+	if (debug)
+		window->draw(_hitboxBordersShape);
 
 	//draw monster sprite
-	window->draw(a_currentMonsterSprite);
+	window->draw(_currentMonsterSprite);
 
 	//draw hp bars & Text
-	window->draw(a_hpBarEmptySprite);
-	window->draw(a_hpBarFullSprite);
-	window->draw(a_hpText);
-}
-
-void Monster::nextPlatform()
-{
-	//TODO
+	window->draw(_hpBarEmptySprite);
+	window->draw(_hpBarFullSprite);
+	window->draw(_hpText);
 }
 
 void Monster::setHp(int hp)
 {
 	if (hp <= 0)
 	{
-		a_currentHp = 0;
-		a_hpText.setString(std::to_string(a_currentHp) + " HP");
-		a_hpRect.width = a_currentHp * a_hpFrameWidth / a_maxHp;
-		a_hpBarFullSprite.setTextureRect(a_hpRect);
+		_currentHp = 0;
+		_hpText.setString(std::to_string(_currentHp) + " HP");
+		_hpRect.width = _currentHp * _hpFrameWidth / _maxHp;
+		_hpBarFullSprite.setTextureRect(_hpRect);
 	}
 	else {
-		a_currentHp = hp;
-		a_hpText.setString(std::to_string(a_currentHp) + " HP");
-		a_hpRect.width = a_currentHp * a_hpFrameWidth / a_maxHp;
-		a_hpBarFullSprite.setTextureRect(a_hpRect);
+		_currentHp = hp;
+		_hpText.setString(std::to_string(_currentHp) + " HP");
+		_hpRect.width = _currentHp * _hpFrameWidth / _maxHp;
+		_hpBarFullSprite.setTextureRect(_hpRect);
 	}
 }
 
 void Monster::takeDmg(int dmgTaken)
 {
-	this->setHp(a_currentHp - dmgTaken);
-	if (a_currentHp <= 0)
+	this->setHp(_currentHp - dmgTaken);
+	if (_currentHp <= 0)
 	{
 		this->die();
 	}
@@ -278,105 +252,88 @@ void Monster::takeDmg(int dmgTaken)
 	}
 }
 
-int Monster::getHp()
-{
-	return a_currentHp;
-}
-
-const sf::Vector2f Monster::getPosition()
-{
-	return a_currentMonsterSprite.getPosition();
-}
-
 void Monster::die()
 {
-	if (a_state != DEAD)
+	if (_state != Monster::State::DEAD)
 	{
-		//dyng texture
-		a_currentMonsterDyingTexture = a_currentMonsterDying.getTexture();
-		//dying frames number
-		a_currentMonsterSpriteFramesNb = a_currentMonsterDying.getFramesNb();
-		//set texture
-		a_currentMonsterSprite.setTexture(a_currentMonsterDyingTexture);
-
+		//dying animation frames number
+		_currentMonsterSpriteFramesNb = _currentMonsterDying.getFramesNb();
+		//set dying texture
+		_currentMonsterSprite.setTexture(*_currentMonsterDying.getTexture());
 		//size of 1 frame
-		a_currentMonsterSpriteWidth = a_currentMonsterDyingTexture.getSize().x / a_currentMonsterSpriteFramesNb;
-		a_currentMonsterSpriteHeight = a_currentMonsterDyingTexture.getSize().y;
+		_currentMonsterSpriteWidth = _currentMonsterDying.getTexture()->getSize().x / _currentMonsterSpriteFramesNb;
+		_currentMonsterSpriteHeight = _currentMonsterDying.getTexture()->getSize().y;
 		//max length of the monster sprite
-		a_currentMonsterSpriteMaxWidth = (a_currentMonsterSpriteFramesNb - 1) * a_currentMonsterSpriteWidth;
+		_currentMonsterSpriteMaxWidth = (_currentMonsterSpriteFramesNb - 1) * _currentMonsterSpriteWidth;
 		//Monster rectangle
-		a_currentMonsterSpriteRect.left = 0;
-		a_currentMonsterSpriteRect.top = 0;
-		a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
-		a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
+		_currentMonsterSpriteRect.left = 0;
+		_currentMonsterSpriteRect.top = 0;
+		_currentMonsterSpriteRect.height = _currentMonsterSpriteHeight;
+		_currentMonsterSpriteRect.width = _currentMonsterSpriteWidth;
 
-		a_state = DEAD;
-		a_clock.restart();
+		_state = Monster::State::DEAD;
+		_monsterAnimationClock.restart();
 	}
 	else {
-
 	}
-
 }
 
 void Monster::hurt()
 {
-	if (a_state != HURT)
+	if (_state != Monster::State::HURT)
 	{
 		//change to hurt monster texture
-		a_currentMonsterHurtTexture = a_currentMonsterHurt.getTexture();
+		//_currentMonsterHurtTexture = _currentMonsterHurt.getTexture();
 		//hurt frames number
-		a_currentMonsterSpriteFramesNb = a_currentMonsterHurt.getFramesNb();
+		_currentMonsterSpriteFramesNb = _currentMonsterHurt.getFramesNb();
 		//set texture
-		a_currentMonsterSprite.setTexture(a_currentMonsterHurtTexture);
+		_currentMonsterSprite.setTexture(*_currentMonsterHurt.getTexture());
 		//size of 1 frame
-		a_currentMonsterSpriteWidth = a_currentMonsterHurtTexture.getSize().x / a_currentMonsterSpriteFramesNb;
-		a_currentMonsterSpriteHeight = a_currentMonsterHurtTexture.getSize().y;
+		_currentMonsterSpriteWidth = _currentMonsterHurt.getTexture()->getSize().x / _currentMonsterSpriteFramesNb;
+		_currentMonsterSpriteHeight = _currentMonsterHurt.getTexture()->getSize().y;
 		//max length of the monster sprite
-		a_currentMonsterSpriteMaxWidth = (a_currentMonsterSpriteFramesNb - 1) * a_currentMonsterSpriteWidth;
+		_currentMonsterSpriteMaxWidth = (_currentMonsterSpriteFramesNb - 1) * _currentMonsterSpriteWidth;
 		//Monster rectangle
-		a_currentMonsterSpriteRect.left = 0;
-		a_currentMonsterSpriteRect.top = 0;
-		a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
-		a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
-		a_state = HURT;
-		a_clock.restart();
+		_currentMonsterSpriteRect.left = 0;
+		_currentMonsterSpriteRect.top = 0;
+		_currentMonsterSpriteRect.height = _currentMonsterSpriteHeight;
+		_currentMonsterSpriteRect.width = _currentMonsterSpriteWidth;
+		_state = Monster::State::HURT;
+		_monsterAnimationClock.restart();
 	}
 	else {
-		a_currentMonsterSpriteRect.left = 0;
-		a_clock.restart();
+		_currentMonsterSpriteRect.left = 0;
+		_monsterAnimationClock.restart();
 	}
 }
 
 void Monster::idle()
 {
-	if (a_state != IDLE)
+	if (_state != Monster::State::IDLE)
 	{
 		//change to hurt monster texture
-		a_currentMonsterIdleTexture = a_currentMonsterIdle.getTexture();
+		//_currentMonsterIdleTexture = _currentMonsterIdle.getTexture();
 		//hurt frames number
-		a_currentMonsterSpriteFramesNb = a_currentMonsterIdle.getFramesNb();
+		_currentMonsterSpriteFramesNb = _currentMonsterIdle.getFramesNb();
 		//set texture
-		a_currentMonsterSprite.setTexture(a_currentMonsterIdleTexture);
+		_currentMonsterSprite.setTexture(*_currentMonsterIdle.getTexture());
 		//size of 1 frame
-		a_currentMonsterSpriteWidth = a_currentMonsterIdleTexture.getSize().x / a_currentMonsterSpriteFramesNb;
-		a_currentMonsterSpriteHeight = a_currentMonsterIdleTexture.getSize().y;
+		_currentMonsterSpriteWidth = _currentMonsterIdle.getTexture()->getSize().x / _currentMonsterSpriteFramesNb;
+		_currentMonsterSpriteHeight = _currentMonsterIdle.getTexture()->getSize().y;
 		//max length of the monster sprite
-		a_currentMonsterSpriteMaxWidth = (a_currentMonsterSpriteFramesNb - 1) * a_currentMonsterSpriteWidth;
+		_currentMonsterSpriteMaxWidth = (_currentMonsterSpriteFramesNb - 1) * _currentMonsterSpriteWidth;
 		//Monster rectangle
-		a_currentMonsterSpriteRect.left = 0;
-		a_currentMonsterSpriteRect.top = 0;
-		a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
-		a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
+		_currentMonsterSpriteRect.left = 0;
+		_currentMonsterSpriteRect.top = 0;
+		_currentMonsterSpriteRect.height = _currentMonsterSpriteHeight;
+		_currentMonsterSpriteRect.width = _currentMonsterSpriteWidth;
 
 		//!!!!!!!!!!!!!!!!!!!!!!!
-		a_state = IDLE;
-		a_clock.restart();
+		_state = Monster::State::IDLE;
+		_monsterAnimationClock.restart();
 	}
 	else {
-
 	}
-
 }
 
 void Monster::nextMob()
@@ -386,40 +343,39 @@ void Monster::nextMob()
 	//make these "monster" and "_IDLE" in #define ?
 
 	//Reset to first monster once we went through all the textures...
-	if (a_currentMonsterNb == 3)
-		a_currentMonsterNb = 0;
+	if (_currentMonsterNb == 3)
+		_currentMonsterNb = 0;
 
-	a_currentMonsterNb++;
-	std::string nextMonster = "monster" + std::to_string(a_currentMonsterNb);
-	a_currentMonsterIdle = a_textures[nextMonster + "_idle"];
-	a_currentMonsterHurt = a_textures[nextMonster + "_hurt"];
-	a_currentMonsterDying = a_textures[nextMonster + "_dying"];
-	a_currentMonsterIdleTexture = a_currentMonsterIdle.getTexture();
-	a_currentMonsterHurtTexture = a_currentMonsterHurt.getTexture();
-	a_currentMonsterDyingTexture = a_currentMonsterDying.getTexture();
+	_currentMonsterNb++;
+	std::string nextMonster = "monster" + std::to_string(_currentMonsterNb);
+	_currentMonsterIdle = (*_textures)[nextMonster + "_idle"];
+	_currentMonsterHurt = (*_textures)[nextMonster + "_hurt"];
+	_currentMonsterDying = (*_textures)[nextMonster + "_dying"];
+	//_currentMonsterIdleTexture = _currentMonsterIdle.getTexture();
+	//_currentMonsterHurtTexture = _currentMonsterHurt.getTexture();
+	//_currentMonsterDyingTexture = _currentMonsterDying.getTexture();
 	//dying frames number
-	a_currentMonsterSpriteFramesNb = a_currentMonsterIdle.getFramesNb();
+	_currentMonsterSpriteFramesNb = _currentMonsterIdle.getFramesNb();
 	//set texture
-	a_currentMonsterSprite.setTexture(a_currentMonsterIdleTexture);
+	_currentMonsterSprite.setTexture(*_currentMonsterIdle.getTexture());
 
 	//size of 1 frame
-	a_currentMonsterSpriteWidth = a_currentMonsterIdleTexture.getSize().x / a_currentMonsterSpriteFramesNb;
-	a_currentMonsterSpriteHeight = a_currentMonsterIdleTexture.getSize().y;
+	_currentMonsterSpriteWidth = _currentMonsterIdle.getTexture()->getSize().x / _currentMonsterSpriteFramesNb;
+	_currentMonsterSpriteHeight = _currentMonsterIdle.getTexture()->getSize().y;
 	//max length of the monster sprite
-	a_currentMonsterSpriteMaxWidth = (a_currentMonsterSpriteFramesNb - 1) * a_currentMonsterSpriteWidth;
+	_currentMonsterSpriteMaxWidth = (_currentMonsterSpriteFramesNb - 1) * _currentMonsterSpriteWidth;
 	//Monster rectangle
-	a_currentMonsterSpriteRect.left = 0;
-	a_currentMonsterSpriteRect.top = 0;
-	a_currentMonsterSpriteRect.height = a_currentMonsterSpriteHeight;
-	a_currentMonsterSpriteRect.width = a_currentMonsterSpriteWidth;
+	_currentMonsterSpriteRect.left = 0;
+	_currentMonsterSpriteRect.top = 0;
+	_currentMonsterSpriteRect.height = _currentMonsterSpriteHeight;
+	_currentMonsterSpriteRect.width = _currentMonsterSpriteWidth;
 
 	//Maximum life increase + full life for the next monster
 	//TODO
 	//find formula to increase hp of monsters
 	//a_maxHp += 10;
-	this->setHp(a_maxHp);
+	this->setHp(_maxHp);
 
-	a_state = IDLE;
-	a_clock.restart();
+	_state = Monster::State::IDLE;
+	_monsterAnimationClock.restart();
 }
-

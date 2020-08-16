@@ -23,7 +23,9 @@
 #include "loadFonts.h"
 #include "dragon.h"
 
-
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
 
+//------------------------------REMINDER-------------------------------------------
+// TOP = y position of the top left corner
+// LEFT = x position of the top left corner

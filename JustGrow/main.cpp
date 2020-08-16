@@ -3,14 +3,12 @@ bool isLoading = true;
 
 int main(int argc, char* argv[])
 {
-	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::Fullscreen);
-	window.setMouseCursorVisible(false); // Hide cursor
+	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::None);
+	window.setMouseCursorVisible(false);
 	window.setActive(false);
 
 	//loading screen in a separate thread
 	std::thread loadingScreenThread(displayLoadingScreen, &window);
-
-	//displayDragon(&window);
 
 	//load textures
 	std::map<std::string, Mytexture> textures = loadTextures();
@@ -22,21 +20,18 @@ int main(int argc, char* argv[])
 	std::map<std::string, sf::Font> fonts = loadFonts();
 
 	//create monster
-	Monster monster(textures, sounds, fonts);
+	Monster monster(&textures, &sounds, &fonts);
 
 	//create player
-	Player player(textures, fonts);
+	Player player(&textures, &fonts);
 
-	//set the position to the center of the screen
-
-	//monster to the RIGHT
-	//monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) -50, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
 	//centered monster
 	monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
 
 	// synchronize threads:
 	window.setActive(true);
 
+	//loading is finished --> set the global variable to indicate to the other thread that loading is done.
 	isLoading = false;
 	loadingScreenThread.join();
 
@@ -57,9 +52,8 @@ int main(int argc, char* argv[])
 				}
 			}
 		}
-
+		//monster animation
 		monster.nextFrame();
-
 		//DRAW EVERYTHING
 		window.clear();
 		monster.draw(&window);
@@ -67,6 +61,5 @@ int main(int argc, char* argv[])
 		player.drawDmg(&window);
 		window.display();
 	}
-
 	return 0;
 }

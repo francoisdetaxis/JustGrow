@@ -4,87 +4,83 @@
 class Monster
 {
 public:
-	enum State
+	enum class State
 	{
 		HURT,
 		IDLE,
 		DEAD
-	};	
+	};
 
 	//constructors
-	Monster(std::map<std::string, Mytexture> textures, std::map<std::string, sf::SoundBuffer> sounds, std::map<std::string, sf::Font> fonts);
+	Monster::Monster(std::map<std::string, Mytexture>* textures, std::map<std::string, sf::SoundBuffer>* sounds, std::map<std::string, sf::Font>* fonts);
 
 	//getters and setters
 	void setPosition(int x, int y);
-	int getMonsterFrameWidth();
-	int getMonsterFrameHeight();
+	const sf::Vector2f getPosition() { return _currentMonsterSprite.getPosition(); }
+	int getMonsterFrameWidth() { return _currentMonsterSpriteWidth; }
+	int getMonsterFrameHeight() { return _currentMonsterSpriteHeight; }
 	void setHp(int hp);
+	int getHp() { return _currentHp; }
 	void takeDmg(int dmgTaken);
-	int getHp();
-	const sf::Vector2f getPosition();
 
 	//other methods
-	void draw(sf::RenderWindow* window);
+	void draw(sf::RenderWindow* window, bool debug = false);
 	void nextFrame();
-	bool isHit(sf::RenderWindow* window);
+	bool isHit(sf::RenderWindow* window) { return _currentMonsterHitboxRect.contains(sf::Mouse::getPosition(*window)); }
 	void playSound();
 	void nextMob();
-	void nextPlatform();
 	void die();
 	void hurt();
 	void idle();
 
 private:
 	//animation speed
-	int a_fps;
+	int _fps;
 
 	//all textures, sounds and fonts
-	std::map<std::string, Mytexture> a_textures;
-	std::map<std::string, sf::SoundBuffer> a_sounds;
-	std::map<std::string, sf::Font> a_fonts;
+	std::map<std::string, Mytexture>* _textures;
+	std::map<std::string, sf::SoundBuffer>* _sounds;
+	std::map<std::string, sf::Font>* _fonts;
 
 	//HP
-	sf::Font a_hpFont;
-	sf::Texture a_hpBarFullTexture;
-	sf::Texture a_hpBarEmptyTexture;	
-	sf::Sprite a_hpBarFullSprite;
-	sf::Sprite a_hpBarEmptySprite;
-	sf::IntRect a_hpRect;
-	sf::Text a_hpText;
-	int a_currentHp;
-	int a_maxHp;
-	int a_hpFrameWidth;
+	sf::Font _hpFont;
+	sf::Texture _hpBarFullTexture;
+	sf::Texture _hpBarEmptyTexture;
+	sf::Sprite _hpBarFullSprite;
+	sf::Sprite _hpBarEmptySprite;
+	sf::IntRect _hpRect;
+	sf::Text _hpText;
+	int _currentHp;
+	int _maxHp;
+	int _hpFrameWidth;
 
 	//PLATFORM
-	sf::Sprite a_backgroundSprite;
-	sf::Texture a_backgroundTexture;
+	sf::Sprite _platformSprite;
+	Mytexture _platform;
 
 	//MONSTER
-	sf::Texture a_currentMonsterIdleTexture;
-	sf::Texture a_currentMonsterHurtTexture;
-	sf::Texture a_currentMonsterDyingTexture;
-	Mytexture a_currentMonsterIdle;
-	Mytexture a_currentMonsterHurt;
-	Mytexture a_currentMonsterDying;
-	sf::Sprite a_currentMonsterSprite;
-	sf::IntRect a_currentMonsterSpriteRect;
-	sf::IntRect a_currentMonsterHitboxRect;
-	int a_currentMonsterSpriteWidth;
-	int a_currentMonsterSpriteHeight;
-	int a_currentMonsterSpriteMaxWidth;
-	int a_currentMonsterSpriteFramesNb;
-	int a_currentMonsterNb;
-	sf::Clock a_clock;
-	Monster::State a_state;
+	Mytexture _currentMonsterIdle;
+	Mytexture _currentMonsterHurt;
+	Mytexture _currentMonsterDying;
+	sf::Sprite _currentMonsterSprite;
+	sf::IntRect _currentMonsterSpriteRect;
+	sf::IntRect _currentMonsterHitboxRect;
+	int _currentMonsterSpriteWidth;
+	int _currentMonsterSpriteHeight;
+	int _currentMonsterSpriteMaxWidth;
+	int _currentMonsterSpriteFramesNb;
+	int _currentMonsterNb;
+	sf::Clock _monsterAnimationClock;
+	Monster::State _state;
 
 	//SOUNDS
-	sf::SoundBuffer a_hitSoundBuffer;
-	sf::SoundBuffer a_hit1Buffer;
-	sf::SoundBuffer a_hit2Buffer;
-	sf::SoundBuffer a_hit3Buffer;
-	sf::Sound a_hitSound;
-	int a_currentHitSound;
+	sf::SoundBuffer _hitSoundBuffer;
+	sf::SoundBuffer _hit1Buffer;
+	sf::SoundBuffer _hit2Buffer;
+	sf::SoundBuffer _hit3Buffer;
+	sf::Sound _hitSound;
+	int _currentHitSound;
 
 	//DEBUG
-	sf::RectangleShape a_hitboxBordersShape;
+	sf::RectangleShape _hitboxBordersShape;
 };
