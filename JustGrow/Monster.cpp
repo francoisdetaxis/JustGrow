@@ -205,7 +205,7 @@ void Monster::playSound()
 	_hitSound.play();
 }
 
-void Monster::draw(sf::RenderWindow* window, bool debug = false)
+void Monster::draw(sf::RenderWindow* window, bool debug)
 {
 	//draw background
 	window->draw(_platformSprite);
