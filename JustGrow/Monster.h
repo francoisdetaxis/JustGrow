@@ -17,8 +17,8 @@ public:
 	//getters and setters
 	void setPosition(int x, int y);
 	const sf::Vector2f getPosition() { return _currentMonsterSprite.getPosition(); }
-	int getMonsterFrameWidth() { return _currentMonsterSpriteWidth; }
-	int getMonsterFrameHeight() { return _currentMonsterSpriteHeight; }
+	int getMonsterWidth() { return _currentMonsterSpriteWidth; }
+	int getMonsterHeight() { return _currentMonsterSpriteHeight; }
 	void setHp(int hp);
 	int getHp() { return _currentHp; }
 	void takeDmg(int dmgTaken);
@@ -53,10 +53,6 @@ private:
 	int _currentHp;
 	int _maxHp;
 	int _hpFrameWidth;
-
-	//PLATFORM
-	sf::Sprite _platformSprite;
-	Mytexture _platform;
 
 	//MONSTER
 	Mytexture _currentMonsterIdle;

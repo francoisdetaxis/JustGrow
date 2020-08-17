@@ -72,14 +72,14 @@ void Player::dealDmg(Monster* monster)
 	//SET RANDOM POSITION FOR DMG TEXT
 	//generate random x, y coords near monster and set dmg text position
 	int x, y, offsetX, offsetY;
-	offsetX = monster->getMonsterFrameWidth() / 4;
-	offsetY = monster->getMonsterFrameHeight() / 4;
+	offsetX = monster->getMonsterWidth() / 4;
+	offsetY = monster->getMonsterHeight() / 4;
 	x = monster->getPosition().x;
 	y = monster->getPosition().y;
 
-	std::uniform_int_distribution<int> uniX(x + offsetX, x + monster->getMonsterFrameWidth() - offsetX); // guaranteed unbiased
+	std::uniform_int_distribution<int> uniX(x + offsetX, x + monster->getMonsterWidth() - offsetX); // guaranteed unbiased
 	int random_x = uniX(rng);
-	std::uniform_int_distribution<int> uniY(y + offsetY, y + monster->getMonsterFrameHeight() - offsetY); // guaranteed unbiased
+	std::uniform_int_distribution<int> uniY(y + offsetY, y + monster->getMonsterHeight() - offsetY); // guaranteed unbiased
 	int random_y = uniY(rng);
 	dmgText.setPosition(random_x, random_y);
 
@@ -99,7 +99,22 @@ void Player::drawDmg(sf::RenderWindow* window)
 		if (_dmgClocks[i].getElapsedTime().asSeconds() <= 3)
 		{
 			//TODO give cool animation to dmg text
-			currentPos = _dmgTexts[i].getPosition();
+			//utter shit below:
+			/*if (_dmgClocks[i].getElapsedTime().asMilliseconds() % 50 == 0)
+			{
+				if (_dmgClocks[i].getElapsedTime().asMilliseconds() >= 1500)
+					_dmgTexts[i].setCharacterSize(96);
+				int transparency = _dmgTexts[i].getColor().a;
+				int r = _dmgTexts[i].getColor().r;
+				int g = _dmgTexts[i].getColor().g;
+				int b = _dmgTexts[i].getColor().b;
+				transparency = transparency - 3;
+				if (transparency < 0)
+					transparency = 0;
+				_dmgTexts[i].setColor(sf::Color(r, g, b, transparency));
+				_dmgTexts[i].move(0, -4);
+			}*/
+
 			window->draw(_dmgTexts[i]);
 		}
 		else {

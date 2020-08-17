@@ -43,11 +43,6 @@ Monster::Monster(std::map<std::string, Mytexture>* textures, std::map<std::strin
 	_hitSound.setBuffer(_hit1Buffer);
 	_currentHitSound = 1;
 
-	//initial platform
-	//TODO make a platform class ?
-	_platform = (*textures)["platform6"];
-	_platformSprite.setTexture(*_platform.getTexture());
-
 	//Monster hitbox
 	_currentMonsterHitboxRect.height = _currentMonsterSpriteHeight;
 	_currentMonsterHitboxRect.width = _currentMonsterSpriteWidth;
@@ -99,12 +94,6 @@ void Monster::setPosition(int x, int y)
 	centeredY = y + (((float)_currentMonsterSpriteHeight - _hpText.getGlobalBounds().height) / 2);
 	offsetY = 0.55 * _currentMonsterSpriteHeight;
 	_hpText.setPosition(centeredX, centeredY + offsetY);
-
-	//setPostion platform
-	centeredX = x + (((float)_currentMonsterSpriteWidth - (float)_platform.getTexture()->getSize().x) / 2);
-	centeredY = y + (((float)_currentMonsterSpriteHeight - (float)_platform.getTexture()->getSize().y) / 2);
-	offsetY = 0.2 * _currentMonsterSpriteHeight;
-	_platformSprite.setPosition(centeredX, centeredY + offsetY);
 
 	//TODO WTF ? why does this work without setting top and left for hpRect ?
 	//a_hpRect.top = y + a_frameSize / 1.25;
@@ -207,9 +196,6 @@ void Monster::playSound()
 
 void Monster::draw(sf::RenderWindow* window, bool debug)
 {
-	//draw background
-	window->draw(_platformSprite);
-
 	//debug --> show hitbox
 	if (debug)
 		window->draw(_hitboxBordersShape);
@@ -373,7 +359,6 @@ void Monster::nextMob()
 	//Maximum life increase + full life for the next monster
 	//TODO
 	//find formula to increase hp of monsters
-	//a_maxHp += 10;
 	this->setHp(_maxHp);
 
 	_state = Monster::State::IDLE;

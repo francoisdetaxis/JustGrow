@@ -26,7 +26,18 @@ int main(int argc, char* argv[])
 	Player player(&textures, &fonts);
 
 	//centered monster
-	monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
+	monster.setPosition((SCREEN_WIDTH - monster.getMonsterWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterHeight()) / 2);
+
+	//Stage
+	Stage stage(&textures);
+	//all of this just to place the platform behind the monster...
+	int centeredX, centeredY, offsetY, monsterHeight, monsterWidth;
+	monsterWidth = monster.getMonsterWidth();
+	monsterHeight = monster.getMonsterHeight();
+	centeredX = monster.getPosition().x + (((float)monsterWidth - (float)stage.getSize().x) / 2);
+	centeredY = monster.getPosition().y + (((float)monsterHeight - (float)stage.getSize().y) / 2);
+	offsetY = 0.2 * monsterHeight;
+	stage.setPostion(centeredX, centeredY + offsetY);
 
 	// synchronize threads:
 	window.setActive(true);
@@ -56,6 +67,7 @@ int main(int argc, char* argv[])
 		monster.nextFrame();
 		//DRAW EVERYTHING
 		window.clear();
+		stage.draw(&window);
 		monster.draw(&window);
 		player.drawCursor(&window, &monster);
 		player.drawDmg(&window);
