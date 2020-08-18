@@ -23,7 +23,6 @@ Monster::Monster(std::map<std::string, Mytexture>* textures, std::map<std::strin
 	//total number of frames
 	_currentMonsterSpriteFramesNb = _currentMonsterIdle.getFramesNb();
 	//set current monster texture
-	//_currentMonsterIdleTexture = _currentMonsterIdle.getTexture();
 	_currentMonsterSprite.setTexture(*_currentMonsterIdle.getTexture());
 	//size of 1 frame
 	_currentMonsterSpriteWidth = _currentMonsterSprite.getTextureRect().width / _currentMonsterSpriteFramesNb;

@@ -14,11 +14,17 @@ std::map<std::string, Mytexture> loadTextures()
 	Mytexture monster3_hurt("./resources/image/sprites/monster3_hurt.png", 12);
 
 	//platforms
+	//TODO limit the number of textures --> switcher the sprites texture is costly (investigate)
+	//all platforms on one big texture and move a Rect around is also a possibility
 	Mytexture platform1("./resources/image/platforms/platform1.png", 1);
 	Mytexture platform2("./resources/image/platforms/platform2.png", 1);
 	Mytexture platform3("./resources/image/platforms/platform3.png", 1);
 	Mytexture platform4("./resources/image/platforms/platform4.png", 1);
+	Mytexture platform5("./resources/image/platforms/platform5.png", 1);
 	Mytexture platform6("./resources/image/platforms/platform6.png", 1);
+	Mytexture platform7("./resources/image/platforms/platform7.png", 1);
+	Mytexture platform8("./resources/image/platforms/platform8.png", 1);
+	Mytexture platform9("./resources/image/platforms/platform9.png", 1);
 
 	//hp bars
 	Mytexture hpBarEmpty("./resources/image/hpbar/hpbarempty.png", 1);
@@ -42,7 +48,11 @@ std::map<std::string, Mytexture> loadTextures()
 		{"platform2", platform2},
 		{"platform3", platform3},
 		{"platform4", platform4},
+		{"platform5", platform5},
 		{"platform6", platform6},
+		{"platform7", platform7},
+		{"platform8", platform8},
+		{"platform9", platform9},
 		{"hpBarEmpty", hpBarEmpty},
 		{"hpBarFull", hpBarFull},
 		{"attackCursor", attackCursor},
