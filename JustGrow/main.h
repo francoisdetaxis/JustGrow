@@ -7,6 +7,7 @@
 #include <random>
 #include <queue>
 #include <thread>
+#include <vector>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -16,6 +17,9 @@
 
 #include "Hit.h"
 #include "Stage.h"
+#include "ScrollView.h"
+#include "Button.h"
+#include "Menu.h"
 #include "loadingScreen.h"
 #include "Monster.h"
 #include "Mytexture.h"

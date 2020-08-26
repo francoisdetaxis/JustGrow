@@ -10,6 +10,8 @@ int main(int argc, char* argv[])
 	window.setMouseCursorVisible(false);
 	window.setActive(false);
 
+	sf::Sprite test;
+
 	//loading screen in a separate thread
 	std::thread loadingScreenThread(displayLoadingScreen, &window);
 
@@ -29,6 +31,18 @@ int main(int argc, char* argv[])
 	//create player
 	Player player(&textures, &fonts);
 
+	//create menu
+	Menu menu(&textures);
+
+	//create Buttons
+	Button btnclickUpgrade(textures["clickUpgrade"].getTexture());
+	Button btnFace(textures["face"].getTexture());
+	btnclickUpgrade.setPosition(50, 50);
+	btnFace.setPosition(50, btnclickUpgrade.getTexture().getSize().y + 50 + 20);
+
+	//add buttons to the menu
+	menu.addButton(&btnclickUpgrade);
+	menu.addButton(&btnFace);
 	//centered monster
 	monster.setPosition((SCREEN_WIDTH - monster.getMonsterWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterHeight()) / 2);
 
@@ -79,6 +93,8 @@ int main(int argc, char* argv[])
 		window.clear();
 		stage.draw(&window, debug);
 		monster.draw(&window, debug);
+		menu.draw(window);
+		monster.draw(&window);
 		player.drawCursor(&window, &monster);
 		player.drawDmg(&window);
 		window.display();

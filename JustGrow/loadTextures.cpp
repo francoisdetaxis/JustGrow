@@ -35,7 +35,19 @@ std::map<std::string, Mytexture> loadTextures()
 	Mytexture handCursor("./resources/image/cursors/hand_cursor.png", 1);
 	Mytexture hit("./resources/image/hit.png", 1);
 
+	//icons
+	Mytexture clickUpgrade("./resources/image/icons/iconClickDmgUpgrade.png", 1);
+	Mytexture face("./resources/image/icons/iconFace.png", 1);
+
+	//menu
+	Mytexture menu("./resources/image/menu/menu.png", 1);
+	Mytexture pinkbg("./resources/image/pinkgbg.png", 1);
+
 	std::map<std::string, Mytexture> textures{
+		{"face", face},
+		{"pinkbg", pinkbg},
+		{"clickUpgrade", clickUpgrade},
+		{"menu", menu},
 		{"monster1_idle", monster1_idle},
 		{"monster2_idle", monster2_idle},
 		{"monster3_idle", monster3_idle},
