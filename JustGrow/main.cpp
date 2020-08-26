@@ -35,8 +35,8 @@ int main(int argc, char* argv[])
 	Menu menu(&textures);
 
 	//create Buttons
-	Button btnclickUpgrade(textures["clickUpgrade"].getTexture());
-	Button btnFace(textures["face"].getTexture());
+	Button btnclickUpgrade(*textures["clickUpgrade"].getTexture());
+	Button btnFace(*textures["face"].getTexture());
 	btnclickUpgrade.setPosition(50, 50);
 	btnFace.setPosition(50, btnclickUpgrade.getTexture().getSize().y + 50 + 20);
 
@@ -94,7 +94,6 @@ int main(int argc, char* argv[])
 		stage.draw(&window, debug);
 		monster.draw(&window, debug);
 		menu.draw(window);
-		monster.draw(&window);
 		player.drawCursor(&window, &monster);
 		player.drawDmg(&window);
 		window.display();

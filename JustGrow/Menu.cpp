@@ -1,9 +1,9 @@
 #include "main.h"
 
-Menu::Menu(std::map<std::string, Mytexture> *textures)
+Menu::Menu(std::map<std::string, Mytexture>* textures)
 {
 	//menu texture
-	_menuTexture = (*textures)["menu"].getTexture();
+	_menuTexture = *(*textures)["menu"].getTexture();
 
 	//menu rect
 	_menuRect.top = 0;
@@ -16,7 +16,7 @@ Menu::Menu(std::map<std::string, Mytexture> *textures)
 	_menuSprite.setTextureRect(_menuRect);
 }
 
-void Menu::draw(sf::RenderWindow &window)
+void Menu::draw(sf::RenderWindow& window)
 {
 	window.draw(_menuSprite);
 
@@ -25,7 +25,7 @@ void Menu::draw(sf::RenderWindow &window)
 	}
 }
 
-void Menu::addButton(Button *btn)
+void Menu::addButton(Button* btn)
 {
 	_buttons.push_back(btn);
 }
