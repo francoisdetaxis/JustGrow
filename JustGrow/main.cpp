@@ -22,8 +22,9 @@ int main(int argc, char* argv[])
 	//load fonts
 	std::map<std::string, sf::Font> fonts = loadFonts();
 
-	//create monster
+	//create monster (set scale BEFORE set position...TODO fix this behaviour so that it works either way)
 	Monster monster(&textures, &sounds, &fonts);
+	monster.setScale(0.5, 0.5);
 
 	//create player
 	Player player(&textures, &fonts);
@@ -67,7 +68,7 @@ int main(int argc, char* argv[])
 			if (event.type == sf::Event::MouseButtonReleased) {
 				if (event.mouseButton.button == sf::Mouse::Left && monster.isHit(&window))
 				{
-					monster.playSound();
+					monster.playHitSound();
 					player.dealDmg(&monster);
 				}
 			}

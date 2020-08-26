@@ -17,17 +17,22 @@ public:
 	//getters and setters
 	void setPosition(int x, int y);
 	const sf::Vector2f getPosition() { return _currentMonsterSprite.getPosition(); }
-	int getMonsterWidth() { return _currentMonsterSpriteWidth; }
-	int getMonsterHeight() { return _currentMonsterSpriteHeight; }
+	int getMonsterWidth() { return _currentMonsterSpriteWidth * _currentMonsterSprite.getScale().x; }
+	int getMonsterHeight() { return _currentMonsterSpriteHeight * _currentMonsterSprite.getScale().y; }
 	void setHp(int hp);
 	int getHp() { return _currentHp; }
 	void takeDmg(int dmgTaken);
 
 	//other methods
+	void Monster::updateHitboxBordersShape();
+	void Monster::setHpTextPosition();
+	void Monster::setHpBarPosition();
+	void Monster::updateHitbox();
+	void Monster::setScale(float x, float y);
 	void draw(sf::RenderWindow* window, bool debug = false);
 	void nextFrame();
 	bool isHit(sf::RenderWindow* window) { return _currentMonsterHitboxRect.contains(sf::Mouse::getPosition(*window)); }
-	void playSound();
+	void playHitSound();
 	void nextMob();
 	void die();
 	void hurt();

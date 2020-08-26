@@ -14,6 +14,7 @@
 #include <unistd.h>
 #endif
 
+#include "Hit.h"
 #include "Stage.h"
 #include "loadingScreen.h"
 #include "Monster.h"

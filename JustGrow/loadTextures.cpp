@@ -33,6 +33,7 @@ std::map<std::string, Mytexture> loadTextures()
 	//cursors
 	Mytexture attackCursor("./resources/image/cursors/sword_cursor.png", 1);
 	Mytexture handCursor("./resources/image/cursors/hand_cursor.png", 1);
+	Mytexture hit("./resources/image/hit.png", 1);
 
 	std::map<std::string, Mytexture> textures{
 		{"monster1_idle", monster1_idle},
@@ -56,6 +57,7 @@ std::map<std::string, Mytexture> loadTextures()
 		{"hpBarEmpty", hpBarEmpty},
 		{"hpBarFull", hpBarFull},
 		{"attackCursor", attackCursor},
+		{"hit", hit},
 		{"handCursor", handCursor}
 	};
 	return textures;

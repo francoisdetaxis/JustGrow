@@ -42,20 +42,14 @@ Monster::Monster(std::map<std::string, Mytexture>* textures, std::map<std::strin
 	_hitSound.setBuffer(_hit1Buffer);
 	_currentHitSound = 1;
 
-	//Monster hitbox
-	_currentMonsterHitboxRect.height = _currentMonsterSpriteHeight;
-	_currentMonsterHitboxRect.width = _currentMonsterSpriteWidth;
-
-	//hitbox rect = monster rect initial position
-	_currentMonsterHitboxRect.left = _currentMonsterSprite.getPosition().x;
-	_currentMonsterHitboxRect.top = _currentMonsterSprite.getPosition().y;
+	//Monster hitbox = initial monsterRect
+	this->updateHitbox();
 
 	//hitbox borders (shape) = hitbox rect
-	_hitboxBordersShape.setPosition(_currentMonsterSprite.getPosition().x, _currentMonsterSprite.getPosition().y);
-	_hitboxBordersShape.setSize(sf::Vector2f(_currentMonsterSpriteWidth, _currentMonsterSpriteHeight));
 	_hitboxBordersShape.setFillColor(sf::Color::Transparent);
 	_hitboxBordersShape.setOutlineColor(sf::Color::Red);
 	_hitboxBordersShape.setOutlineThickness(5.f);
+	this->updateHitboxBordersShape();
 
 	//HP TEXT
 	_hpFont = (*fonts)["hpFont"];
@@ -81,30 +75,62 @@ void Monster::setPosition(int x, int y)
 	//setPosition monster
 	_currentMonsterSprite.setPosition(x, y);
 
-	//setPosition HP bar
-	centeredX = x + (((float)_currentMonsterSpriteWidth - (float)_hpBarEmptyTexture.getSize().x) / 2);
-	centeredY = y + (((float)_currentMonsterSpriteHeight - (float)_hpBarEmptyTexture.getSize().y) / 2);
-	offsetY = 0.65 * _currentMonsterSpriteHeight;
-	_hpBarEmptySprite.setPosition(centeredX, centeredY + offsetY);
-	_hpBarFullSprite.setPosition(centeredX, centeredY + offsetY);
+	//set HP bar position
+	this->setHpBarPosition();
 
 	//setPosition HP Text
-	centeredX = x + (((float)_currentMonsterSpriteWidth - _hpText.getGlobalBounds().width) / 2);
-	centeredY = y + (((float)_currentMonsterSpriteHeight - _hpText.getGlobalBounds().height) / 2);
-	offsetY = 0.55 * _currentMonsterSpriteHeight;
-	_hpText.setPosition(centeredX, centeredY + offsetY);
+	this->setHpTextPosition();
 
 	//TODO WTF ? why does this work without setting top and left for hpRect ?
 	//a_hpRect.top = y + a_frameSize / 1.25;
 	//a_hpRect.left = x + a_frameSize / 5;
 
 	//hitbox rect = monster rect initial position
-	_currentMonsterHitboxRect.left = _currentMonsterSprite.getPosition().x;
-	_currentMonsterHitboxRect.top = _currentMonsterSprite.getPosition().y;
+	this->updateHitbox();
 
 	//hitbox borders (shape) = hitbox rect
 	_hitboxBordersShape.setPosition(_currentMonsterSprite.getPosition().x, _currentMonsterSprite.getPosition().y);
 	_hitboxBordersShape.setSize(sf::Vector2f(_currentMonsterHitboxRect.width, _currentMonsterHitboxRect.height));
+}
+
+void Monster::setScale(float x, float y)
+{
+	_currentMonsterSprite.setScale(x, y);
+}
+
+void Monster::updateHitbox()
+{
+	_currentMonsterHitboxRect.left = _currentMonsterSprite.getPosition().x;
+	_currentMonsterHitboxRect.top = _currentMonsterSprite.getPosition().y;
+	_currentMonsterHitboxRect.height = _currentMonsterSpriteHeight * _currentMonsterSprite.getScale().y;
+	_currentMonsterHitboxRect.width = _currentMonsterSpriteWidth * _currentMonsterSprite.getScale().x;
+}
+
+void Monster::updateHitboxBordersShape()
+{
+	_hitboxBordersShape.setPosition(_currentMonsterSprite.getPosition().x, _currentMonsterSprite.getPosition().y);
+	_hitboxBordersShape.setSize(sf::Vector2f(_currentMonsterSpriteWidth, _currentMonsterSpriteHeight));
+}
+
+void Monster::setHpBarPosition()
+{
+	float centeredX, centeredY, offsetY, offsetX;
+	//setPosition HP bar
+	centeredX = _currentMonsterSprite.getPosition().x + (((float)_currentMonsterSpriteWidth * _currentMonsterSprite.getScale().x - (float)_hpBarEmptyTexture.getSize().x) / 2);
+	centeredY = _currentMonsterSprite.getPosition().y + (((float)_currentMonsterSpriteHeight * _currentMonsterSprite.getScale().y - (float)_hpBarEmptyTexture.getSize().y) / 2);
+	offsetY = 0.65 * _currentMonsterSpriteHeight;
+	_hpBarEmptySprite.setPosition(centeredX, centeredY + offsetY);
+	_hpBarFullSprite.setPosition(centeredX, centeredY + offsetY);
+}
+
+void Monster::setHpTextPosition()
+{
+	float centeredX, centeredY, offsetY, offsetX;
+
+	centeredX = _currentMonsterSprite.getPosition().x + (((float)_currentMonsterSpriteWidth * _currentMonsterSprite.getScale().x - _hpText.getGlobalBounds().width) / 2);
+	centeredY = _currentMonsterSprite.getPosition().y + (((float)_currentMonsterSpriteHeight * _currentMonsterSprite.getScale().y - _hpText.getGlobalBounds().height) / 2);
+	offsetY = 0.55 * _currentMonsterSpriteHeight;
+	_hpText.setPosition(centeredX, centeredY + offsetY);
 }
 
 void Monster::nextFrame()
@@ -153,7 +179,7 @@ void Monster::nextFrame()
 	}
 }
 
-void Monster::playSound()
+void Monster::playHitSound()
 {
 	//PLAY A RANDOM HIT SOUND
 	//std::random_device rd;     // only used once to initialise (seed) engine
@@ -323,10 +349,6 @@ void Monster::idle()
 
 void Monster::nextMob()
 {
-	//change monster texture to the next monster
-	//TODO
-	//make these "monster" and "_IDLE" in #define ?
-
 	//Reset to first monster once we went through all the textures...
 	if (_currentMonsterNb == 3)
 		_currentMonsterNb = 0;
