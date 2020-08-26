@@ -7,6 +7,8 @@ int main(int argc, char* argv[])
 	window.setMouseCursorVisible(false); // Hide cursor
 	window.setActive(false);
 
+	sf::Sprite test;
+
 	//loading screen in a separate thread
 	std::thread loadingScreenThread(displayLoadingScreen, &window);
 
@@ -27,12 +29,23 @@ int main(int argc, char* argv[])
 	//create player
 	Player player(textures, fonts);
 
-	//set the position to the center of the screen
+	//create menu
+	Menu menu(&textures);
+
+	//create Buttons
+	Button btnclickUpgrade(textures["clickUpgrade"].getTexture());
+	Button btnFace(textures["face"].getTexture());
+	btnclickUpgrade.setPosition(50, 50);
+	btnFace.setPosition(50, btnclickUpgrade.getTexture().getSize().y + 50 + 20);
+
+	//add buttons to the menu
+	menu.addButton(&btnclickUpgrade);
+	menu.addButton(&btnFace);
 
 	//monster to the RIGHT
-	//monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) -50, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
+	monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) - 50, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
 	//centered monster
-	monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
+	//monster.setPosition((SCREEN_WIDTH - monster.getMonsterFrameWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterFrameHeight()) / 2);
 
 	// synchronize threads:
 	window.setActive(true);
@@ -62,6 +75,7 @@ int main(int argc, char* argv[])
 
 		//DRAW EVERYTHING
 		window.clear();
+		menu.draw(window);
 		monster.draw(&window);
 		player.drawCursor(&window, &monster);
 		player.drawDmg(&window);

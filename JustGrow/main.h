@@ -7,6 +7,7 @@
 #include <random>
 #include <queue>
 #include <thread>
+#include <vector>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -14,6 +15,9 @@
 #include <unistd.h>
 #endif
 
+#include "ScrollView.h"
+#include "Button.h"
+#include "Menu.h"
 #include "loadingScreen.h"
 #include "Monster.h"
 #include "Mytexture.h"
