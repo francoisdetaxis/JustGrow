@@ -1,5 +1,6 @@
 #pragma once
 #include "Mytexture.h"
+#include "Stage.h"
 
 class Monster
 {
@@ -26,11 +27,11 @@ public:
 	//other methods
 	void Monster::updateHitboxBordersShape();
 	void Monster::setHpTextPosition();
+	void nextFrame(Stage& stage);
 	void Monster::setHpBarPosition();
 	void Monster::updateHitbox();
 	void Monster::setScale(float x, float y);
 	void draw(sf::RenderWindow& window, bool debug = false);
-	void nextFrame();
 	bool isHit(sf::RenderWindow& window) { return _currentMonsterHitboxRect.contains(sf::Mouse::getPosition(window)); }
 	void playHitSound();
 	void nextMob();

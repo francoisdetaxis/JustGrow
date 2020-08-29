@@ -2,6 +2,9 @@
 
 Menu::Menu(std::map<std::string, Mytexture>& textures)
 {
+	//scale
+	_scale = 1;
+
 	//menu texture
 	_menuTexture = textures["menu"].getTexture();
 
@@ -28,4 +31,12 @@ void Menu::draw(sf::RenderWindow& window)
 void Menu::addButton(Button* btn)
 {
 	_buttons.push_back(btn);
+}
+
+void Menu::move(int x, int y)
+{
+	_menuSprite.move(x, y);
+	for (int i = 0; i < _buttons.size(); i++) {
+		_buttons[i]->move(x, y);
+	}
 }

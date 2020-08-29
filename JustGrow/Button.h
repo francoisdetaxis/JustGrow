@@ -1,10 +1,11 @@
 #pragma once
-#include "Mytexture.h"
+
 class Button
 {
 public:
 	Button();
 	Button(sf::Texture& btnTexture);
+	void move(int x, int y);
 	void draw(sf::RenderWindow& window);
 	void setTexture(sf::Texture& texture);
 	sf::Texture& getTexture() { return _btnTexture; }

@@ -68,7 +68,6 @@ void Player::dealDmg(Monster& monster)
 void Player::drawDmg(sf::RenderWindow& window)
 {
 	for (int i = 0; i < _hits.size(); i++) {
-		auto time = _hits[i].getDmgTextClock().getElapsedTime().asSeconds();
 		if (_hits[i].getDmgTextClock().getElapsedTime().asSeconds() <= 3)
 		{
 			window.draw(_hits[i].getDmgText());

@@ -52,6 +52,14 @@ Button::Button(sf::Texture &btnTexture)
 	_isMouseAlreadyOverButton = false;
 }
 
+void Button::move(int x, int y)
+{
+	_btnSprite.move(x, y);
+	_btnShape.move(x, y);
+	_btnRect.left = _btnShape.getPosition().x;
+	_btnRect.top = _btnShape.getPosition().y;
+}
+
 void Button::draw(sf::RenderWindow &window)
 {
 	if (this->isHit(window) && !_isMouseAlreadyOverButton)

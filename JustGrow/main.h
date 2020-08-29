@@ -1,4 +1,11 @@
 #pragma once
+
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
@@ -9,25 +16,19 @@
 #include <thread>
 #include <vector>
 
-#ifdef _WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-#endif
-
-#include "Hit.h"
-#include "Stage.h"
-#include "ScrollView.h"
 #include "Button.h"
-#include "Menu.h"
+#include "dragon.h"
+#include "Hit.h"
+#include "loadFonts.h"
 #include "loadingScreen.h"
+#include "loadSounds.h"
+#include "loadTextures.h"
+#include "Menu.h"
 #include "Monster.h"
 #include "Mytexture.h"
 #include "Player.h"
-#include "loadTextures.h"
-#include "loadSounds.h"
-#include "loadFonts.h"
-#include "dragon.h"
+#include "Stage.h"
+#include "ScrollView.h"
 
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080

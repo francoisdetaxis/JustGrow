@@ -1,4 +1,5 @@
 #include "main.h"
+
 bool isLoading = true;
 
 int main(int argc, char* argv[])
@@ -32,6 +33,9 @@ int main(int argc, char* argv[])
 	//create menu
 	Menu menu(textures);
 
+	//Stage
+	Stage stage(textures, fonts);
+
 	//create Buttons
 	Button btnclickUpgrade(textures["clickUpgrade"].getTexture());
 	Button btnFace(textures["face"].getTexture());
@@ -41,11 +45,14 @@ int main(int argc, char* argv[])
 	//add buttons to the menu
 	menu.addButton(&btnclickUpgrade);
 	menu.addButton(&btnFace);
-	//centered monster
-	monster.setPosition((SCREEN_WIDTH - monster.getMonsterWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterHeight()) / 2);
 
-	//Stage
-	Stage stage(textures);
+	//position monster
+	monster.setPosition((SCREEN_WIDTH / 2) + (((SCREEN_WIDTH/2)-monster.getMonsterWidth())/2), (SCREEN_HEIGHT - monster.getMonsterHeight()) / 2);
+
+	//position menu
+	menu.move(0, (SCREEN_HEIGHT - menu.getSize().y) / 2);
+
+
 	//all of this just to place the platform behind the monster...
 	int centeredX, centeredY, offsetY, monsterHeight, monsterWidth;
 	monsterWidth = monster.getMonsterWidth();
@@ -53,7 +60,7 @@ int main(int argc, char* argv[])
 	centeredX = monster.getPosition().x + (((float)monsterWidth - (float)stage.getSize().x) / 2);
 	centeredY = monster.getPosition().y + (((float)monsterHeight - (float)stage.getSize().y) / 2);
 	offsetY = 0.2 * monsterHeight;
-	stage.setPosition(centeredX, centeredY + offsetY);
+	stage.setPosition(centeredX, centeredY + offsetY, monster);
 
 	// synchronize threads:
 	window.setActive(true);
@@ -74,7 +81,7 @@ int main(int argc, char* argv[])
 
 			if (event.type == sf::Event::KeyReleased) {
 				if (event.key.code == sf::Keyboard::Q)
-					stage.next(monster);
+					stage.nextPlatform(monster);
 			}
 
 			if (event.type == sf::Event::MouseButtonReleased) {
@@ -86,11 +93,12 @@ int main(int argc, char* argv[])
 			}
 		}
 		//monster animation
-		monster.nextFrame();
+		monster.nextFrame(stage);
+
 		//DRAW EVERYTHING
 		window.clear();
-		stage.draw(window, debug);
 		menu.draw(window);
+		stage.draw(window, debug);
 		monster.draw(window, debug);
 		player.drawCursor(window, monster);
 		player.drawDmg(window);
