@@ -1,4 +1,5 @@
 #include "main.h"
+#include "loadingScreen.h"
 extern bool isLoading;
 
 void displayLoadingScreen(sf::RenderWindow* window)

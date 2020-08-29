@@ -1,4 +1,15 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+#include <map>
+#include <string>
+#include <iostream>
+#include <queue>
+#include "Monster.h"
+#include "Player.h"
+#include "Mytexture.h"
+#include "Hit.h"
 
 class Player
 {

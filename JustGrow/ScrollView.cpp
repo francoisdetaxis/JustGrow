@@ -1,5 +1,4 @@
-#include "main.h"
-
+#include "ScrollView.h"
 
 ScrollView::ScrollView(sf::Texture& bgTexture)
 {

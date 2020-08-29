@@ -1,6 +1,6 @@
-#include "main.h"
+#include "dragon.h"
 
-void displayDragon(sf::RenderWindow* window)
+void displayDragon(sf::RenderWindow& window)
 {
 	//DRAGON ANIMATION
 	sf::Texture dragonTexture;
@@ -18,7 +18,7 @@ void displayDragon(sf::RenderWindow* window)
 	while (isLoading)
 	{
 		sf::Event event;
-		while (window->pollEvent(event))
+		while (window.pollEvent(event))
 		{
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
 				isLoading = false;
@@ -36,8 +36,8 @@ void displayDragon(sf::RenderWindow* window)
 				rect.left += 1364;
 			}
 		}
-		window->clear();
-		window->draw(dragonSprite);
-		window->display();
+		window.clear();
+		window.draw(dragonSprite);
+		window.display();
 	}
 }

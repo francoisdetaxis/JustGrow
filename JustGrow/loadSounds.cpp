@@ -1,4 +1,4 @@
-#include "main.h"
+#include "loadSounds.h"
 
 std::map<std::string, sf::SoundBuffer> loadSounds()
 {

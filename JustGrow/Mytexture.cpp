@@ -1,4 +1,4 @@
-#include "main.h"
+#include "Mytexture.h"
 
 Mytexture::Mytexture()
 {

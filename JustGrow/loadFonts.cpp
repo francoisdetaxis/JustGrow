@@ -1,4 +1,4 @@
-#include "main.h"
+#include "loadFonts.h"
 
 std::map<std::string, sf::Font> loadFonts()
 {

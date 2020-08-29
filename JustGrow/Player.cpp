@@ -1,4 +1,4 @@
-#include "main.h"
+#include "Player.h"
 
 Player::Player(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts)
 

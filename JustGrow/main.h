@@ -1,14 +1,13 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
 
 #ifdef _WIN32
 #include <Windows.h>
 #else
 #include <unistd.h>
 #endif
-
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/Audio.hpp>
 #include <string>
 #include <iostream>
 #include <random>
@@ -16,16 +15,16 @@
 #include <thread>
 #include <vector>
 
-#include "Button.h"
-#include "dragon.h"
-#include "Hit.h"
+#include "Mytexture.h"
 #include "loadFonts.h"
 #include "loadingScreen.h"
 #include "loadSounds.h"
 #include "loadTextures.h"
-#include "Menu.h"
 #include "Monster.h"
-#include "Mytexture.h"
+#include "Button.h"
+#include "dragon.h"
+#include "Hit.h"
+#include "Menu.h"
 #include "Player.h"
 #include "Stage.h"
 #include "ScrollView.h"

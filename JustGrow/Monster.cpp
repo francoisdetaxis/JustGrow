@@ -1,4 +1,4 @@
-#include "main.h"
+#include "Monster.h"
 
 Monster::Monster(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::SoundBuffer>& sounds, std::map<std::string, sf::Font>& fonts)
 {

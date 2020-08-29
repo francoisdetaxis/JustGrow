@@ -1,5 +1,4 @@
 #include "main.h"
-
 bool isLoading = true;
 
 int main(int argc, char* argv[])
@@ -47,11 +46,10 @@ int main(int argc, char* argv[])
 	menu.addButton(&btnFace);
 
 	//position monster
-	monster.setPosition((SCREEN_WIDTH / 2) + (((SCREEN_WIDTH/2)-monster.getMonsterWidth())/2), (SCREEN_HEIGHT - monster.getMonsterHeight()) / 2);
+	monster.setPosition((SCREEN_WIDTH / 2) + (((SCREEN_WIDTH / 2) - monster.getMonsterWidth()) / 2), (SCREEN_HEIGHT - monster.getMonsterHeight()) / 2);
 
 	//position menu
 	menu.move(0, (SCREEN_HEIGHT - menu.getSize().y) / 2);
-
 
 	//all of this just to place the platform behind the monster...
 	int centeredX, centeredY, offsetY, monsterHeight, monsterWidth;

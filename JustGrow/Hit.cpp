@@ -1,4 +1,4 @@
-#include "main.h"
+#include "Hit.h"
 
 Hit::Hit(int dmg, bool isCrit, sf::Font& dmgFont, Monster& monster)
 {

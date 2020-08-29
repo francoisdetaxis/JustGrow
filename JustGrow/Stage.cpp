@@ -1,3 +1,4 @@
+#include "Stage.h"
 #include "main.h"
 
 Stage::Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts)
@@ -40,7 +41,7 @@ void Stage::nextStage()
 void Stage::updateTextsPosition(Monster& monster)
 {
 	int stageCenterX, stageCenterY, levelCenterX, levelCenterY, offsetY;
-	stageCenterX = monster.getPosition().x + ((monster.getMonsterWidth() - _stageText.getGlobalBounds().width)/2);
+	stageCenterX = monster.getPosition().x + ((monster.getMonsterWidth() - _stageText.getGlobalBounds().width) / 2);
 	stageCenterY = monster.getPosition().y + ((monster.getMonsterHeight() - _stageText.getGlobalBounds().height) / 2);
 	levelCenterX = monster.getPosition().x + ((monster.getMonsterWidth() - _levelText.getGlobalBounds().width) / 2);
 	levelCenterY = monster.getPosition().y + ((monster.getMonsterHeight() - _levelText.getGlobalBounds().height) / 2);

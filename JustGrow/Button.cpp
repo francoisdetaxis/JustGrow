@@ -1,4 +1,4 @@
-#include "main.h"
+#include "Button.h"
 
 Button::Button()
 {
@@ -27,7 +27,7 @@ Button::Button()
 	_isMouseAlreadyOverButton = false;
 }
 
-Button::Button(sf::Texture &btnTexture)
+Button::Button(sf::Texture& btnTexture)
 {
 	//btn texture
 	_btnTexture = btnTexture;
@@ -60,7 +60,7 @@ void Button::move(int x, int y)
 	_btnRect.top = _btnShape.getPosition().y;
 }
 
-void Button::draw(sf::RenderWindow &window)
+void Button::draw(sf::RenderWindow& window)
 {
 	if (this->isHit(window) && !_isMouseAlreadyOverButton)
 	{
@@ -76,7 +76,7 @@ void Button::draw(sf::RenderWindow &window)
 	window.draw(_btnShape);
 }
 
-bool Button::isHit(sf::RenderWindow &window)
+bool Button::isHit(sf::RenderWindow& window)
 {
 	return _btnRect.contains(sf::Mouse::getPosition(window));
 }
@@ -88,7 +88,7 @@ void Button::updateShape()
 	_btnShape.setSize(sf::Vector2f(_btnTexture.getSize().x, _btnTexture.getSize().y));
 }
 
-void Button::setTexture(sf::Texture &texture)
+void Button::setTexture(sf::Texture& texture)
 {
 	_btnTexture = texture;
 

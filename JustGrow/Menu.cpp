@@ -1,4 +1,4 @@
-#include "main.h"
+#include "Menu.h"
 
 Menu::Menu(std::map<std::string, Mytexture>& textures)
 {

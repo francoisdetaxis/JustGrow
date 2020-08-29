@@ -1,14 +1,15 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 
 class Button
 {
 public:
-	Button();
-	Button(sf::Texture& btnTexture);
-	void move(int x, int y);
-	void draw(sf::RenderWindow& window);
-	void setTexture(sf::Texture& texture);
-	sf::Texture& getTexture() { return _btnTexture; }
+	Button::Button();
+	Button::Button(sf::Texture& btnTexture);
+	void Button::move(int x, int y);
+	void Button::draw(sf::RenderWindow& window);
+	void Button::setTexture(sf::Texture& texture);
+	sf::Texture& Button::getTexture() { return _btnTexture; }
 	void Button::updateShape();
 	void Button::setPosition(int x, int y);
 	bool Button::isHit(sf::RenderWindow& window);
@@ -19,4 +20,3 @@ private:
 	sf::RectangleShape _btnShape;
 	bool _isMouseAlreadyOverButton;
 };
-

@@ -1,25 +1,31 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+#include <string>
+#include <iostream>
+#include <map>
 #include "Monster.h"
+#include "Mytexture.h"
 
+class Monster;
 class Stage
 {
 public:
-	Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
-	void nextLevel();
-
-	void updateTextsPosition(Monster& monster);
-	int getStage() { return _currentStage; }
-	int getLevel() { return _currentLevel; }
-	sf::Vector2u getSize() { return _currentPlatform.getTexture().getSize(); }
-	void draw(sf::RenderWindow& window, bool debug = false);
-	void setPosition(int x, int y, Monster& monster);
-	void nextPlatform(Monster& monster);
+	Stage::Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
+	void Stage::nextLevel();
+	void Stage::updateTextsPosition(Monster& monster);
+	int Stage::getStage() { return _currentStage; }
+	int Stage::getLevel() { return _currentLevel; }
+	sf::Vector2u Stage::getSize() { return _currentPlatform.getTexture().getSize(); }
+	void Stage::draw(sf::RenderWindow& window, bool debug = false);
+	void Stage::setPosition(int x, int y, Monster& monster);
+	void Stage::nextPlatform(Monster& monster);
 	void Stage::updateTextureRect();
 	void Stage::updateDebugShape();
+	void Stage::nextStage();
 
 private:
-	void nextStage();
-
 	std::map<std::string, Mytexture> _textures;
 	std::map<std::string, sf::Font> _fonts;
 
