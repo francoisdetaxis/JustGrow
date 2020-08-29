@@ -10,8 +10,6 @@ int main(int argc, char* argv[])
 	window.setMouseCursorVisible(false);
 	window.setActive(false);
 
-	sf::Sprite test;
-
 	//loading screen in a separate thread
 	std::thread loadingScreenThread(displayLoadingScreen, &window);
 
@@ -25,18 +23,18 @@ int main(int argc, char* argv[])
 	std::map<std::string, sf::Font> fonts = loadFonts();
 
 	//create monster (set scale BEFORE set position...TODO fix this behaviour so that it works either way)
-	Monster monster(&textures, &sounds, &fonts);
+	Monster monster(textures, sounds, fonts);
 	monster.setScale(0.5, 0.5);
 
 	//create player
-	Player player(&textures, &fonts);
+	Player player(textures, fonts);
 
 	//create menu
-	Menu menu(&textures);
+	Menu menu(textures);
 
 	//create Buttons
-	Button btnclickUpgrade(*textures["clickUpgrade"].getTexture());
-	Button btnFace(*textures["face"].getTexture());
+	Button btnclickUpgrade(textures["clickUpgrade"].getTexture());
+	Button btnFace(textures["face"].getTexture());
 	btnclickUpgrade.setPosition(50, 50);
 	btnFace.setPosition(50, btnclickUpgrade.getTexture().getSize().y + 50 + 20);
 
@@ -47,7 +45,7 @@ int main(int argc, char* argv[])
 	monster.setPosition((SCREEN_WIDTH - monster.getMonsterWidth()) / 2, (SCREEN_HEIGHT - monster.getMonsterHeight()) / 2);
 
 	//Stage
-	Stage stage(&textures);
+	Stage stage(textures);
 	//all of this just to place the platform behind the monster...
 	int centeredX, centeredY, offsetY, monsterHeight, monsterWidth;
 	monsterWidth = monster.getMonsterWidth();
@@ -76,14 +74,14 @@ int main(int argc, char* argv[])
 
 			if (event.type == sf::Event::KeyReleased) {
 				if (event.key.code == sf::Keyboard::Q)
-					stage.next(&monster);
+					stage.next(monster);
 			}
 
 			if (event.type == sf::Event::MouseButtonReleased) {
-				if (event.mouseButton.button == sf::Mouse::Left && monster.isHit(&window))
+				if (event.mouseButton.button == sf::Mouse::Left && monster.isHit(window))
 				{
 					monster.playHitSound();
-					player.dealDmg(&monster);
+					player.dealDmg(monster);
 				}
 			}
 		}
@@ -91,11 +89,11 @@ int main(int argc, char* argv[])
 		monster.nextFrame();
 		//DRAW EVERYTHING
 		window.clear();
-		stage.draw(&window, debug);
-		monster.draw(&window, debug);
+		stage.draw(window, debug);
 		menu.draw(window);
-		player.drawCursor(&window, &monster);
-		player.drawDmg(&window);
+		monster.draw(window, debug);
+		player.drawCursor(window, monster);
+		player.drawDmg(window);
 		window.display();
 	}
 	return 0;

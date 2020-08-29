@@ -1,9 +1,9 @@
 #include "main.h"
 
-Menu::Menu(std::map<std::string, Mytexture>* textures)
+Menu::Menu(std::map<std::string, Mytexture>& textures)
 {
 	//menu texture
-	_menuTexture = *(*textures)["menu"].getTexture();
+	_menuTexture = textures["menu"].getTexture();
 
 	//menu rect
 	_menuRect.top = 0;

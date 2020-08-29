@@ -12,7 +12,7 @@ public:
 	};
 
 	//constructors
-	Monster::Monster(std::map<std::string, Mytexture>* textures, std::map<std::string, sf::SoundBuffer>* sounds, std::map<std::string, sf::Font>* fonts);
+	Monster::Monster(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::SoundBuffer>& sounds, std::map<std::string, sf::Font>& fonts);
 
 	//getters and setters
 	void setPosition(int x, int y);
@@ -29,9 +29,9 @@ public:
 	void Monster::setHpBarPosition();
 	void Monster::updateHitbox();
 	void Monster::setScale(float x, float y);
-	void draw(sf::RenderWindow* window, bool debug = false);
+	void draw(sf::RenderWindow& window, bool debug = false);
 	void nextFrame();
-	bool isHit(sf::RenderWindow* window) { return _currentMonsterHitboxRect.contains(sf::Mouse::getPosition(*window)); }
+	bool isHit(sf::RenderWindow& window) { return _currentMonsterHitboxRect.contains(sf::Mouse::getPosition(window)); }
 	void playHitSound();
 	void nextMob();
 	void die();
@@ -43,9 +43,9 @@ private:
 	int _fps;
 
 	//all textures, sounds and fonts
-	std::map<std::string, Mytexture>* _textures;
-	std::map<std::string, sf::SoundBuffer>* _sounds;
-	std::map<std::string, sf::Font>* _fonts;
+	std::map<std::string, Mytexture> _textures;
+	std::map<std::string, sf::SoundBuffer> _sounds;
+	std::map<std::string, sf::Font> _fonts;
 
 	//HP
 	sf::Font _hpFont;

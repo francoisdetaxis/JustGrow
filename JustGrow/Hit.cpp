@@ -1,6 +1,6 @@
 #include "main.h"
 
-Hit::Hit(int dmg, bool isCrit, sf::Font dmgFont, Monster* monster)
+Hit::Hit(int dmg, bool isCrit, sf::Font& dmgFont, Monster& monster)
 {
 	std::random_device rd;     // only used once to initialise (seed) engine
 	std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
@@ -25,14 +25,14 @@ Hit::Hit(int dmg, bool isCrit, sf::Font dmgFont, Monster* monster)
 	//SET RANDOM POSITION FOR DMG TEXT
 	//generate random x, y coords near monster and set dmg text position
 	int x, y, offsetX, offsetY;
-	offsetX = monster->getMonsterWidth() / 4;
-	offsetY = monster->getMonsterHeight() / 4;
-	x = monster->getPosition().x;
-	y = monster->getPosition().y;
+	offsetX = monster.getMonsterWidth() / 4;
+	offsetY = monster.getMonsterHeight() / 4;
+	x = monster.getPosition().x;
+	y = monster.getPosition().y;
 
-	std::uniform_int_distribution<int> uniX(x + offsetX, x + monster->getMonsterWidth() - offsetX); // guaranteed unbiased
+	std::uniform_int_distribution<int> uniX(x + offsetX, x + monster.getMonsterWidth() - offsetX); // guaranteed unbiased
 	int random_x = uniX(rng);
-	std::uniform_int_distribution<int> uniY(y + offsetY, y + monster->getMonsterHeight() - offsetY); // guaranteed unbiased
+	std::uniform_int_distribution<int> uniY(y + offsetY, y + monster.getMonsterHeight() - offsetY); // guaranteed unbiased
 	int random_y = uniY(rng);
 	_dmgText.setPosition(random_x, random_y);
 }

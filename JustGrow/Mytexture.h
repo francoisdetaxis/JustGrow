@@ -9,7 +9,7 @@ public:
 	Mytexture(std::string path, int framesNb);
 	//getters
 	int getFramesNb() { return _framesNb; }
-	sf::Texture* getTexture() { return &_texture; }
+	sf::Texture& getTexture() { return _texture; }
 
 private:
 	//attributes

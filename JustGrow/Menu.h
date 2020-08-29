@@ -6,7 +6,7 @@
 class Menu
 {
 public:
-	Menu(std::map<std::string, Mytexture>* textures);
+	Menu::Menu(std::map<std::string, Mytexture>& textures);
 	void draw(sf::RenderWindow &window);
 	void Menu::addButton(Button* btn);
 private:
