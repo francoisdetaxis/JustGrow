@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 	Player player(textures, fonts);
 
 	//create menu
-	Menu menu(textures);
+	Menu menu(textures, fonts);
 
 	//Stage
 	Stage stage(textures, fonts);
@@ -91,7 +91,7 @@ int main(int argc, char* argv[])
 			}
 		}
 		//monster animation
-		monster.nextFrame(stage);
+		monster.nextFrame(stage, menu);
 
 		//DRAW EVERYTHING
 		window.clear();

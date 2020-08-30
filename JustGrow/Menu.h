@@ -10,15 +10,19 @@
 class Menu
 {
 public:
-	Menu::Menu(std::map<std::string, Mytexture>& textures);
+	Menu::Menu(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
 	void Menu::draw(sf::RenderWindow& window);
 	void Menu::addButton(Button* btn);
+	void gainGold();
 	void Menu::move(int x, int y);
-	sf::Vector2u Menu::getSize() { return _menuTexture.getSize(); }
+	sf::Vector2u Menu::getSize() { return _menuSprite.getTexture()->getSize(); }
 private:
+	int _goldGain;
+	int _gold;
+	sf::Text _goldText;
+	sf::Sprite _goldSprite;
 	int _scale;
 	sf::IntRect _menuRect;
-	sf::Texture _menuTexture;
 	sf::Sprite _menuSprite;
 	std::vector<Button*> _buttons;
 };

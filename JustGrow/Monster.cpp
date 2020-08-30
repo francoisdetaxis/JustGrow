@@ -133,7 +133,7 @@ void Monster::setHpTextPosition()
 	_hpText.setPosition(centeredX, centeredY + offsetY);
 }
 
-void Monster::nextFrame(Stage& stage)
+void Monster::nextFrame(Stage& stage, Menu& menu)
 {
 	switch (_state) {
 	case Monster::State::HURT:
@@ -167,6 +167,7 @@ void Monster::nextFrame(Stage& stage)
 			case Monster::State::DEAD:
 				this->nextMob();
 				stage.nextLevel();
+				menu.gainGold();
 				break;
 			default:
 				break;

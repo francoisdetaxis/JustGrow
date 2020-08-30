@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Stage.h"
 #include "Mytexture.h"
+#include "Menu.h"
 
 class Stage;
 class Monster
@@ -34,7 +35,7 @@ public:
 	//other methods
 	void Monster::updateHitboxBordersShape();
 	void Monster::setHpTextPosition();
-	void Monster::nextFrame(Stage& stage);
+	void Monster::nextFrame(Stage& stage, Menu& menu);
 	void Monster::setHpBarPosition();
 	void Monster::updateHitbox();
 	void Monster::setScale(float x, float y);
