@@ -20,11 +20,11 @@ Stage::Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, s
 	this->updateDebugShape();
 }
 
-void Stage::nextLevel()
+void Stage::nextLevel(Monster& monster, Gold& gold)
 {
 	if (_currentLevel == 10) {
 		_currentLevel = 1;
-		this->nextStage();
+		this->nextStage(monster, gold);
 	}
 	else
 		_currentLevel++;
@@ -32,10 +32,12 @@ void Stage::nextLevel()
 	_levelText.setString("Level " + std::to_string(_currentLevel) + "/10");
 }
 
-void Stage::nextStage()
+void Stage::nextStage(Monster& monster, Gold& gold)
 {
 	_currentStage++;
 	_stageText.setString("Stage " + std::to_string(_currentStage));
+	monster.increaseMaxHp();
+	gold.increaseGain();
 }
 
 void Stage::updateTextsPosition(Monster& monster)

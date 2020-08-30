@@ -51,6 +51,9 @@ int main(int argc, char* argv[])
 	//position menu
 	menu.move(0, (SCREEN_HEIGHT - menu.getSize().y) / 2);
 
+	//create gold (after menu is placed...)
+	Gold gold(textures, fonts, sounds, menu);
+
 	//all of this just to place the platform behind the monster...
 	int centeredX, centeredY, offsetY, monsterHeight, monsterWidth;
 	monsterWidth = monster.getMonsterWidth();
@@ -80,6 +83,8 @@ int main(int argc, char* argv[])
 			if (event.type == sf::Event::KeyReleased) {
 				if (event.key.code == sf::Keyboard::Q)
 					stage.nextPlatform(monster);
+				if (event.key.code == sf::Keyboard::A && debug)
+					player.cheat(monster);
 			}
 
 			if (event.type == sf::Event::MouseButtonReleased) {
@@ -91,13 +96,14 @@ int main(int argc, char* argv[])
 			}
 		}
 		//monster animation
-		monster.nextFrame(stage, menu);
+		monster.nextFrame(stage, gold);
 
 		//DRAW EVERYTHING
 		window.clear();
 		menu.draw(window);
 		stage.draw(window, debug);
 		monster.draw(window, debug);
+		gold.draw(window);
 		player.drawCursor(window, monster);
 		player.drawDmg(window);
 		window.display();

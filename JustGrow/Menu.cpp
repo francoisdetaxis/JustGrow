@@ -2,8 +2,6 @@
 
 Menu::Menu(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts)
 {
-	////initial gold gain
-	//_goldGain = 1;
 	//scale
 	_scale = 1;
 
@@ -18,27 +16,11 @@ Menu::Menu(std::map<std::string, Mytexture>& textures, std::map<std::string, sf:
 
 	//menu sprite
 	_menuSprite.setTextureRect(_menuRect);
-
-	////money display
-	//_gold = 0;
-	//_goldSprite.setTexture(textures["coin"].getTexture());
-	//_goldText.setString("0");
-	//_goldText.setCharacterSize(48);
-	//_goldText.setFont(fonts["dmgFont"]);
-	//_goldText.setPosition(_menuSprite.getGlobalBounds().width * 0.8, _menuSprite.getGlobalBounds().height * 0.2);
-	//_goldSprite.setPosition(_goldText.getPosition().x + _goldText.getGlobalBounds().width + 25, _goldText.getPosition().y);
-
-	//gold
-	_gold = Gold(textures, fonts, this);
 }
 
 void Menu::draw(sf::RenderWindow& window)
 {
 	window.draw(_menuSprite);
-	//window.draw(_goldSprite);
-	//window.draw(_goldText);
-	_gold.draw(window);
-
 	for (int i = 0; i < _buttons.size(); i++) {
 		_buttons[i]->draw(window);
 	}
@@ -49,17 +31,9 @@ void Menu::addButton(Button* btn)
 	_buttons.push_back(btn);
 }
 
-void Menu::gainGold()
-{
-	_gold.gain();
-}
-
 void Menu::move(int x, int y)
 {
 	_menuSprite.move(x, y);
-	_gold.move(x, y);
-	//_goldSprite.move(x, y);
-	//_goldText.move(x, y);
 	for (int i = 0; i < _buttons.size(); i++) {
 		_buttons[i]->move(x, y);
 	}

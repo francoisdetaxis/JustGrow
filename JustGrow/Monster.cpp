@@ -6,6 +6,8 @@ Monster::Monster(std::map<std::string, Mytexture>& textures, std::map<std::strin
 	_sounds = sounds;
 	_fonts = fonts;
 
+	_currentDyingSound.setBuffer(sounds["monster1_dying"]);
+
 	_fps = 50;
 
 	//initial monster hp
@@ -98,6 +100,12 @@ void Monster::setScale(float x, float y)
 	_currentMonsterSprite.setScale(x, y);
 }
 
+void Monster::increaseMaxHp()
+{
+	_maxHp += 10;
+	this->setHp(_maxHp);
+}
+
 void Monster::updateHitbox()
 {
 	_currentMonsterHitboxRect.left = _currentMonsterSprite.getPosition().x;
@@ -133,7 +141,7 @@ void Monster::setHpTextPosition()
 	_hpText.setPosition(centeredX, centeredY + offsetY);
 }
 
-void Monster::nextFrame(Stage& stage, Menu& menu)
+void Monster::nextFrame(Stage& stage, Gold& gold)
 {
 	switch (_state) {
 	case Monster::State::HURT:
@@ -166,8 +174,8 @@ void Monster::nextFrame(Stage& stage, Menu& menu)
 				break;
 			case Monster::State::DEAD:
 				this->nextMob();
-				stage.nextLevel();
-				menu.gainGold();
+				stage.nextLevel(*this, gold);
+				gold.gain();
 				break;
 			default:
 				break;
@@ -286,9 +294,15 @@ void Monster::die()
 
 		_state = Monster::State::DEAD;
 		_monsterAnimationClock.restart();
+		this->playDyingSound();
 	}
 	else {
 	}
+}
+
+void Monster::playDyingSound()
+{
+	_currentDyingSound.play();
 }
 
 void Monster::hurt()
@@ -379,9 +393,6 @@ void Monster::nextMob()
 	_currentMonsterSpriteRect.height = _currentMonsterSpriteHeight;
 	_currentMonsterSpriteRect.width = _currentMonsterSpriteWidth;
 
-	//Maximum life increase + full life for the next monster
-	//TODO
-	//find formula to increase hp of monsters
 	this->setHp(_maxHp);
 
 	_state = Monster::State::IDLE;

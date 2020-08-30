@@ -1,11 +1,10 @@
-#include "Menu.h"
+#include "Gold.h"
 
-Menu::Gold::Gold()
+Gold::Gold()
 {
-
 }
 
-Menu::Gold::Gold(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts, Menu* menu)
+Gold::Gold(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts, std::map<std::string, sf::SoundBuffer>& sounds, Menu& menu)
 {
 	//initial gold gain
 	_goldGain = 1;
@@ -16,25 +15,33 @@ Menu::Gold::Gold(std::map<std::string, Mytexture>& textures, std::map<std::strin
 	_goldText.setString("0");
 	_goldText.setCharacterSize(48);
 	_goldText.setFont(fonts["dmgFont"]);
-	_goldText.setPosition(menu->getSize().x * 0.8, menu->getSize().y * 0.2);
+	_goldText.setPosition(menu.getSize().x * 0.8, menu.getSize().y * 0.2);
 	_goldSprite.setPosition(_goldText.getPosition().x + _goldText.getGlobalBounds().width + 25, _goldText.getPosition().y);
+
+	//gold pickup sound
+	_goldSound.setBuffer(sounds["coin_pickup"]);
 }
 
+void Gold::increaseGain()
+{
+	_goldGain += 3;
+}
 
-void Menu::Gold::draw(sf::RenderWindow& window)
+void Gold::draw(sf::RenderWindow& window)
 {
 	window.draw(_goldSprite);
 	window.draw(_goldText);
 }
 
-void Menu::Gold::move(int x, int y)
+void Gold::move(int x, int y)
 {
 	_goldSprite.move(x, y);
 	_goldText.move(x, y);
 }
 
-void Menu::Gold::gain()
+void Gold::gain()
 {
-	_gold += _goldGain;
-	_goldText.setString(std::to_string(_gold));
+	_gold += _goldGain; //increase gold amount
+	_goldText.setString(std::to_string(_gold)); //update gold text
+	_goldSound.play();
 }

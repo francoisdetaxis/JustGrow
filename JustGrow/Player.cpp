@@ -58,9 +58,18 @@ void Player::dealDmg(Monster& monster)
 		crit = false;
 		dmgTaken = _dmg;
 	}
+
 	monster.takeDmg(dmgTaken);
 	Hit hit(dmgTaken, crit, _dmgFont, monster);
 
+	//add hit to queue
+	_hits.push_back(hit);
+}
+
+void Player::cheat(Monster& monster)
+{
+	monster.takeDmg(999);
+	Hit hit(999, true, _dmgFont, monster);
 	//add hit to queue
 	_hits.push_back(hit);
 }

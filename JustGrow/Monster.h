@@ -7,7 +7,7 @@
 #include <iostream>
 #include "Stage.h"
 #include "Mytexture.h"
-#include "Menu.h"
+#include "Gold.h"
 
 class Stage;
 class Monster
@@ -35,15 +35,17 @@ public:
 	//other methods
 	void Monster::updateHitboxBordersShape();
 	void Monster::setHpTextPosition();
-	void Monster::nextFrame(Stage& stage, Menu& menu);
+	void Monster::nextFrame(Stage& stage, Gold& gold);
 	void Monster::setHpBarPosition();
 	void Monster::updateHitbox();
 	void Monster::setScale(float x, float y);
+	void increaseMaxHp();
 	void Monster::draw(sf::RenderWindow& window, bool debug = false);
 	bool Monster::isHit(sf::RenderWindow& window) { return _currentMonsterHitboxRect.contains(sf::Mouse::getPosition(window)); }
 	void Monster::playHitSound();
 	void Monster::nextMob();
 	void Monster::die();
+	void Monster::playDyingSound();
 	void Monster::hurt();
 	void Monster::idle();
 
@@ -89,6 +91,7 @@ private:
 	sf::SoundBuffer _hit2Buffer;
 	sf::SoundBuffer _hit3Buffer;
 	sf::Sound _hitSound;
+	sf::Sound _currentDyingSound;
 	int _currentHitSound;
 
 	//DEBUG

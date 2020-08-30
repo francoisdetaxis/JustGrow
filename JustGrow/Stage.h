@@ -7,13 +7,15 @@
 #include <map>
 #include "Monster.h"
 #include "Mytexture.h"
+#include "Gold.h"
 
 class Monster;
 class Stage
 {
 public:
 	Stage::Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
-	void Stage::nextLevel();
+	void nextLevel(Monster& monster, Gold& gold);
+	void nextStage(Monster& monster, Gold& gold);
 	void Stage::updateTextsPosition(Monster& monster);
 	int Stage::getStage() { return _currentStage; }
 	int Stage::getLevel() { return _currentLevel; }
@@ -23,7 +25,6 @@ public:
 	void Stage::nextPlatform(Monster& monster);
 	void Stage::updateTextureRect();
 	void Stage::updateDebugShape();
-	void Stage::nextStage();
 
 private:
 	std::map<std::string, Mytexture> _textures;
