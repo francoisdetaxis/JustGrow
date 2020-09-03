@@ -32,6 +32,8 @@ void Gold::increaseGain(Stage& stage, Monster& monster, Player& player)
 	else
 	{
 		_goldGain = std::ceil((monster.getMaxHp() / 15) * player.getGoldMultiplier());
+		if (_goldGain < 1)
+			_goldGain = 1;
 	}
 }
 

@@ -27,10 +27,17 @@ Button::Button()
 	_isMouseAlreadyOverButton = false;
 }
 
-Button::Button(sf::Texture& btnTexture)
+Button::Button(sf::Texture& btnTexture, std::map<std::string, sf::Font>& fonts)
 {
+	_fonts = fonts;
+
 	//btn texture
 	_btnTexture = btnTexture;
+
+	//text
+	_text.setFont(fonts["dmgFont"]);
+	_text.setColor(sf::Color::Green);
+	_text.setString("UNINITIALIZED");
 
 	//btn rect
 	_btnRect.top = 0;
@@ -56,6 +63,7 @@ void Button::move(int x, int y)
 {
 	_btnSprite.move(x, y);
 	_btnShape.move(x, y);
+	_text.move(x, y);
 	_btnRect.left = _btnShape.getPosition().x;
 	_btnRect.top = _btnShape.getPosition().y;
 }
@@ -74,6 +82,7 @@ void Button::draw(sf::RenderWindow& window)
 	}
 	window.draw(_btnSprite);
 	window.draw(_btnShape);
+	window.draw(_text);
 }
 
 bool Button::isHit(sf::RenderWindow& window)
@@ -110,6 +119,12 @@ void Button::setPosition(int x, int y)
 {
 	_btnSprite.setPosition(x, y);
 	_btnShape.setPosition(x, y);
+	_text.setPosition(x, y);
 	_btnRect.top = y;
 	_btnRect.left = x;
+}
+
+void Button::setTextString(std::string str)
+{
+	_text.setString(str);
 }

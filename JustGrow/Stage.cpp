@@ -43,6 +43,7 @@ void Stage::nextStage(Monster& monster, Gold& gold, Player& player)
 	_stageText.setString("Stage " + std::to_string(_currentStage));
 	monster.increaseMaxHp(*this);
 	gold.increaseGain(*this, monster, player);
+	this->nextPlatform(monster);
 }
 
 bool Stage::isBoss()

@@ -5,7 +5,8 @@ Player::Player(std::map<std::string, Mytexture>& textures, std::map<std::string,
 	//TODO will have to load these from save...
 	_goldMultiplier = 1;
 	_clickLvl = 1;
-	_clickMult = 1;
+	_heroMult = 1;
+	_globalMult = 1;
 
 	this->updateClickCost();
 
@@ -98,15 +99,14 @@ void Player::drawDmg(sf::RenderWindow& window)
 	}
 }
 
-void Player::clickUpgrade(Gold& gold)
+void Player::clickUpgrade(Gold& gold, Button& upgradeBtn)
 {
-	//TODO before of after ? or both?
-	//this->updateClickCost();
 	if (gold.spend(_clickUpgradeCost))
 	{
-		_clickDmg += 1;
 		_clickLvl++;
+		this->updateClickDmg();
 		this->updateClickCost();
+		upgradeBtn.setTextString("LVL UP\n" + std::to_string((int)_clickUpgradeCost));
 	}
 }
 
@@ -124,16 +124,24 @@ void Player::updateClickCost()
 
 void Player::updateClickDmg()
 {
-	//_clickDmg = _clickLvl *
+	_clickDmg = 1 + _globalMult * _clickLvl;
 }
 
-void Player::updateClickMult()
+void Player::updateHeroesMult()
 {
+	//TODO not applied to click, heroes ONLY
 	//TODO TEST this function
-	//HOW ?????
 	//×4 Multiplier for each 25 Hero Levels, starting from level 200; at Hero Level 1000, 2000, ..., 8000 the multiplier is ×10.
-	if (_clickLvl > 200)
+	if (_clickLvl < 200)
 	{
-		_clickMult = (_clickLvl - 200) * 4 / 25;
+		_heroMult = 1;
+	}
+	else if (_clickLvl > 200)
+	{
+		_heroMult = _clickLvl * 4 / 25;
+	}
+	else if (_clickLvl > 1000)
+	{
+		_heroMult += _clickLvl * 10 / 1000;
 	}
 }

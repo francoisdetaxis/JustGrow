@@ -36,8 +36,9 @@ int main(int argc, char* argv[])
 	Stage stage(textures, fonts);
 
 	//create Buttons
-	Button btnclickUpgrade(textures["clickUpgrade"].getTexture());
-	Button btnFace(textures["face"].getTexture());
+	Button btnclickUpgrade(textures["clickUpgrade"].getTexture(), fonts);
+	btnclickUpgrade.setTextString("LVL UP\n" + std::to_string(player.getClickCost()));
+	Button btnFace(textures["face"].getTexture(), fonts);
 	btnclickUpgrade.setPosition(50, 50);
 	btnFace.setPosition(50, btnclickUpgrade.getTexture().getSize().y + 50 + 20);
 
@@ -96,7 +97,7 @@ int main(int argc, char* argv[])
 				}
 				if (event.mouseButton.button == sf::Mouse::Left && btnclickUpgrade.isHit(window))
 				{
-					player.clickUpgrade(gold);
+					player.clickUpgrade(gold, btnclickUpgrade);
 				}
 			}
 		}

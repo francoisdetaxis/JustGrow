@@ -11,6 +11,7 @@
 #include "Monster.h"
 #include "Player.h"
 #include "Mytexture.h"
+#include "Button.h"
 
 class Gold;
 class Monster;
@@ -24,10 +25,11 @@ public:
 	void cheat(Monster& monster);
 	void drawDmg(sf::RenderWindow& window);
 	int getGoldMultiplier() { return _goldMultiplier; }
-	void clickUpgrade(Gold& gold);
+	void clickUpgrade(Gold& gold, Button& upgradeBtn);
 	void updateClickCost();
+	int getClickCost() { return _clickUpgradeCost; }
 	void updateClickDmg();
-	void updateClickMult();
+	void updateHeroesMult();
 	int getClickLvl() { return _clickLvl; }
 
 private:
@@ -43,7 +45,8 @@ private:
 	std::deque<Hit*> _hits;
 
 	int _clickDmg;
-	int _clickMult;
+	int _globalMult;
+	int _heroMult;
 	int _critChance;
 	int _critMultiplier;
 	int _goldMultiplier;
