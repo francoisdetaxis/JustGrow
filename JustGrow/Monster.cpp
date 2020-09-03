@@ -100,9 +100,38 @@ void Monster::setScale(float x, float y)
 	_currentMonsterSprite.setScale(x, y);
 }
 
-void Monster::increaseMaxHp()
+void Monster::increaseMaxHp(Stage& stage)
 {
-	_maxHp += 10;
+	//TODO fix numbers too big --> need "infinite" system
+	double stageNb = stage.getStage();
+	if (stageNb <= 140)
+	{
+		_maxHp = std::ceil(10 * (stageNb - 1 + std::pow(1.55, stageNb - 1)));
+		if (stage.isBoss())
+			_maxHp *= 10;
+	}
+	else if (stageNb <= 500)
+	{
+		_maxHp = std::ceil((139 + std::pow(1.55, 139) * std::pow(1.145, stageNb - 140)));
+		if (stage.isBoss())
+			_maxHp *= 10;
+	}
+	else if (stageNb <= 200000)
+	{
+		double product = 1;
+		for (int i = 0; i <= 501; i++)
+		{
+			product *= (1.145 + 0.001 * ((i - 1) / 500));
+		}
+		_maxHp = std::ceil(10 * (139 + std::pow(1.145, 360)) * product);
+		if (stage.isBoss())
+			_maxHp *= 10;
+	}
+	else
+	{
+		_maxHp = std::ceil(std::pow(1.545, stageNb - 200001) * 1.240 * std::pow(10, 25409) + (stageNb - 1) * 10);
+	}
+
 	this->setHp(_maxHp);
 }
 
@@ -141,7 +170,7 @@ void Monster::setHpTextPosition()
 	_hpText.setPosition(centeredX, centeredY + offsetY);
 }
 
-void Monster::nextFrame(Stage& stage, Gold& gold)
+void Monster::nextFrame(Stage& stage, Gold& gold, Player& player)
 {
 	switch (_state) {
 	case Monster::State::HURT:
@@ -152,7 +181,7 @@ void Monster::nextFrame(Stage& stage, Gold& gold)
 		break;
 	case Monster::State::DEAD:
 		//TODO adapt dying animation speed with current dps of click/heroes : less dps --> slower and more dps --> faster
-		_fps = 50;
+		_fps = 20;
 		break;
 	default:
 		break;
@@ -174,7 +203,7 @@ void Monster::nextFrame(Stage& stage, Gold& gold)
 				break;
 			case Monster::State::DEAD:
 				this->nextMob();
-				stage.nextLevel(*this, gold);
+				stage.nextLevel(*this, gold, player);
 				gold.gain();
 				break;
 			default:

@@ -5,6 +5,8 @@
 #include <string>
 #include <map>
 #include <iostream>
+#include <math.h>
+#include "Player.h"
 #include "Stage.h"
 #include "Mytexture.h"
 #include "Gold.h"
@@ -30,16 +32,17 @@ public:
 	int Monster::getMonsterHeight() { return _currentMonsterSpriteHeight * _currentMonsterSprite.getScale().y; }
 	void Monster::setHp(int hp);
 	int Monster::getHp() { return _currentHp; }
+	int Monster::getMaxHp() { return _maxHp; }
 	void Monster::takeDmg(int dmgTaken);
 
 	//other methods
 	void Monster::updateHitboxBordersShape();
 	void Monster::setHpTextPosition();
-	void Monster::nextFrame(Stage& stage, Gold& gold);
+	void nextFrame(Stage& stage, Gold& gold, Player& player);
 	void Monster::setHpBarPosition();
 	void Monster::updateHitbox();
 	void Monster::setScale(float x, float y);
-	void increaseMaxHp();
+	void increaseMaxHp(Stage& stage);
 	void Monster::draw(sf::RenderWindow& window, bool debug = false);
 	bool Monster::isHit(sf::RenderWindow& window) { return _currentMonsterHitboxRect.contains(sf::Mouse::getPosition(window)); }
 	void Monster::playHitSound();

@@ -8,14 +8,17 @@
 #include "Monster.h"
 #include "Mytexture.h"
 #include "Gold.h"
+#include "Player.h"
 
 class Monster;
+class Player;
 class Stage
 {
 public:
 	Stage::Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
-	void nextLevel(Monster& monster, Gold& gold);
-	void nextStage(Monster& monster, Gold& gold);
+	void nextLevel(Monster& monster, Gold& gold, Player& player);
+	void nextStage(Monster& monster, Gold& gold, Player& player);
+	bool isBoss();
 	void Stage::updateTextsPosition(Monster& monster);
 	int Stage::getStage() { return _currentStage; }
 	int Stage::getLevel() { return _currentLevel; }

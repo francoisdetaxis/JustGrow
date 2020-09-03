@@ -20,24 +20,37 @@ Stage::Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, s
 	this->updateDebugShape();
 }
 
-void Stage::nextLevel(Monster& monster, Gold& gold)
+void Stage::nextLevel(Monster& monster, Gold& gold, Player& player)
 {
-	if (_currentLevel == 10) {
+	if (_currentLevel == 10)
+	{
 		_currentLevel = 1;
-		this->nextStage(monster, gold);
+		this->nextStage(monster, gold, player);
 	}
 	else
+	{
 		_currentLevel++;
+		monster.increaseMaxHp(*this);
+		gold.increaseGain(*this, monster, player);
+	}
 
 	_levelText.setString("Level " + std::to_string(_currentLevel) + "/10");
 }
 
-void Stage::nextStage(Monster& monster, Gold& gold)
+void Stage::nextStage(Monster& monster, Gold& gold, Player& player)
 {
 	_currentStage++;
 	_stageText.setString("Stage " + std::to_string(_currentStage));
-	monster.increaseMaxHp();
-	gold.increaseGain();
+	monster.increaseMaxHp(*this);
+	gold.increaseGain(*this, monster, player);
+}
+
+bool Stage::isBoss()
+{
+	if (_currentLevel == 10)
+		return true;
+	else
+		return false;
 }
 
 void Stage::updateTextsPosition(Monster& monster)

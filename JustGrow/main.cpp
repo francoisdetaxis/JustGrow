@@ -48,11 +48,12 @@ int main(int argc, char* argv[])
 	//position monster
 	monster.setPosition((SCREEN_WIDTH / 2) + (((SCREEN_WIDTH / 2) - monster.getMonsterWidth()) / 2), (SCREEN_HEIGHT - monster.getMonsterHeight()) / 2);
 
+	//create gold
+	Gold gold(textures, fonts, sounds, menu);
+
 	//position menu
 	menu.move(0, (SCREEN_HEIGHT - menu.getSize().y) / 2);
-
-	//create gold (after menu is placed...)
-	Gold gold(textures, fonts, sounds, menu);
+	gold.move(0, (SCREEN_HEIGHT - menu.getSize().y) / 2);
 
 	//all of this just to place the platform behind the monster...
 	int centeredX, centeredY, offsetY, monsterHeight, monsterWidth;
@@ -93,10 +94,14 @@ int main(int argc, char* argv[])
 					monster.playHitSound();
 					player.dealDmg(monster);
 				}
+				if (event.mouseButton.button == sf::Mouse::Left && btnclickUpgrade.isHit(window))
+				{
+					player.clickUpgrade(gold);
+				}
 			}
 		}
 		//monster animation
-		monster.nextFrame(stage, gold);
+		monster.nextFrame(stage, gold, player);
 
 		//DRAW EVERYTHING
 		window.clear();

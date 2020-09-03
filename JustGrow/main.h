@@ -9,12 +9,16 @@
 #include <unistd.h>
 #endif
 #include <string>
+#include <map>
+#include <math.h>
 #include <iostream>
 #include <random>
 #include <queue>
 #include <thread>
 #include <vector>
 
+#include "Hit.h"
+#include "Player.h"
 #include "Mytexture.h"
 #include "loadFonts.h"
 #include "loadingScreen.h"
@@ -23,9 +27,7 @@
 #include "Monster.h"
 #include "Button.h"
 #include "dragon.h"
-#include "Hit.h"
 #include "Menu.h"
-#include "Player.h"
 #include "Stage.h"
 #include "ScrollView.h"
 #include "Gold.h"

@@ -5,19 +5,27 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <math.h>
 #include "Mytexture.h"
 #include "Button.h"
 #include "Menu.h"
+#include "Stage.h"
+#include "Monster.h"
+#include "Player.h"
 
+class Stage;
+class Monster;
+class Player;
 class Gold
 {
 public:
 	Gold();
 	Gold(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts, std::map<std::string, sf::SoundBuffer>& sounds, Menu& menu);
-	void increaseGain();
+	void increaseGain(Stage& stage, Monster& monster, Player& player);
 	void Gold::draw(sf::RenderWindow& window);
 	void Gold::move(int x, int y);
 	void Gold::gain();
+	bool spend(int amount);
 private:
 	int _goldGain;
 	int _gold;

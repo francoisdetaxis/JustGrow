@@ -1,8 +1,14 @@
 #include "Player.h"
 
 Player::Player(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts)
-
 {
+	//TODO will have to load these from save...
+	_goldMultiplier = 1;
+	_clickLvl = 1;
+	_clickMult = 1;
+
+	this->updateClickCost();
+
 	_textures = textures;
 	_fonts = fonts;
 
@@ -20,7 +26,7 @@ Player::Player(std::map<std::string, Mytexture>& textures, std::map<std::string,
 	_handCursorSprite.setTexture(_handCursor.getTexture());
 
 	//initialize player damage
-	_dmg = 1;
+	_clickDmg = 1;
 }
 
 void Player::drawCursor(sf::RenderWindow& window, Monster& monster)
@@ -51,16 +57,19 @@ void Player::dealDmg(Monster& monster)
 	{
 		//crit occurs
 		crit = true;
-		dmgTaken = _critMultiplier * _dmg;
+		dmgTaken = _critMultiplier * _clickDmg;
 	}
 	else {
 		//normal hit
 		crit = false;
-		dmgTaken = _dmg;
+		dmgTaken = _clickDmg;
 	}
 
 	monster.takeDmg(dmgTaken);
-	Hit hit(dmgTaken, crit, _dmgFont, monster);
+
+	//TODO verify there's no memory leak...
+	Hit* hit;
+	hit = new Hit(dmgTaken, crit, _dmgFont, monster);
 
 	//add hit to queue
 	_hits.push_back(hit);
@@ -68,8 +77,10 @@ void Player::dealDmg(Monster& monster)
 
 void Player::cheat(Monster& monster)
 {
+	//TODO verify there's no memory leak...
 	monster.takeDmg(999);
-	Hit hit(999, true, _dmgFont, monster);
+	Hit* hit;
+	hit = new Hit(999, true, _dmgFont, monster);
 	//add hit to queue
 	_hits.push_back(hit);
 }
@@ -77,12 +88,52 @@ void Player::cheat(Monster& monster)
 void Player::drawDmg(sf::RenderWindow& window)
 {
 	for (int i = 0; i < _hits.size(); i++) {
-		if (_hits[i].getDmgTextClock().getElapsedTime().asSeconds() <= 3)
+		if (_hits[i]->getDmgTextClock().getElapsedTime().asSeconds() <= 3)
 		{
-			window.draw(_hits[i].getDmgText());
+			window.draw(_hits[i]->getDmgText());
 		}
 		else {
 			_hits.pop_front();
 		}
+	}
+}
+
+void Player::clickUpgrade(Gold& gold)
+{
+	//TODO before of after ? or both?
+	//this->updateClickCost();
+	if (gold.spend(_clickUpgradeCost))
+	{
+		_clickDmg += 1;
+		_clickLvl++;
+		this->updateClickCost();
+	}
+}
+
+void Player::updateClickCost()
+{
+	if (_clickLvl <= 15)
+	{
+		_clickUpgradeCost = std::floor(((double)_clickLvl + 5.0) * std::pow(1.07, _clickLvl - 1.0));
+	}
+	else
+	{
+		_clickUpgradeCost = std::floor(20 * std::pow(1.07, _clickLvl - 1.0));
+	}
+}
+
+void Player::updateClickDmg()
+{
+	//_clickDmg = _clickLvl *
+}
+
+void Player::updateClickMult()
+{
+	//TODO TEST this function
+	//HOW ?????
+	//×4 Multiplier for each 25 Hero Levels, starting from level 200; at Hero Level 1000, 2000, ..., 8000 the multiplier is ×10.
+	if (_clickLvl > 200)
+	{
+		_clickMult = (_clickLvl - 200) * 4 / 25;
 	}
 }

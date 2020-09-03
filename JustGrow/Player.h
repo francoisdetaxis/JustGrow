@@ -6,11 +6,15 @@
 #include <string>
 #include <iostream>
 #include <queue>
+#include <math.h>
+#include "Hit.h"
 #include "Monster.h"
 #include "Player.h"
 #include "Mytexture.h"
-#include "Hit.h"
 
+class Gold;
+class Monster;
+class Hit;
 class Player
 {
 public:
@@ -19,6 +23,12 @@ public:
 	void dealDmg(Monster& monster);
 	void cheat(Monster& monster);
 	void drawDmg(sf::RenderWindow& window);
+	int getGoldMultiplier() { return _goldMultiplier; }
+	void clickUpgrade(Gold& gold);
+	void updateClickCost();
+	void updateClickDmg();
+	void updateClickMult();
+	int getClickLvl() { return _clickLvl; }
 
 private:
 	std::map<std::string, Mytexture> _textures;
@@ -30,9 +40,13 @@ private:
 	sf::Sprite _attackCursorSprite;
 	sf::Sprite _handCursorSprite;
 	sf::Font _dmgFont;
-	std::deque<Hit> _hits;
+	std::deque<Hit*> _hits;
 
-	int _dmg;
+	int _clickDmg;
+	int _clickMult;
 	int _critChance;
 	int _critMultiplier;
+	int _goldMultiplier;
+	int _clickLvl;
+	double _clickUpgradeCost;
 };
