@@ -20,6 +20,7 @@ Stage::Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, s
 	_timerText.setFont(fonts["dmgFont"]);
 	_stageText.setString("Stage 1");
 	_levelText.setString("Level 1/10");
+	_timerText.setString("30.0");
 
 	this->updateTextureRect();
 	this->updateDebugShape();
@@ -38,6 +39,7 @@ void Stage::nextLevel(Monster& monster, Gold& gold, Player& player)
 		monster.increaseMaxHp(*this);
 		gold.increaseGain(*this, monster, player);
 	}
+
 	if (this->isBoss())
 	{
 		_levelText.setString("Level " + std::to_string(_currentLevel) + "/1");
@@ -55,6 +57,16 @@ void Stage::nextStage(Monster& monster, Gold& gold, Player& player)
 	monster.increaseMaxHp(*this);
 	gold.increaseGain(*this, monster, player);
 	this->nextPlatform(monster);
+	if (this->isBoss())
+	{
+		_bossTimer.restart();
+		_timerText.setString("30.0");
+	}
+}
+
+void Stage::updateBossTimer()
+{
+	//TODO
 }
 
 bool Stage::isBoss()
@@ -67,6 +79,7 @@ bool Stage::isBoss()
 
 void Stage::updateTextsPosition(Monster& monster)
 {
+	//stage and level texts position are to be set first
 	int stageCenterX, stageCenterY, levelCenterX, levelCenterY, offsetY;
 	stageCenterX = monster.getPosition().x + ((monster.getMonsterWidth() - _stageText.getGlobalBounds().width) / 2);
 	stageCenterY = monster.getPosition().y + ((monster.getMonsterHeight() - _stageText.getGlobalBounds().height) / 2);
@@ -79,12 +92,22 @@ void Stage::updateTextsPosition(Monster& monster)
 
 void Stage::updateSkullPosition(Monster& monster)
 {
-	int skullX, skullY, offsetY;
-	offsetY = monster.getMonsterHeight();
+	//text position must be set beforehand...
+	int skullX;
 	skullX = monster.getPosition().x + ((monster.getMonsterWidth() - _levelText.getGlobalBounds().width - _skullSprite.getGlobalBounds().width) / 2);
-	skullY = monster.getPosition().y + ((monster.getMonsterHeight() - _skullSprite.getGlobalBounds().height) / 2);
-	_skullSprite.setPosition(skullX, skullY + (int)_stageText.getGlobalBounds().height + 10 + (((int)_skullSprite.getGlobalBounds().height - (int)_stageText.getGlobalBounds().height) / 2) - offsetY);
-	//_skullSprite.setPosition(skullX, skullY + _stageText.getGlobalBounds().height + 10 - offsetY);
+	_skullSprite.setPosition(skullX, _levelText.getPosition().y - 10);
+}
+
+void Stage::updateTimerSpritePosition()
+{
+	//skull position must be set beforehand...
+	_timerSprite.setPosition(_skullSprite.getPosition().x, _skullSprite.getPosition().y + _timerSprite.getGlobalBounds().height + 10);
+}
+
+void Stage::updateTimerTextPosition()
+{
+	//timer sprite position must be set beforehand...
+	_timerText.setPosition(_timerSprite.getPosition().x + _timerSprite.getGlobalBounds().width + 10, _timerSprite.getPosition().y + 10);
 }
 
 void Stage::updateDebugShape()
@@ -95,6 +118,7 @@ void Stage::updateDebugShape()
 	_debugShape.setOutlineColor(sf::Color::Blue);
 	_debugShape.setOutlineThickness(5.f);
 }
+
 void Stage::nextPlatform(Monster& monster)
 {
 	_currentPlatformNb++;
@@ -132,6 +156,11 @@ void Stage::draw(sf::RenderWindow& window, bool debug)
 	window.draw(_stageText);
 	window.draw(_levelText);
 	window.draw(_skullSprite);
+	if (this->isBoss())
+	{
+		window.draw(_timerSprite);
+		window.draw(_timerText);
+	}
 	if (debug)
 		window.draw(_debugShape);
 }
@@ -144,4 +173,6 @@ void Stage::setPosition(int x, int y, Monster& monster)
 	this->updateDebugShape();
 	this->updateTextsPosition(monster);
 	this->updateSkullPosition(monster);
+	this->updateTimerSpritePosition();
+	this->updateTimerTextPosition();
 }

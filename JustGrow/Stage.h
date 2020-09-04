@@ -18,9 +18,12 @@ public:
 	Stage::Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
 	void nextLevel(Monster& monster, Gold& gold, Player& player);
 	void nextStage(Monster& monster, Gold& gold, Player& player);
+	void updateBossTimer();
 	bool isBoss();
 	void Stage::updateTextsPosition(Monster& monster);
 	void updateSkullPosition(Monster& monster);
+	void updateTimerSpritePosition();
+	void updateTimerTextPosition();
 	int Stage::getStage() { return _currentStage; }
 	int Stage::getLevel() { return _currentLevel; }
 	sf::Vector2u Stage::getSize() { return _currentPlatform.getTexture().getSize(); }
@@ -45,7 +48,7 @@ private:
 	sf::Sprite _skullSprite;
 	sf::Sprite _timerSprite;
 
-	sf::Clock _lvlClock;
+	sf::Clock _bossTimer;
 
 	sf::IntRect _currentRect;
 	Mytexture _currentPlatform;
