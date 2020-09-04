@@ -14,10 +14,12 @@ public:
 	void Button::updateShape();
 	void Button::setPosition(int x, int y);
 	void setTextString(std::string str);
+	void setTooltipString(std::string str);
 	bool Button::isHit(sf::RenderWindow& window);
 private:
 	std::map<std::string, sf::Font> _fonts;
 	sf::Text _text;
+	sf::Text _tooltip;
 	sf::Texture _btnTexture;
 	sf::Sprite _btnSprite;
 	sf::IntRect _btnRect;

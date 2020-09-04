@@ -26,6 +26,7 @@ public:
 	void drawDmg(sf::RenderWindow& window);
 	int getGoldMultiplier() { return _goldMultiplier; }
 	void clickUpgrade(Gold& gold, Button& upgradeBtn);
+	int getClickDmg() { return _clickDmg; }
 	void updateClickCost();
 	int getClickCost() { return _clickUpgradeCost; }
 	void updateClickDmg();

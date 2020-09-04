@@ -7,6 +7,10 @@ Button::Button()
 	texture.loadFromFile("./resources/image/error.png");
 	_btnTexture = texture;
 
+	//text
+	_text.setColor(sf::Color::Green);
+	_text.setString("UNINITIALIZED");
+
 	//btn rect
 	_btnRect.top = 0;
 	_btnRect.left = 0;
@@ -39,6 +43,12 @@ Button::Button(sf::Texture& btnTexture, std::map<std::string, sf::Font>& fonts)
 	_text.setColor(sf::Color::Green);
 	_text.setString("UNINITIALIZED");
 
+	//tooltip
+	_tooltip.setFont(fonts["dmgFont"]);
+	_tooltip.setColor(sf::Color::Green);
+	_tooltip.setString("UNINITIALIZED");
+	_tooltip.setPosition(_btnTexture.getSize().x + 25, 0);
+
 	//btn rect
 	_btnRect.top = 0;
 	_btnRect.left = 0;
@@ -63,6 +73,7 @@ void Button::move(int x, int y)
 {
 	_btnSprite.move(x, y);
 	_btnShape.move(x, y);
+	_tooltip.move(x, y);
 	_text.move(x, y);
 	_btnRect.left = _btnShape.getPosition().x;
 	_btnRect.top = _btnShape.getPosition().y;
@@ -83,6 +94,7 @@ void Button::draw(sf::RenderWindow& window)
 	window.draw(_btnSprite);
 	window.draw(_btnShape);
 	window.draw(_text);
+	window.draw(_tooltip);
 }
 
 bool Button::isHit(sf::RenderWindow& window)
@@ -120,6 +132,7 @@ void Button::setPosition(int x, int y)
 	_btnSprite.setPosition(x, y);
 	_btnShape.setPosition(x, y);
 	_text.setPosition(x, y);
+	_tooltip.setPosition(x + _btnTexture.getSize().x + 25, y);
 	_btnRect.top = y;
 	_btnRect.left = x;
 }
@@ -127,4 +140,9 @@ void Button::setPosition(int x, int y)
 void Button::setTextString(std::string str)
 {
 	_text.setString(str);
+}
+
+void Button::setTooltipString(std::string str)
+{
+	_tooltip.setString(str);
 }

@@ -107,6 +107,7 @@ void Player::clickUpgrade(Gold& gold, Button& upgradeBtn)
 		this->updateClickDmg();
 		this->updateClickCost();
 		upgradeBtn.setTextString("LVL UP\n" + std::to_string((int)_clickUpgradeCost));
+		upgradeBtn.setTooltipString("DMG: " + std::to_string(_clickDmg));
 	}
 }
 

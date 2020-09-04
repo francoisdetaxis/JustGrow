@@ -45,9 +45,11 @@ std::map<std::string, Mytexture> loadTextures()
 
 	//money
 	Mytexture coin("./resources/image/gold-coin.png", 1);
+	Mytexture coinSmall("./resources/image/gold-coin-small.png", 1);
 
 	std::map<std::string, Mytexture> textures{
 		{"face", face},
+		{"coinSmall", coinSmall},
 		{"coin", coin},
 		{"pinkbg", pinkbg},
 		{"clickUpgrade", clickUpgrade},

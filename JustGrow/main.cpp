@@ -38,6 +38,7 @@ int main(int argc, char* argv[])
 	//create Buttons
 	Button btnclickUpgrade(textures["clickUpgrade"].getTexture(), fonts);
 	btnclickUpgrade.setTextString("LVL UP\n" + std::to_string(player.getClickCost()));
+	btnclickUpgrade.setTooltipString("DMG: " + std::to_string(player.getClickDmg()));
 	Button btnFace(textures["face"].getTexture(), fonts);
 	btnclickUpgrade.setPosition(50, 50);
 	btnFace.setPosition(50, btnclickUpgrade.getTexture().getSize().y + 50 + 20);
