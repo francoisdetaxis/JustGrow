@@ -38,6 +38,8 @@ std::map<std::string, Mytexture> loadTextures()
 	//icons
 	Mytexture clickUpgrade("./resources/image/icons/iconClickDmgUpgrade.png", 1);
 	Mytexture face("./resources/image/icons/iconFace.png", 1);
+	Mytexture skull("./resources/image/icons/skull-icon.png", 1);
+	Mytexture timer("./resources/image/icons/timer-icon.png", 1);
 
 	//menu
 	Mytexture menu("./resources/image/menu/menu.png", 1);
@@ -49,6 +51,8 @@ std::map<std::string, Mytexture> loadTextures()
 
 	std::map<std::string, Mytexture> textures{
 		{"face", face},
+		{"skull", skull},
+		{"timer", timer},
 		{"coinSmall", coinSmall},
 		{"coin", coin},
 		{"pinkbg", pinkbg},

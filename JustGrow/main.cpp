@@ -84,10 +84,12 @@ int main(int argc, char* argv[])
 				window.close();
 
 			if (event.type == sf::Event::KeyReleased) {
-				if (event.key.code == sf::Keyboard::Q)
+				if (event.key.code == sf::Keyboard::Q && debug)
 					stage.nextPlatform(monster);
 				if (event.key.code == sf::Keyboard::A && debug)
 					player.cheat(monster);
+				if (event.key.code == sf::Keyboard::W && debug)
+					stage.nextStage(monster, gold, player);
 			}
 
 			if (event.type == sf::Event::MouseButtonReleased) {

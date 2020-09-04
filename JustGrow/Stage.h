@@ -20,6 +20,7 @@ public:
 	void nextStage(Monster& monster, Gold& gold, Player& player);
 	bool isBoss();
 	void Stage::updateTextsPosition(Monster& monster);
+	void updateSkullPosition(Monster& monster);
 	int Stage::getStage() { return _currentStage; }
 	int Stage::getLevel() { return _currentLevel; }
 	sf::Vector2u Stage::getSize() { return _currentPlatform.getTexture().getSize(); }
@@ -39,6 +40,12 @@ private:
 
 	sf::Text _stageText; //infinite
 	sf::Text _levelText; //1 to 10
+	sf::Text _timerText;
+
+	sf::Sprite _skullSprite;
+	sf::Sprite _timerSprite;
+
+	sf::Clock _lvlClock;
 
 	sf::IntRect _currentRect;
 	Mytexture _currentPlatform;
