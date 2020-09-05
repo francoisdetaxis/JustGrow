@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
 		//DRAW EVERYTHING
 		window.clear();
 		menu.draw(window);
-		stage.draw(window, debug);
+		stage.draw(window, monster, debug);
 		monster.draw(window, debug);
 		gold.draw(window);
 		player.drawCursor(window, monster);

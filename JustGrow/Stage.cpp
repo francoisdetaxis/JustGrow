@@ -6,6 +6,7 @@ Stage::Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, s
 	_currentLevel = 1;
 	_currentStage = 1;
 	_currentPlatformNb = 1;
+	_bossTimeSeconds = 30.0;
 	_textures = textures;
 	_currentPlatform = textures["platform1"];
 	_currentPlatformSprite.setTexture(_currentPlatform.getTexture());
@@ -60,13 +61,9 @@ void Stage::nextStage(Monster& monster, Gold& gold, Player& player)
 	if (this->isBoss())
 	{
 		_bossTimer.restart();
+		_bossTimeSeconds = 30.0;
 		_timerText.setString("30.0");
 	}
-}
-
-void Stage::updateBossTimer()
-{
-	//TODO
 }
 
 bool Stage::isBoss()
@@ -75,6 +72,41 @@ bool Stage::isBoss()
 		return true;
 	else
 		return false;
+}
+
+void Stage::decreaseBossTimer(Monster& monster)
+{
+	_bossTimeSeconds -= 0.1;
+	std::stringstream stream;
+	stream << std::fixed << std::setprecision(1) << _bossTimeSeconds;
+	_timerText.setString(stream.str());
+	if (_bossTimeSeconds < 0)
+	{
+		_bossTimer.restart();
+		_bossTimeSeconds = 30.0;
+		_timerText.setString("30.0");
+		monster.setHp(monster.getMaxHp());
+	}
+}
+
+void Stage::draw(sf::RenderWindow& window, Monster& monster, bool debug)
+{
+	window.draw(_currentPlatformSprite);
+	window.draw(_stageText);
+	window.draw(_levelText);
+	window.draw(_skullSprite);
+	if (this->isBoss())
+	{
+		window.draw(_timerSprite);
+		window.draw(_timerText);
+		if (_bossTimer.getElapsedTime().asMilliseconds() > 100)
+		{
+			this->decreaseBossTimer(monster);
+			_bossTimer.restart();
+		}
+	}
+	if (debug)
+		window.draw(_debugShape);
 }
 
 void Stage::updateTextsPosition(Monster& monster)
@@ -148,21 +180,6 @@ void Stage::updateTextureRect()
 	_currentRect.height = _currentPlatform.getTexture().getSize().y;
 	_currentRect.width = _currentPlatform.getTexture().getSize().x;
 	_currentPlatformSprite.setTextureRect(_currentRect);
-}
-
-void Stage::draw(sf::RenderWindow& window, bool debug)
-{
-	window.draw(_currentPlatformSprite);
-	window.draw(_stageText);
-	window.draw(_levelText);
-	window.draw(_skullSprite);
-	if (this->isBoss())
-	{
-		window.draw(_timerSprite);
-		window.draw(_timerText);
-	}
-	if (debug)
-		window.draw(_debugShape);
 }
 
 void Stage::setPosition(int x, int y, Monster& monster)
