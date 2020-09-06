@@ -3,6 +3,16 @@ bool isLoading = true;
 
 int main(int argc, char* argv[])
 {
+
+	BigNumber a(9, 12);
+	BigNumber b(9, 12);
+	BigNumber result;
+	
+
+	result = a + b;
+	result.print();
+	return EXIT_SUCCESS;
+
 	//SET TO TRUE TO DRAW ADDITIONAL STUFF
 	bool debug = true;
 
@@ -148,5 +158,5 @@ int main(int argc, char* argv[])
 		btnSound.draw(window);
 		window.display();
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }

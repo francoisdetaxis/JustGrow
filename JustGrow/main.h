@@ -17,6 +17,7 @@
 #include <thread>
 #include <vector>
 
+#include "BigNumber.h"
 #include "Hit.h"
 #include "Player.h"
 #include "Mytexture.h"
