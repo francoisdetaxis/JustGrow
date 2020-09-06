@@ -19,7 +19,7 @@ class Hit;
 class Player
 {
 public:
-	Player::Player(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
+	Player(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
 	void drawCursor(sf::RenderWindow& window, Monster& monster);
 	void dealDmg(Monster& monster);
 	void cheat(Monster& monster);

@@ -17,23 +17,23 @@ class Player;
 class Stage
 {
 public:
-	Stage::Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
+	Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
 	void nextLevel(Monster& monster, Gold& gold, Player& player);
 	void nextStage(Monster& monster, Gold& gold, Player& player);
 	bool isBoss();
 	void decreaseBossTimer(Monster& monster);
-	void Stage::updateTextsPosition(Monster& monster);
+	void updateTextsPosition(Monster& monster);
 	void updateSkullPosition(Monster& monster);
 	void updateTimerSpritePosition();
 	void updateTimerTextPosition();
-	int Stage::getStage() { return _currentStage; }
-	int Stage::getLevel() { return _currentLevel; }
-	sf::Vector2u Stage::getSize() { return _currentPlatform.getTexture().getSize(); }
-	void Stage::draw(sf::RenderWindow& window, Monster& monster, bool debug = false);
-	void Stage::setPosition(int x, int y, Monster& monster);
-	void Stage::nextPlatform(Monster& monster);
-	void Stage::updateTextureRect();
-	void Stage::updateDebugShape();
+	int getStage() { return _currentStage; }
+	int getLevel() { return _currentLevel; }
+	sf::Vector2u getSize() { return _currentPlatform.getTexture().getSize(); }
+	void draw(sf::RenderWindow& window, Monster& monster, bool debug = false);
+	void setPosition(int x, int y, Monster& monster);
+	void nextPlatform(Monster& monster);
+	void updateTextureRect();
+	void updateDebugShape();
 
 private:
 	std::map<std::string, Mytexture> _textures;

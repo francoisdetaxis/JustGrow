@@ -69,6 +69,31 @@ Button::Button(sf::Texture& btnTexture, std::map<std::string, sf::Font>& fonts)
 	_isMouseAlreadyOverButton = false;
 }
 
+Button::Button(sf::Texture& btnTexture)
+{
+	//btn texture
+	_btnTexture = btnTexture;
+
+	//btn rect
+	_btnRect.top = 0;
+	_btnRect.left = 0;
+	_btnRect.height = _btnTexture.getSize().y;
+	_btnRect.width = _btnTexture.getSize().x;
+
+	//btn sprite
+	_btnSprite.setTexture(_btnTexture);
+	_btnSprite.setTextureRect(_btnRect);
+
+	//btn shape
+	_btnShape.setFillColor(sf::Color::Transparent);
+	_btnShape.setOutlineColor(sf::Color::Cyan);
+	_btnShape.setOutlineThickness(5.f);
+	this->updateShape();
+
+	//MOUSE IS NOT HOVERING OVER THE BUTTON...
+	_isMouseAlreadyOverButton = false;
+}
+
 void Button::move(int x, int y)
 {
 	_btnSprite.move(x, y);
@@ -113,15 +138,14 @@ void Button::setTexture(sf::Texture& texture)
 {
 	_btnTexture = texture;
 
-	//menu rect
-	_btnRect.top = 0;
-	_btnRect.left = 0;
+	//btn rect
+	_btnRect.top = _btnSprite.getPosition().y;
+	_btnRect.left = _btnSprite.getPosition().x;
 	_btnRect.height = _btnTexture.getSize().y;
 	_btnRect.width = _btnTexture.getSize().x;
 
-	//menu sprite
+	//btn sprite
 	_btnSprite.setTexture(_btnTexture);
-	_btnSprite.setTextureRect(_btnRect);
 
 	//btn shape
 	this->updateShape();

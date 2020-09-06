@@ -5,17 +5,19 @@
 class Button
 {
 public:
-	Button::Button();
+	Button();
 	Button(sf::Texture& btnTexture, std::map<std::string, sf::Font>& fonts);
-	void Button::move(int x, int y);
-	void Button::draw(sf::RenderWindow& window);
-	void Button::setTexture(sf::Texture& texture);
-	sf::Texture& Button::getTexture() { return _btnTexture; }
-	void Button::updateShape();
-	void Button::setPosition(int x, int y);
+	Button(sf::Texture& btnTexture);
+	void move(int x, int y);
+	void draw(sf::RenderWindow& window);
+	void setTexture(sf::Texture& texture);
+	sf::Texture& getTexture() { return _btnTexture; }
+	void updateShape();
+	void setPosition(int x, int y);
 	void setTextString(std::string str);
 	void setTooltipString(std::string str);
-	bool Button::isHit(sf::RenderWindow& window);
+	bool isHit(sf::RenderWindow& window);
+	sf::Vector2u getSize() { return _btnTexture.getSize(); }
 private:
 	std::map<std::string, sf::Font> _fonts;
 	sf::Text _text;

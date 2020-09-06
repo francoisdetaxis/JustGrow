@@ -40,6 +40,8 @@ std::map<std::string, Mytexture> loadTextures()
 	Mytexture face("./resources/image/icons/iconFace.png", 1);
 	Mytexture skull("./resources/image/icons/skull-icon.png", 1);
 	Mytexture timer("./resources/image/icons/timer-icon.png", 1);
+	Mytexture muteSound("./resources/image/icons/mute-sound.png", 1);
+	Mytexture sound("./resources/image/icons/sound.png", 1);
 
 	//menu
 	Mytexture menu("./resources/image/menu/menu.png", 1);
@@ -49,8 +51,15 @@ std::map<std::string, Mytexture> loadTextures()
 	Mytexture coin("./resources/image/gold-coin.png", 1);
 	Mytexture coinSmall("./resources/image/gold-coin-small.png", 1);
 
+	//background
+	Mytexture background("./resources/image/backgrounds/game_background_1.png", 1);
+
+
 	std::map<std::string, Mytexture> textures{
 		{"face", face},
+		{"background", background},
+		{"muteSound", muteSound},
+		{"sound", sound},
 		{"skull", skull},
 		{"timer", timer},
 		{"coinSmall", coinSmall},

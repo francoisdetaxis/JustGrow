@@ -6,8 +6,8 @@
 class ScrollView
 {
 public:
-	ScrollView::ScrollView(sf::Texture& bgTexture);
-	void ScrollView::draw(sf::RenderWindow& window);
+	ScrollView(sf::Texture& bgTexture);
+	void draw(sf::RenderWindow& window);
 private:
 	sf::Texture _backgroundTexture;
 	sf::Sprite _scrollSprite;

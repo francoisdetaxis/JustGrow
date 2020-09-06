@@ -6,12 +6,12 @@ class Mytexture
 {
 public:
 	//constructors
-	Mytexture::Mytexture();
-	Mytexture::~Mytexture();
-	Mytexture::Mytexture(std::string path, int framesNb);
+	Mytexture();
+	~Mytexture();
+	Mytexture(std::string path, int framesNb);
 	//getters
-	int Mytexture::getFramesNb() { return _framesNb; }
-	sf::Texture& Mytexture::getTexture() { return _texture; }
+	int getFramesNb() { return _framesNb; }
+	sf::Texture& getTexture() { return _texture; }
 
 private:
 	sf::Texture _texture;

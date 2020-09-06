@@ -23,34 +23,34 @@ public:
 	};
 
 	//constructors
-	Monster::Monster(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::SoundBuffer>& sounds, std::map<std::string, sf::Font>& fonts);
+	Monster(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::SoundBuffer>& sounds, std::map<std::string, sf::Font>& fonts);
 
 	//getters and setters
-	void Monster::setPosition(int x, int y);
-	const sf::Vector2f Monster::getPosition() { return _currentMonsterSprite.getPosition(); }
-	int Monster::getMonsterWidth() { return _currentMonsterSpriteWidth * _currentMonsterSprite.getScale().x; }
-	int Monster::getMonsterHeight() { return _currentMonsterSpriteHeight * _currentMonsterSprite.getScale().y; }
-	void Monster::setHp(int hp);
-	int Monster::getHp() { return _currentHp; }
-	int Monster::getMaxHp() { return _maxHp; }
-	void Monster::takeDmg(int dmgTaken);
+	void setPosition(int x, int y);
+	const sf::Vector2f getPosition() { return _currentMonsterSprite.getPosition(); }
+	int getMonsterWidth() { return _currentMonsterSpriteWidth * _currentMonsterSprite.getScale().x; }
+	int getMonsterHeight() { return _currentMonsterSpriteHeight * _currentMonsterSprite.getScale().y; }
+	void setHp(int hp);
+	int getHp() { return _currentHp; }
+	int getMaxHp() { return _maxHp; }
+	void takeDmg(int dmgTaken);
 
 	//other methods
-	void Monster::updateHitboxBordersShape();
-	void Monster::setHpTextPosition();
+	void updateHitboxBordersShape();
+	void setHpTextPosition();
 	void nextFrame(Stage& stage, Gold& gold, Player& player);
-	void Monster::setHpBarPosition();
-	void Monster::updateHitbox();
-	void Monster::setScale(float x, float y);
+	void setHpBarPosition();
+	void updateHitbox();
+	void setScale(float x, float y);
 	void increaseMaxHp(Stage& stage);
-	void Monster::draw(sf::RenderWindow& window, bool debug = false);
-	bool Monster::isHit(sf::RenderWindow& window) { return _currentMonsterHitboxRect.contains(sf::Mouse::getPosition(window)); }
-	void Monster::playHitSound();
-	void Monster::nextMob();
-	void Monster::die();
-	void Monster::playDyingSound();
-	void Monster::hurt();
-	void Monster::idle();
+	void draw(sf::RenderWindow& window, bool debug = false);
+	bool isHit(sf::RenderWindow& window) { return _currentMonsterHitboxRect.contains(sf::Mouse::getPosition(window)); }
+	void playHitSound();
+	void nextMob();
+	void die();
+	void playDyingSound();
+	void hurt();
+	void idle();
 
 private:
 	//animation speed
@@ -86,7 +86,7 @@ private:
 	int _currentMonsterSpriteFramesNb;
 	int _currentMonsterNb;
 	sf::Clock _monsterAnimationClock;
-	Monster::State _state;
+	State _state;
 
 	//SOUNDS
 	sf::SoundBuffer _hitSoundBuffer;

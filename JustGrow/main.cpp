@@ -6,6 +6,14 @@ int main(int argc, char* argv[])
 	//SET TO TRUE TO DRAW ADDITIONAL STUFF
 	bool debug = true;
 
+
+	//background music...
+	sf::Music music;
+	music.openFromFile("./resources/sound/maintheme.wav");
+	music.play();
+
+
+
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::None);
 	window.setMouseCursorVisible(false);
 	window.setActive(false);
@@ -22,6 +30,10 @@ int main(int argc, char* argv[])
 	//load fonts
 	std::map<std::string, sf::Font> fonts = loadFonts();
 
+	//backgorund sprite...
+	sf::Sprite background;
+	background.setTexture(textures["background"].getTexture());
+
 	//create monster (set scale BEFORE set position...TODO fix this behaviour so that it works either way)
 	Monster monster(textures, sounds, fonts);
 	monster.setScale(0.5, 0.5);
@@ -35,13 +47,17 @@ int main(int argc, char* argv[])
 	//Stage
 	Stage stage(textures, fonts);
 
-	//create Buttons
+	//create Buttons...
 	Button btnclickUpgrade(textures["clickUpgrade"].getTexture(), fonts);
 	btnclickUpgrade.setTextString("LVL UP\n" + std::to_string(player.getClickCost()));
 	btnclickUpgrade.setTooltipString("DMG: " + std::to_string(player.getClickDmg()));
+
 	Button btnFace(textures["face"].getTexture(), fonts);
 	btnclickUpgrade.setPosition(50, 50);
 	btnFace.setPosition(50, btnclickUpgrade.getTexture().getSize().y + 50 + 20);
+
+	Button btnSound(textures["sound"].getTexture());
+	btnSound.setPosition(SCREEN_WIDTH - btnSound.getSize().x - 50, SCREEN_HEIGHT - btnSound.getSize().y - 50);
 
 	//add buttons to the menu
 	menu.addButton(&btnclickUpgrade);
@@ -102,6 +118,19 @@ int main(int argc, char* argv[])
 				{
 					player.clickUpgrade(gold, btnclickUpgrade);
 				}
+				if (event.mouseButton.button == sf::Mouse::Left && btnSound.isHit(window))
+				{
+					if (music.getStatus() == music.Paused)
+					{
+						music.play();
+						btnSound.setTexture(textures["sound"].getTexture());
+					}
+					else
+					{
+						music.pause();
+						btnSound.setTexture(textures["muteSound"].getTexture());
+					}
+				}
 			}
 		}
 		//monster animation
@@ -109,12 +138,14 @@ int main(int argc, char* argv[])
 
 		//DRAW EVERYTHING
 		window.clear();
+		window.draw(background);
 		menu.draw(window);
 		stage.draw(window, monster, debug);
 		monster.draw(window, debug);
 		gold.draw(window);
 		player.drawCursor(window, monster);
 		player.drawDmg(window);
+		btnSound.draw(window);
 		window.display();
 	}
 	return 0;
