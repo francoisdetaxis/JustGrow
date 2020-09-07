@@ -12,6 +12,7 @@
 #include "Stage.h"
 #include "Monster.h"
 #include "Player.h"
+#include "BigNumber.h"
 
 class Stage;
 class Monster;
@@ -26,9 +27,12 @@ public:
 	void Gold::move(int x, int y);
 	void Gold::gain();
 	bool spend(int amount);
+	//bool spend(BigNumber amount);
 private:
 	int _goldGain;
 	int _gold;
+	//BigNumber _goldGain;
+	//BigNumber _gold;
 	sf::Text _goldText;
 	sf::Sprite _goldSprite;
 	sf::Sound _goldSound;

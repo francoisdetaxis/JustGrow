@@ -19,6 +19,94 @@ BigNumber::BigNumber(float value, int exponent)
 	}
 }
 
+BigNumber BigNumber::min(BigNumber a, BigNumber b)
+{
+	if (a <= b)
+		return a;
+	else
+		return b;
+}
+
+BigNumber BigNumber::pow(float base, int exponent)
+{
+	BigNumber result(1, 0);
+	BigNumber bigBase(base, 0);
+	while (exponent != 0)
+	{
+		result *= bigBase;
+		exponent--;
+	}
+	return result;
+}
+
+bool BigNumber::operator==(const BigNumber& nb)
+{
+	if (this->_value == nb._value && this->_exponent == nb._exponent)
+		return true;
+	else
+		return false;
+}
+
+bool BigNumber::operator!=(const BigNumber& nb)
+{
+	if (this->_value != nb._value || this->_exponent != nb._exponent)
+		return true;
+	else
+		return false;
+}
+
+bool BigNumber::operator<(const BigNumber& nb)
+{
+	//this < nb ?
+	if (this->_exponent == nb._exponent)
+	{
+		return this->_value < nb._value;
+	}
+	else if (this->_exponent < nb._exponent)
+		return true;
+	else
+		return false;
+}
+
+bool BigNumber::operator>(const BigNumber& nb)
+{
+	//this > nb ?
+	if (this->_exponent == nb._exponent)
+	{
+		return this->_value > nb._value;
+	}
+	else if (this->_exponent > nb._exponent)
+		return true;
+	else
+		return false;
+}
+
+bool BigNumber::operator>=(const BigNumber& nb)
+{
+	//this >= nb ?
+	if (this->_exponent == nb._exponent)
+	{
+		return this->_value >= nb._value;
+	}
+	else if (this->_exponent >= nb._exponent)
+		return true;
+	else
+		return false;
+}
+
+bool BigNumber::operator<=(const BigNumber& nb)
+{
+	//this < nb ?
+	if (this->_exponent == nb._exponent)
+	{
+		return this->_value <= nb._value;
+	}
+	else if (this->_exponent <= nb._exponent)
+		return true;
+	else
+		return false;
+}
+
 BigNumber BigNumber::operator*(const BigNumber& nb)
 {
 	//result = this * nb

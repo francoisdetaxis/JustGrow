@@ -3,15 +3,6 @@ bool isLoading = true;
 
 int main(int argc, char* argv[])
 {
-	BigNumber a(6.00, 10);
-	BigNumber b(2.00, 0);
-	BigNumber result;
-	result = a / b;
-	//a *= b;
-	//std::cout << a.asString() << std::endl;
-	std::cout << a.asString() << " / " << b.asString() << " = " << result.asString() << std::endl;
-
-	return 0;
 	//SET TO TRUE TO DRAW ADDITIONAL STUFF
 	bool debug = true;
 

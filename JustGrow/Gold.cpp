@@ -8,11 +8,14 @@ Gold::Gold(std::map<std::string, Mytexture>& textures, std::map<std::string, sf:
 {
 	//initial gold gain
 	_goldGain = 1;
+	//_goldGain = BigNumber(1, 0);
 
 	//money display
 	_gold = 0;
+	//_gold = BigNumber(0, 0);
 	_goldSprite.setTexture(textures["coin"].getTexture());
 	_goldText.setString("0");
+	//_goldText.setString(_gold.asString());
 	_goldText.setCharacterSize(48);
 	_goldText.setFont(fonts["dmgFont"]);
 	_goldText.setPosition(menu.getSize().x * 0.8, menu.getSize().y * 0.2);
