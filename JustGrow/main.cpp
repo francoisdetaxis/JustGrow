@@ -3,26 +3,22 @@ bool isLoading = true;
 
 int main(int argc, char* argv[])
 {
-
-	BigNumber a(9, 12);
-	BigNumber b(9, 12);
+	BigNumber a(6.00, 10);
+	BigNumber b(2.00, 0);
 	BigNumber result;
-	
+	result = a / b;
+	//a *= b;
+	//std::cout << a.asString() << std::endl;
+	std::cout << a.asString() << " / " << b.asString() << " = " << result.asString() << std::endl;
 
-	result = a + b;
-	result.print();
-	return EXIT_SUCCESS;
-
+	return 0;
 	//SET TO TRUE TO DRAW ADDITIONAL STUFF
 	bool debug = true;
-
 
 	//background music...
 	sf::Music music;
 	music.openFromFile("./resources/sound/maintheme.wav");
 	music.play();
-
-
 
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "JustGrow", sf::Style::None);
 	window.setMouseCursorVisible(false);
