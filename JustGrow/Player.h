@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "Mytexture.h"
 #include "Button.h"
+#include "BigNumber.h"
 
 class Gold;
 class Monster;
@@ -24,11 +25,14 @@ public:
 	void dealDmg(Monster& monster);
 	void cheat(Monster& monster);
 	void drawDmg(sf::RenderWindow& window);
-	int getGoldMultiplier() { return _goldMultiplier; }
+	//int getGoldMultiplier() { return _goldMultiplier; }
+	BigNumber getGoldMultiplier() { return _goldMultiplier; }
 	void clickUpgrade(Gold& gold, Button& upgradeBtn);
-	int getClickDmg() { return _clickDmg; }
+	//int getClickDmg() { return _clickDmg; }
+	BigNumber getClickDmg() { return _clickDmg; }
 	void updateClickCost();
-	int getClickCost() { return _clickUpgradeCost; }
+	//int getClickCost() { return _clickUpgradeCost; }
+	BigNumber getClickCost() { return _clickUpgradeCost; }
 	void updateClickDmg();
 	void updateHeroesMult();
 	int getClickLvl() { return _clickLvl; }
@@ -45,12 +49,18 @@ private:
 	sf::Font _dmgFont;
 	std::deque<Hit*> _hits;
 
-	int _clickDmg;
-	int _globalMult;
-	int _heroMult;
+	//int _clickDmg;
+	BigNumber _clickDmg;
+	//int _globalMult;
+	BigNumber _globalMult;
+	//int _heroMult;
+	BigNumber _heroMult;
 	int _critChance;
-	int _critMultiplier;
-	int _goldMultiplier;
+	//int _critMultiplier;
+	BigNumber _critMultiplier;
+	//int _goldMultiplier;
+	BigNumber _goldMultiplier;
 	int _clickLvl;
-	double _clickUpgradeCost;
+	//double _clickUpgradeCost;
+	BigNumber _clickUpgradeCost;
 };

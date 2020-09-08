@@ -10,6 +10,7 @@
 #include "Stage.h"
 #include "Mytexture.h"
 #include "Gold.h"
+#include "BigNumber.h"
 
 class Stage;
 class Monster
@@ -30,10 +31,14 @@ public:
 	const sf::Vector2f getPosition() { return _currentMonsterSprite.getPosition(); }
 	int getMonsterWidth() { return _currentMonsterSpriteWidth * _currentMonsterSprite.getScale().x; }
 	int getMonsterHeight() { return _currentMonsterSpriteHeight * _currentMonsterSprite.getScale().y; }
-	void setHp(int hp);
-	int getHp() { return _currentHp; }
-	int getMaxHp() { return _maxHp; }
-	void takeDmg(int dmgTaken);
+	//void setHp(int hp);
+	void setHp(BigNumber& hp);
+	//int getHp() { return _currentHp; }
+	BigNumber getHp() { return _currentHp; }
+	//int getMaxHp() { return _maxHp; }
+	BigNumber getMaxHp() { return _maxHp; }
+	//void takeDmg(int dmgTaken);
+	void takeDmg(BigNumber& dmgTaken);
 
 	//other methods
 	void updateHitboxBordersShape();
@@ -69,8 +74,10 @@ private:
 	sf::Sprite _hpBarEmptySprite;
 	sf::IntRect _hpRect;
 	sf::Text _hpText;
-	int _currentHp;
-	int _maxHp;
+	//int _currentHp;
+	//int _maxHp;
+	BigNumber _currentHp;
+	BigNumber _maxHp;
 	int _hpFrameWidth;
 
 	//MONSTER

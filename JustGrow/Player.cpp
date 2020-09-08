@@ -3,10 +3,13 @@
 Player::Player(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts)
 {
 	//TODO will have to load these from save...
-	_goldMultiplier = 1;
+	//_goldMultiplier = 1;
 	_clickLvl = 1;
-	_heroMult = 1;
-	_globalMult = 1;
+	//_heroMult = 1;
+	//_globalMult = 1;
+	_goldMultiplier = BigNumber(1, 0);
+	_heroMult = BigNumber(1, 0);
+	_globalMult = BigNumber(1, 0);
 
 	this->updateClickCost();
 
@@ -17,7 +20,8 @@ Player::Player(std::map<std::string, Mytexture>& textures, std::map<std::string,
 
 	//initialize crit chance (%)
 	_critChance = 5;
-	_critMultiplier = 2;
+	//_critMultiplier = 2;
+	_critMultiplier = BigNumber(2, 0);
 
 	//prepare cursor textures and sprites
 	_attackCursor = textures["attackCursor"];
@@ -27,7 +31,8 @@ Player::Player(std::map<std::string, Mytexture>& textures, std::map<std::string,
 	_handCursorSprite.setTexture(_handCursor.getTexture());
 
 	//initialize player damage
-	_clickDmg = 1;
+	//_clickDmg = 1;
+	_clickDmg = BigNumber(1, 0);
 }
 
 void Player::drawCursor(sf::RenderWindow& window, Monster& monster)
@@ -52,7 +57,8 @@ void Player::dealDmg(Monster& monster)
 	std::uniform_int_distribution<int> uniCrit(0, 100); // guaranteed unbiased
 	int random_crit = uniCrit(rng);
 	bool crit;
-	int dmgTaken;
+	//int dmgTaken;
+	BigNumber dmgTaken;
 
 	if (random_crit <= _critChance)
 	{
@@ -79,9 +85,10 @@ void Player::dealDmg(Monster& monster)
 void Player::cheat(Monster& monster)
 {
 	//TODO verify there's no memory leak...
-	monster.takeDmg(999);
+	BigNumber cheatDmg(9.99, 9999999);
+	monster.takeDmg(cheatDmg);
 	Hit* hit;
-	hit = new Hit(999, true, _dmgFont, monster);
+	hit = new Hit(cheatDmg, true, _dmgFont, monster);
 	//add hit to queue
 	_hits.push_back(hit);
 }
@@ -106,8 +113,10 @@ void Player::clickUpgrade(Gold& gold, Button& upgradeBtn)
 		_clickLvl++;
 		this->updateClickDmg();
 		this->updateClickCost();
-		upgradeBtn.setTextString("LVL UP\n" + std::to_string((int)_clickUpgradeCost));
-		upgradeBtn.setTooltipString("DMG: " + std::to_string(_clickDmg));
+		//upgradeBtn.setTextString("LVL UP\n" + std::to_string((int)_clickUpgradeCost));
+		//upgradeBtn.setTooltipString("DMG: " + std::to_string(_clickDmg));
+		upgradeBtn.setTextString("LVL UP\n" + _clickUpgradeCost.asString(true));
+		upgradeBtn.setTooltipString("DMG: " + _clickDmg.asString(true));
 	}
 }
 
@@ -115,11 +124,13 @@ void Player::updateClickCost()
 {
 	if (_clickLvl <= 15)
 	{
-		_clickUpgradeCost = std::floor(((double)_clickLvl + 5.0) * std::pow(1.07, _clickLvl - 1.0));
+		//_clickUpgradeCost = std::floor(((double)_clickLvl + 5.0) * std::pow(1.07, _clickLvl - 1.0));
+		_clickUpgradeCost = (_clickLvl + 5.0) * BigNumber::pow(1.07, _clickLvl - 1.0);
 	}
 	else
 	{
-		_clickUpgradeCost = std::floor(20 * std::pow(1.07, _clickLvl - 1.0));
+		//_clickUpgradeCost = std::floor(20 * std::pow(1.07, _clickLvl - 1.0));
+		_clickUpgradeCost = 20 * BigNumber::pow(1.07, _clickLvl - 1.0);
 	}
 }
 
@@ -133,16 +144,18 @@ void Player::updateHeroesMult()
 	//TODO not applied to click, heroes ONLY
 	//TODO TEST this function
 	//×4 Multiplier for each 25 Hero Levels, starting from level 200; at Hero Level 1000, 2000, ..., 8000 the multiplier is ×10.
-	if (_clickLvl < 200)
-	{
-		_heroMult = 1;
-	}
-	else if (_clickLvl > 200)
-	{
-		_heroMult = _clickLvl * 4 / 25;
-	}
-	else if (_clickLvl > 1000)
-	{
-		_heroMult += _clickLvl * 10 / 1000;
-	}
+	//if (_clickLvl < 200)
+	//{
+	//	//_heroMult = 1;
+	//	_heroMult = BigNumber(1, 0);
+	//}
+	//else if (_clickLvl > 200)
+	//{
+	//	//_heroMult = _clickLvl * 4 / 25;
+	//	//_heroMult = _clickLvl * 4 / 25;
+	//}
+	//else if (_clickLvl > 1000)
+	//{
+	//	_heroMult += _clickLvl * 10 / 1000;
+	//}
 }

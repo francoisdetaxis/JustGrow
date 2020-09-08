@@ -8,8 +8,7 @@ class BigNumber
 {
 public:
 	BigNumber();
-	std::string asString();
-	static BigNumber min(BigNumber a, BigNumber b);
+	static BigNumber min(BigNumber& a, BigNumber& b);
 	bool operator==(const BigNumber& nb);
 	bool operator!=(const BigNumber& nb);
 	bool operator<(const BigNumber& nb);
@@ -22,6 +21,8 @@ public:
 	void operator*=(const BigNumber& nb);
 	BigNumber operator+(const BigNumber& nb);
 	BigNumber operator-(const BigNumber& nb);
+	std::string asString(bool rounded);
+	static double to_double(const BigNumber& nb);
 	void operator+=(const BigNumber& nb);
 	void operator-=(const BigNumber& nb);
 
@@ -56,10 +57,10 @@ public:
 	void operator/=(const T& nb);
 
 	template<typename T>
-	void operator*=(const T& nb);
+	BigNumber operator+(const T& nb);
 
 	template<typename T>
-	BigNumber operator+(const T& nb);
+	void operator*=(const T& nb);
 
 	template<typename T>
 	void operator+=(const T& nb);
@@ -71,18 +72,62 @@ public:
 	void operator-=(const T& nb);
 
 	template<typename T>
-	static BigNumber min(T& a, BigNumber& b);
+	static BigNumber min(const T& a, const BigNumber& b);
 
 	template<typename T>
-	static BigNumber min(BigNumber& a, T& b);
+	static BigNumber min(const BigNumber& a, const T& b);
 
 	template<typename T>
-	static BigNumber pow(T base, int exponent);
+	static BigNumber pow(const T& base, const int& exponent);
 
 private:
 	float _value;
 	int _exponent;
 };
+
+//NON MEMBER FUNCTION DEFINITIONS
+template<typename T>
+BigNumber operator+(const T& lhs, const BigNumber& rhs);
+
+template<typename T>
+BigNumber operator-(const T& lhs, const BigNumber& rhs);
+
+template<typename T>
+BigNumber operator*(const T& lhs, const BigNumber& rhs);
+
+template<typename T>
+BigNumber operator/(const T& lhs, const BigNumber& rhs);
+
+//NON MEMBER FUNCTIONS CODE
+template<typename T>
+BigNumber operator+(const T& lhs, const BigNumber& rhs)
+{
+	BigNumber biglhs(lhs, 0);
+	return biglhs + rhs;
+}
+
+template<typename T>
+BigNumber operator-(const T& lhs, const BigNumber& rhs)
+{
+	BigNumber biglhs(lhs, 0);
+	return biglhs - rhs;
+}
+
+template<typename T>
+BigNumber operator*(const T& lhs, const BigNumber& rhs)
+{
+	BigNumber biglhs(lhs, 0);
+	return  biglhs * rhs;
+}
+
+template<typename T>
+BigNumber operator/(const T& lhs, const BigNumber& rhs)
+{
+	BigNumber biglhs(lhs, 0);
+	return biglhs / rhs;
+}
+
+//MEMBER FUNCTIONS CODE
 
 template <typename T>
 BigNumber::BigNumber(T value, int exponent)
@@ -208,7 +253,7 @@ void BigNumber::operator-=(const T& nb)
 }
 
 template <typename T>
-BigNumber BigNumber::min(T& a, BigNumber& b)
+BigNumber BigNumber::min(const T& a, const BigNumber& b)
 {
 	BigNumber bigA(a, 0);
 	if (bigA <= b)
@@ -218,7 +263,7 @@ BigNumber BigNumber::min(T& a, BigNumber& b)
 }
 
 template <typename T>
-BigNumber BigNumber::min(BigNumber& a, T& b)
+BigNumber BigNumber::min(const BigNumber& a, const T& b)
 {
 	BigNumber bigB(b, 0);
 	if (a <= bigB)
@@ -228,14 +273,15 @@ BigNumber BigNumber::min(BigNumber& a, T& b)
 }
 
 template <typename T>
-BigNumber BigNumber::pow(T base, int exponent)
+BigNumber BigNumber::pow(const T& base, const int& exponent)
 {
 	BigNumber result(1, 0);
 	BigNumber bigBase(base, 0);
-	while (exponent != 0)
+	int exp = exponent;
+	while (exp != 0)
 	{
 		result *= bigBase;
-		exponent--;
+		exp--;
 	}
 	return result;
 }

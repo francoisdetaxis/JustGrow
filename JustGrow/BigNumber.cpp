@@ -6,7 +6,7 @@ BigNumber::BigNumber()
 	_exponent = 0;
 }
 
-BigNumber BigNumber::min(BigNumber a, BigNumber b)
+BigNumber BigNumber::min(BigNumber& a, BigNumber& b)
 {
 	if (a <= b)
 		return a;
@@ -369,13 +369,35 @@ BigNumber BigNumber::operator-(const BigNumber& nb)
 	return result;
 }
 
-std::string BigNumber::asString()
+std::string BigNumber::asString(bool rounded)
 {
 	//TODO FIX ?
 	//rounding happening here --> loss of precision
 	//ex: _value 1.997... will be rounded to "2.00"
 	std::stringstream streamVal, streamExp;
-	streamVal << std::fixed << std::setprecision(2) << _value;
-	streamExp << std::fixed << std::setprecision(2) << _exponent;
+	if (rounded)
+	{
+		streamVal << std::fixed << std::setprecision(2) << _value;
+		streamExp << std::fixed << std::setprecision(2) << _exponent;
+	}
+	else
+	{
+		streamVal << std::fixed << _value;
+		streamExp << std::fixed << _exponent;
+	}
+
 	return streamVal.str() + "E" + streamExp.str();
+}
+
+double BigNumber::to_double(const BigNumber& nb)
+{
+	//TODO could overflow easily if BigNumber is too big for a double
+	double result = nb._value;
+	int exponent = nb._exponent;
+	while (exponent != 0)
+	{
+		result *= 10;
+		exponent--;
+	}
+	return result;
 }

@@ -42,3 +42,5 @@ JustGrow/Debug/JustGrow.pdb
 *.recipe
 *.pch
 *.txt
+*.db-shm
+*.db-wal

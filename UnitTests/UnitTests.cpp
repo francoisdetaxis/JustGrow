@@ -10,12 +10,52 @@ namespace UnitTests
 	TEST_CLASS(UnitTests)
 	{
 	public:
+		TEST_METHOD(BigNumberOrdering1)
+		{
+			int a = 1;
+			BigNumber b(1, 0);
+			BigNumber result;
+			BigNumber expected(2, 0);
+			result = a + b;
+			Assert::IsTrue(result == expected);
+		}
+
+		TEST_METHOD(BigNumberOrdering2)
+		{
+			int a = 1;
+			BigNumber b(1, 0);
+			BigNumber result;
+			BigNumber expected(0, 0);
+			result = a - b;
+			Assert::IsTrue(result == expected);
+		}
+
+		TEST_METHOD(BigNumberOrdering3)
+		{
+			int a = 1;
+			BigNumber b(1, 0);
+			BigNumber result;
+			BigNumber expected(1, 0);
+			result = a * b;
+			Assert::IsTrue(result == expected);
+		}
+
+		TEST_METHOD(BigNumberOrdering4)
+		{
+			int a = 1;
+			BigNumber b(1, 0);
+			BigNumber result;
+			BigNumber expected(1, 0);
+			result = a / b;
+			Assert::IsTrue(result == expected);
+		}
+
 		TEST_METHOD(BigNumberInit1)
 		{
 			int a = 10, b = 10;
 			BigNumber actual(a, b);
 			std::string expected = "1.00E11";
-			Assert::AreEqual(actual.asString(), expected);
+			Assert::AreEqual(actual.asString(true), expected);
 		}
 
 		TEST_METHOD(BigNumberInit2)
@@ -24,7 +64,7 @@ namespace UnitTests
 			double a = 10;
 			BigNumber actual(a, b);
 			std::string expected = "1.00E11";
-			Assert::AreEqual(actual.asString(), expected);
+			Assert::AreEqual(actual.asString(true), expected);
 		}
 
 		TEST_METHOD(BigNumberInit3)
@@ -33,7 +73,7 @@ namespace UnitTests
 			float a = 10;
 			BigNumber actual(a, b);
 			std::string expected = "1.00E11";
-			Assert::AreEqual(actual.asString(), expected);
+			Assert::AreEqual(actual.asString(true), expected);
 		}
 
 		TEST_METHOD(BigNumberInit4)
@@ -42,7 +82,7 @@ namespace UnitTests
 			long a = 10;
 			BigNumber actual(a, b);
 			std::string expected = "1.00E11";
-			Assert::AreEqual(actual.asString(), expected);
+			Assert::AreEqual(actual.asString(true), expected);
 		}
 
 		//LT = <
@@ -328,6 +368,18 @@ namespace UnitTests
 			Assert::IsTrue(a != b);
 		}
 
+		TEST_METHOD(BigNumberMult0)
+		{
+			BigNumber a(1.98, 16);
+			BigNumber b(2.26, 256);
+			BigNumber result;
+			BigNumber expected(4.4748, 272);
+			result = a * b;
+			/*std::string msg = "expected " + expected.asString(false) + " but got " + result.asString(false);
+			Logger::WriteMessage(msg.c_str());*/
+			Assert::IsTrue(result == expected);
+		}
+
 		TEST_METHOD(BigNumberMult1)
 		{
 			BigNumber a(1.0, 0);
@@ -357,5 +409,36 @@ namespace UnitTests
 			result = a * b;
 			Assert::IsTrue(result == expected);
 		}
-	};
-}
+
+		TEST_METHOD(BigNumberMultEQ3)
+		{
+			BigNumber a(1.8, 0);
+			int b = 2245.17;
+			BigNumber expected(4.041, 3);
+			a *= b;
+			std::string msg = "expected " + expected.asString(false) + " but got " + a.asString(false);
+			Logger::WriteMessage(msg.c_str());
+			Assert::IsTrue(a == expected);
+		}
+
+		TEST_METHOD(BigNumberDiv1)
+		{
+			BigNumber a(9, 100);
+			BigNumber b(1, 10);
+			BigNumber expected;
+			BigNumber result;
+			result = a / b;
+			std::string msg = "expected " + expected.asString(false) + " but got " + result.asString(false);
+			Logger::WriteMessage(msg.c_str());
+			Assert::IsTrue(result == expected);
+		}
+
+		TEST_METHOD(BigNumberToDouble)
+		{
+			double a, expected;
+			BigNumber b(2.65, 3);
+			a = BigNumber::to_double(b);
+			expected = 2650;
+			Assert::AreEqual(expected, a);
+		};
+	}
