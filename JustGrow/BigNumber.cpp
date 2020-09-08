@@ -6,37 +6,12 @@ BigNumber::BigNumber()
 	_exponent = 0;
 }
 
-BigNumber::BigNumber(float value, int exponent)
-{
-	//big nulmber should look something like this: 9.99E18
-	_value = value;
-	_exponent = exponent;
-
-	while (_value >= 10.0)
-	{
-		_value /= 10;
-		_exponent++;
-	}
-}
-
 BigNumber BigNumber::min(BigNumber a, BigNumber b)
 {
 	if (a <= b)
 		return a;
 	else
 		return b;
-}
-
-BigNumber BigNumber::pow(float base, int exponent)
-{
-	BigNumber result(1, 0);
-	BigNumber bigBase(base, 0);
-	while (exponent != 0)
-	{
-		result *= bigBase;
-		exponent--;
-	}
-	return result;
 }
 
 bool BigNumber::operator==(const BigNumber& nb)
@@ -96,7 +71,7 @@ bool BigNumber::operator>=(const BigNumber& nb)
 
 bool BigNumber::operator<=(const BigNumber& nb)
 {
-	//this < nb ?
+	//this <= nb ?
 	if (this->_exponent == nb._exponent)
 	{
 		return this->_value <= nb._value;
@@ -139,7 +114,7 @@ BigNumber BigNumber::operator/(const BigNumber& nb)
 
 void BigNumber::operator/=(const BigNumber& nb)
 {
-	//this = this * nb
+	//this = this /= nb
 	this->_value = this->_value / nb._value;
 	this->_exponent = this->_exponent - nb._exponent;
 
@@ -153,7 +128,7 @@ void BigNumber::operator/=(const BigNumber& nb)
 
 void BigNumber::operator*=(const BigNumber& nb)
 {
-	//this = this * nb
+	//this = this *= nb
 	this->_value = this->_value * nb._value;
 	this->_exponent = this->_exponent + nb._exponent;
 

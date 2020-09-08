@@ -36,3 +36,9 @@ JustGrow/Debug/JustGrow.pdb
 /JustGrow/.vs/VSWorkspaceState.json
 /JustGrow/.vs/ProjectSettings.json
 /JustGrow/.vs/slnx.sqlite
+*.manifest
+*.testlog
+*.obj
+*.recipe
+*.pch
+*.txt

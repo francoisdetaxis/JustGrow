@@ -3,7 +3,6 @@ bool isLoading = true;
 
 int main(int argc, char* argv[])
 {
-	//SET TO TRUE TO DRAW ADDITIONAL STUFF
 	bool debug = true;
 
 	//background music...
