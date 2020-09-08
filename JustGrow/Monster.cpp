@@ -11,8 +11,10 @@ Monster::Monster(std::map<std::string, Mytexture>& textures, std::map<std::strin
 	_fps = 50;
 
 	//initial monster hp
-	_maxHp = 10;
-	_currentHp = 10;
+	//_maxHp = 10;
+	_maxHp = BigNumber(10, 0);
+	_currentHp = BigNumber(10, 0);
+	//_currentHp = 10;
 
 	//initial booleans
 	_state = Monster::State::IDLE;
@@ -56,7 +58,8 @@ Monster::Monster(std::map<std::string, Mytexture>& textures, std::map<std::strin
 	//HP TEXT
 	_hpFont = fonts["hpFont"];
 	_hpText.setFont(_hpFont);
-	_hpText.setString(std::to_string(_currentHp) + " HP");
+	//_hpText.setString(std::to_string(_currentHp) + " HP");
+	_hpText.setString(_currentHp.asString(true) + " HP");
 	_hpText.setColor(sf::Color::Red);
 
 	//HP BAR
@@ -106,30 +109,34 @@ void Monster::increaseMaxHp(Stage& stage)
 	double stageNb = stage.getStage();
 	if (stageNb <= 140)
 	{
-		_maxHp = std::ceil(10 * (stageNb - 1 + std::pow(1.55, stageNb - 1)));
+		//_maxHp = std::ceil(10 * (stageNb - 1 + std::pow(1.55, stageNb - 1)));
+		_maxHp = 10 * (stageNb - 1 + BigNumber::pow(1.55, stageNb - 1));
 		if (stage.isBoss())
 			_maxHp *= 10;
 	}
 	else if (stageNb <= 500)
 	{
-		_maxHp = std::ceil((139 + std::pow(1.55, 139) * std::pow(1.145, stageNb - 140)));
+		//_maxHp = std::ceil((139 + std::pow(1.55, 139) * std::pow(1.145, stageNb - 140)));
+		_maxHp = (139 + BigNumber::pow(1.55, 139) * BigNumber::pow(1.145, stageNb - 140));
 		if (stage.isBoss())
 			_maxHp *= 10;
 	}
 	else if (stageNb <= 200000)
 	{
-		double product = 1;
+		BigNumber product(1, 0);
 		for (int i = 0; i <= 501; i++)
 		{
 			product *= (1.145 + 0.001 * ((i - 1) / 500));
 		}
-		_maxHp = std::ceil(10 * (139 + std::pow(1.145, 360)) * product);
+		//_maxHp = std::ceil(10 * (139 + std::pow(1.145, 360)) * product);
+		_maxHp = 10 * (139 + BigNumber::pow(1.145, 360)) * product;
 		if (stage.isBoss())
 			_maxHp *= 10;
 	}
 	else
 	{
-		_maxHp = std::ceil(std::pow(1.545, stageNb - 200001) * 1.240 * std::pow(10, 25409) + (stageNb - 1) * 10);
+		//_maxHp = std::ceil(std::pow(1.545, stageNb - 200001) * 1.240 * std::pow(10, 25409) + (stageNb - 1) * 10);
+		_maxHp = BigNumber::pow(1.545, stageNb - 200001) * 1.240 * BigNumber::pow(10, 25409) + (stageNb - 1) * 10;
 	}
 
 	this->setHp(_maxHp);
@@ -273,24 +280,31 @@ void Monster::draw(sf::RenderWindow& window, bool debug)
 	window.draw(_hpText);
 }
 
-void Monster::setHp(int hp)
+//void Monster::setHp(int hp)
+void Monster::setHp(BigNumber& hp)
 {
 	if (hp <= 0)
 	{
-		_currentHp = 0;
-		_hpText.setString(std::to_string(_currentHp) + " HP");
-		_hpRect.width = _currentHp * _hpFrameWidth / _maxHp;
+		//_currentHp = 0;
+		_currentHp = BigNumber(0, 0);
+		//_hpText.setString(std::to_string(_currentHp) + " HP");
+		_hpText.setString(_currentHp.asString(true) + " HP");
+		//_hpRect.width = _currentHp * _hpFrameWidth / _maxHp;
+		_hpRect.width = BigNumber::to_double(_currentHp * _hpFrameWidth / _maxHp);
 		_hpBarFullSprite.setTextureRect(_hpRect);
 	}
 	else {
 		_currentHp = hp;
-		_hpText.setString(std::to_string(_currentHp) + " HP");
-		_hpRect.width = _currentHp * _hpFrameWidth / _maxHp;
+		//_hpText.setString(std::to_string(_currentHp) + " HP");
+		_hpText.setString(_currentHp.asString(true) + " HP");
+		//_hpRect.width = _currentHp * _hpFrameWidth / _maxHp;
+		_hpRect.width = BigNumber::to_double(_currentHp * _hpFrameWidth / _maxHp);
 		_hpBarFullSprite.setTextureRect(_hpRect);
 	}
 }
 
-void Monster::takeDmg(int dmgTaken)
+//void Monster::takeDmg(int dmgTaken)
+void Monster::takeDmg(BigNumber& dmgTaken)
 {
 	this->setHp(_currentHp - dmgTaken);
 	if (_currentHp <= 0)
