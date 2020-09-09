@@ -14,80 +14,126 @@ BigNumber BigNumber::min(BigNumber& a, BigNumber& b)
 		return b;
 }
 
-bool BigNumber::operator==(const BigNumber& nb)
+bool BigNumber::operator==(const BigNumber& rhs)
 {
-	if (this->_value == nb._value && this->_exponent == nb._exponent)
+	if (this->_value == rhs._value && this->_exponent == rhs._exponent)
 		return true;
 	else
 		return false;
 }
 
-bool BigNumber::operator!=(const BigNumber& nb)
+bool BigNumber::operator!=(const BigNumber& rhs)
 {
-	if (this->_value != nb._value || this->_exponent != nb._exponent)
+	if (this->_value != rhs._value || this->_exponent != rhs._exponent)
 		return true;
 	else
 		return false;
 }
 
-bool BigNumber::operator<(const BigNumber& nb)
+bool BigNumber::operator<(const BigNumber& rhs)
 {
 	//this < nb ?
-	if (this->_exponent == nb._exponent)
+	// tricky ex: -9.99E999999 < 0.00E00
+	// tricky ex: 0.00E0 < -1E12
+	if (this->_exponent == rhs._exponent)
 	{
-		return this->_value < nb._value;
+		return this->_value < rhs._value;
 	}
-	else if (this->_exponent < nb._exponent)
-		return true;
+	else if (this->_exponent < rhs._exponent)
+	{
+		if (std::copysign(1, rhs._value) == -1)
+			return false;
+		else
+			return true;
+	}
 	else
-		return false;
+	{
+		if (std::copysign(1, this->_value) == -1)
+			return true;
+		else
+			return false;
+	}
 }
 
-bool BigNumber::operator>(const BigNumber& nb)
-{
-	//this > nb ?
-	if (this->_exponent == nb._exponent)
-	{
-		return this->_value > nb._value;
-	}
-	else if (this->_exponent > nb._exponent)
-		return true;
-	else
-		return false;
-}
-
-bool BigNumber::operator>=(const BigNumber& nb)
-{
-	//this >= nb ?
-	if (this->_exponent == nb._exponent)
-	{
-		return this->_value >= nb._value;
-	}
-	else if (this->_exponent >= nb._exponent)
-		return true;
-	else
-		return false;
-}
-
-bool BigNumber::operator<=(const BigNumber& nb)
+bool BigNumber::operator<=(const BigNumber& rhs)
 {
 	//this <= nb ?
-	if (this->_exponent == nb._exponent)
+	// tricky ex: -9.99E999999 <= 0.00E00
+	// tricky ex: 0.00E0 <= -1E12
+	if (this->_exponent == rhs._exponent)
 	{
-		return this->_value <= nb._value;
+		return this->_value <= rhs._value;
 	}
-	else if (this->_exponent <= nb._exponent)
-		return true;
+	else if (this->_exponent <= rhs._exponent)
+	{
+		if (std::copysign(1, rhs._value) == -1)
+			return false;
+		else
+			return true;
+	}
 	else
-		return false;
+	{
+		if (std::copysign(1, this->_value) == -1)
+			return true;
+		else
+			return false;
+	}
 }
 
-BigNumber BigNumber::operator*(const BigNumber& nb)
+bool BigNumber::operator>(const BigNumber& rhs)
+{
+	//this > nb ?
+		// tricky ex: -9.99E999999 > 0.00E00
+	// tricky ex: 0.00E0 > -1E12
+	if (this->_exponent == rhs._exponent)
+	{
+		return this->_value > rhs._value;
+	}
+	else if (this->_exponent > rhs._exponent)
+	{
+		if (std::copysign(1, this->_value) == -1)
+			return false;
+		else
+			return true;
+	}
+	else
+	{
+		if (std::copysign(1, rhs._value) == -1)
+			return true;
+		else
+			return false;
+	}
+}
+
+bool BigNumber::operator>=(const BigNumber& rhs)
+{
+	//this >= nb ?
+	if (this->_exponent == rhs._exponent)
+	{
+		return this->_value >= rhs._value;
+	}
+	else if (this->_exponent >= rhs._exponent)
+	{
+		if (std::copysign(1, this->_value) == -1)
+			return false;
+		else
+			return true;
+	}
+	else
+	{
+		if (std::copysign(1, rhs._value) == -1)
+			return true;
+		else
+			return false;
+	}
+}
+
+BigNumber BigNumber::operator*(const BigNumber& rhs)
 {
 	//result = this * nb
 	BigNumber result;
-	result._value = this->_value * nb._value;
-	result._exponent = this->_exponent + nb._exponent;
+	result._value = this->_value * rhs._value;
+	result._exponent = this->_exponent + rhs._exponent;
 
 	while (result._value >= 10.0)
 	{
@@ -97,12 +143,12 @@ BigNumber BigNumber::operator*(const BigNumber& nb)
 	return result;
 }
 
-BigNumber BigNumber::operator/(const BigNumber& nb)
+BigNumber BigNumber::operator/(const BigNumber& rhs)
 {
 	//result = this / nb
 	BigNumber result;
-	result._value = this->_value / nb._value;
-	result._exponent = this->_exponent - nb._exponent;
+	result._value = this->_value / rhs._value;
+	result._exponent = this->_exponent - rhs._exponent;
 
 	while (result._value >= 10.0)
 	{
@@ -112,11 +158,11 @@ BigNumber BigNumber::operator/(const BigNumber& nb)
 	return result;
 }
 
-void BigNumber::operator/=(const BigNumber& nb)
+void BigNumber::operator/=(const BigNumber& rhs)
 {
 	//this = this /= nb
-	this->_value = this->_value / nb._value;
-	this->_exponent = this->_exponent - nb._exponent;
+	this->_value = this->_value / rhs._value;
+	this->_exponent = this->_exponent - rhs._exponent;
 
 	while (this->_value >= 10.0)
 	{
@@ -126,11 +172,11 @@ void BigNumber::operator/=(const BigNumber& nb)
 	return;
 }
 
-void BigNumber::operator*=(const BigNumber& nb)
+void BigNumber::operator*=(const BigNumber& rhs)
 {
 	//this = this *= nb
-	this->_value = this->_value * nb._value;
-	this->_exponent = this->_exponent + nb._exponent;
+	this->_value = this->_value * rhs._value;
+	this->_exponent = this->_exponent + rhs._exponent;
 
 	while (this->_value >= 10.0)
 	{
@@ -140,7 +186,7 @@ void BigNumber::operator*=(const BigNumber& nb)
 	return;
 }
 
-BigNumber BigNumber::operator+(const BigNumber& nb)
+BigNumber BigNumber::operator+(const BigNumber& rhs)
 {
 	//result = this + nb
 	BigNumber result;
@@ -148,36 +194,36 @@ BigNumber BigNumber::operator+(const BigNumber& nb)
 	int thisExp, nbExp;
 	thisExp = this->_exponent;
 	thisVal = this->_value;
-	nbExp = nb._exponent;
-	nbVal = nb._value;
+	nbExp = rhs._exponent;
+	nbVal = rhs._value;
 
 	//if difference in exponents is >= 3, return the largest nb
-	if (this->_exponent >= nb._exponent + 3)
+	if (this->_exponent >= rhs._exponent + 3)
 	{
 		result._exponent = this->_exponent;
 		result._value = this->_value;
 		return result;
 	}
-	else if (nb._exponent >= this->_exponent + 3)
+	else if (rhs._exponent >= this->_exponent + 3)
 	{
-		result._exponent = nb._exponent;
-		result._value = nb._value;
+		result._exponent = rhs._exponent;
+		result._value = rhs._value;
 		return result;
 	}
 
 	else //difference in exponents in 2 at most
 	{
-		if (this->_exponent > nb._exponent)
+		if (this->_exponent > rhs._exponent)
 		{
-			while (thisExp != nb._exponent) //make this and nb have the same exponent
+			while (thisExp != rhs._exponent) //make this and nb have the same exponent
 			{
 				thisVal *= 10;
 				thisExp--;
 			}
 			result._value = thisVal + nbVal;
-			result._exponent = nb._exponent;
+			result._exponent = rhs._exponent;
 		}
-		else if (nb._exponent > this->_exponent)
+		else if (rhs._exponent > this->_exponent)
 		{
 			while (nbExp != this->_exponent)
 			{
@@ -189,7 +235,7 @@ BigNumber BigNumber::operator+(const BigNumber& nb)
 		}
 		else //exponents are equal
 		{
-			result._value = this->_value + nb._value;
+			result._value = this->_value + rhs._value;
 			result._exponent = this->_exponent;
 		}
 	}
@@ -201,38 +247,38 @@ BigNumber BigNumber::operator+(const BigNumber& nb)
 	return result;
 }
 
-void BigNumber::operator+=(const BigNumber& nb)
+void BigNumber::operator+=(const BigNumber& rhs)
 {
 	//this = this + nb
 	float thisVal, nbVal;
 	int thisExp, nbExp;
 	thisExp = this->_exponent;
 	thisVal = this->_value;
-	nbExp = nb._exponent;
-	nbVal = nb._value;
+	nbExp = rhs._exponent;
+	nbVal = rhs._value;
 
 	//if difference in exponents is >= 3, return the largest nb
-	if (this->_exponent >= nb._exponent + 3)
+	if (this->_exponent >= rhs._exponent + 3)
 		return;
-	else if (nb._exponent >= this->_exponent + 3)
+	else if (rhs._exponent >= this->_exponent + 3)
 	{
-		this->_exponent = nb._exponent;
-		this->_value = nb._value;
+		this->_exponent = rhs._exponent;
+		this->_value = rhs._value;
 		return;
 	}
 	else //difference in exponents in 2 at most
 	{
-		if (this->_exponent > nb._exponent)
+		if (this->_exponent > rhs._exponent)
 		{
-			while (thisExp != nb._exponent) //make this and nb have the same exponent
+			while (thisExp != rhs._exponent) //make this and nb have the same exponent
 			{
 				thisVal *= 10;
 				thisExp--;
 			}
 			this->_value = thisVal + nbVal;
-			this->_exponent = nb._exponent;
+			this->_exponent = rhs._exponent;
 		}
-		else if (nb._exponent > this->_exponent)
+		else if (rhs._exponent > this->_exponent)
 		{
 			while (nbExp != this->_exponent)
 			{
@@ -243,7 +289,7 @@ void BigNumber::operator+=(const BigNumber& nb)
 		}
 		else //exponents are equal
 		{
-			this->_value = this->_value + nb._value;
+			this->_value = this->_value + rhs._value;
 		}
 	}
 	while (this->_value >= 10.0)
@@ -254,39 +300,39 @@ void BigNumber::operator+=(const BigNumber& nb)
 	return;
 }
 
-void BigNumber::operator-=(const BigNumber& nb)
+void BigNumber::operator-=(const BigNumber& rhs)
 {
 	//this = this - nb
 	float thisVal, nbVal;
 	int thisExp, nbExp;
 	thisExp = this->_exponent;
 	thisVal = this->_value;
-	nbExp = nb._exponent;
-	nbVal = nb._value;
+	nbExp = rhs._exponent;
+	nbVal = rhs._value;
 
 	//if difference in exponents is >= 3, return the largest nb
-	if (this->_exponent >= nb._exponent + 3)
+	if (this->_exponent >= rhs._exponent + 3)
 		return;
-	else if (nb._exponent >= this->_exponent + 3)
+	else if (rhs._exponent >= this->_exponent + 3)
 	{
-		this->_exponent = nb._exponent;
-		this->_value = nb._value;
+		this->_exponent = rhs._exponent;
+		this->_value = rhs._value;
 		return;
 	}
 
 	else //difference in exponents in 2 at most
 	{
-		if (this->_exponent > nb._exponent)
+		if (this->_exponent > rhs._exponent)
 		{
-			while (thisExp != nb._exponent) //make this and nb have the same exponent
+			while (thisExp != rhs._exponent) //make this and nb have the same exponent
 			{
 				thisVal *= 10;
 				thisExp--;
 			}
 			this->_value = thisVal - nbVal;
-			this->_exponent = nb._exponent;
+			this->_exponent = rhs._exponent;
 		}
-		else if (nb._exponent > this->_exponent)
+		else if (rhs._exponent > this->_exponent)
 		{
 			while (nbExp != this->_exponent)
 			{
@@ -297,7 +343,7 @@ void BigNumber::operator-=(const BigNumber& nb)
 		}
 		else //exponents are equal
 		{
-			this->_value = this->_value - nb._value;
+			this->_value = this->_value - rhs._value;
 		}
 	}
 	while (this->_value >= 10.0)
@@ -308,44 +354,45 @@ void BigNumber::operator-=(const BigNumber& nb)
 	return;
 }
 
-BigNumber BigNumber::operator-(const BigNumber& nb)
+BigNumber BigNumber::operator-(const BigNumber& rhs)
 {
+	//TODO FIX this
 	//result = this - nb
 	BigNumber result;
 	float thisVal, nbVal;
 	int thisExp, nbExp;
 	thisExp = this->_exponent;
 	thisVal = this->_value;
-	nbExp = nb._exponent;
-	nbVal = nb._value;
+	nbExp = rhs._exponent;
+	nbVal = rhs._value;
 
 	//if difference in exponents is >= 3, return the largest nb
-	if (this->_exponent >= nb._exponent + 3)
+	if (this->_exponent >= rhs._exponent + 3)
 	{
 		result._exponent = this->_exponent;
 		result._value = this->_value;
 		return result;
 	}
-	else if (nb._exponent >= this->_exponent + 3)
+	else if (rhs._exponent >= this->_exponent + 3)
 	{
-		result._exponent = nb._exponent;
-		result._value = nb._value;
+		result._exponent = rhs._exponent;
+		result._value = -rhs._value;
 		return result;
 	}
 
 	else //difference in exponents in 2 at most
 	{
-		if (this->_exponent > nb._exponent)
+		if (this->_exponent > rhs._exponent)
 		{
-			while (thisExp != nb._exponent) //make this and nb have the same exponent
+			while (thisExp != rhs._exponent) //make this and nb have the same exponent
 			{
 				thisVal *= 10;
 				thisExp--;
 			}
 			result._value = thisVal - nbVal;
-			result._exponent = nb._exponent;
+			result._exponent = rhs._exponent;
 		}
-		else if (nb._exponent > this->_exponent)
+		else if (rhs._exponent > this->_exponent)
 		{
 			while (nbExp != this->_exponent)
 			{
@@ -357,7 +404,7 @@ BigNumber BigNumber::operator-(const BigNumber& nb)
 		}
 		else //exponents are equal
 		{
-			result._value = this->_value - nb._value;
+			result._value = this->_value - rhs._value;
 			result._exponent = this->_exponent;
 		}
 	}
@@ -375,18 +422,24 @@ std::string BigNumber::asString(bool rounded)
 	//rounding happening here --> loss of precision
 	//ex: _value 1.997... will be rounded to "2.00"
 	std::stringstream streamVal, streamExp;
-	if (rounded)
+	if (this->_exponent <= 3)
 	{
-		streamVal << std::fixed << std::setprecision(2) << _value;
-		streamExp << std::fixed << std::setprecision(2) << _exponent;
+		return std::to_string(this->asInt());
 	}
 	else
 	{
-		streamVal << std::fixed << _value;
-		streamExp << std::fixed << _exponent;
+		if (rounded)
+		{
+			streamVal << std::fixed << std::setprecision(2) << _value;
+			streamExp << std::fixed << std::setprecision(2) << _exponent;
+		}
+		else
+		{
+			streamVal << std::fixed << _value;
+			streamExp << std::fixed << _exponent;
+		}
+		return streamVal.str() + "E" + streamExp.str();
 	}
-
-	return streamVal.str() + "E" + streamExp.str();
 }
 
 double BigNumber::to_double(const BigNumber& nb)
@@ -394,6 +447,32 @@ double BigNumber::to_double(const BigNumber& nb)
 	//TODO could overflow easily if BigNumber is too big for a double
 	double result = nb._value;
 	int exponent = nb._exponent;
+	while (exponent != 0)
+	{
+		result *= 10;
+		exponent--;
+	}
+	return result;
+}
+
+int BigNumber::to_int(const BigNumber& nb)
+{
+	//TODO could overflow easily if BigNumber is too big for a double
+	int result = nb._value;
+	int exponent = nb._exponent;
+	while (exponent != 0)
+	{
+		result *= 10;
+		exponent--;
+	}
+	return result;
+}
+
+int BigNumber::asInt()
+{
+	//TODO could overflow easily if BigNumber is too big for a double
+	int result = _value;
+	int exponent = _exponent;
 	while (exponent != 0)
 	{
 		result *= 10;

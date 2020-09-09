@@ -23,6 +23,8 @@ public:
 	BigNumber operator-(const BigNumber& nb);
 	std::string asString(bool rounded);
 	static double to_double(const BigNumber& nb);
+	static int to_int(const BigNumber& nb);
+	int asInt();
 	void operator+=(const BigNumber& nb);
 	void operator-=(const BigNumber& nb);
 
@@ -143,112 +145,112 @@ BigNumber::BigNumber(T value, int exponent)
 }
 
 template <typename T>
-bool BigNumber::operator==(const T& nb)
+bool BigNumber::operator==(const T& rhs)
 {
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	return *this == bigNb;
 }
 
 template <typename T>
-bool BigNumber::operator!=(const T& nb)
+bool BigNumber::operator!=(const T& rhs)
 {
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	return *this != bigNb;
 }
 
 template <typename T>
-bool BigNumber::operator<(const T& nb)
+bool BigNumber::operator<(const T& rhs)
 {
 	//this < nb ?
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	return *this < bigNb;
 }
 
 template <typename T>
-bool BigNumber::operator<=(const T& nb)
+bool BigNumber::operator<=(const T& rhs)
 {
 	//this <= nb ?
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	return *this <= bigNb;
 }
 
 template <typename T>
-bool BigNumber::operator>(const T& nb)
+bool BigNumber::operator>(const T& rhs)
 {
 	//this > nb ?
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	return *this > bigNb;
 }
 
 template <typename T>
-bool BigNumber::operator>=(const T& nb)
+bool BigNumber::operator>=(const T& rhs)
 {
 	//this >= nb ?
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	return *this >= bigNb;
 }
 
 template <typename T>
-BigNumber BigNumber::operator*(const T& nb)
+BigNumber BigNumber::operator*(const T& rhs)
 {
 	//result = this * nb
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	return *this * bigNb;
 }
 
 template <typename T>
-void BigNumber::operator*=(const T& nb)
+void BigNumber::operator*=(const T& rhs)
 {
 	//this = this *= nb
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	*this *= bigNb;
 }
 
 template <typename T>
-BigNumber BigNumber::operator/(const T& nb)
+BigNumber BigNumber::operator/(const T& rhs)
 {
 	//result = this / nb
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	return *this / bigNb;
 }
 
 template <typename T>
-void BigNumber::operator/=(const T& nb)
+void BigNumber::operator/=(const T& rhs)
 {
 	//this = this /= nb
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	*this /= bigNb;
 }
 
 template <typename T>
-BigNumber BigNumber::operator+(const T& nb)
+BigNumber BigNumber::operator+(const T& rhs)
 {
 	//this = this + nb
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	return *this + bigNb;
 }
 
 template <typename T>
-void BigNumber::operator+=(const T& nb)
+void BigNumber::operator+=(const T& rhs)
 {
 	//this = this += nb
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	*this += bigNb;
 }
 
 template <typename T>
-BigNumber BigNumber::operator-(const T& nb)
+BigNumber BigNumber::operator-(const T& rhs)
 {
 	//this = this - nb
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	return *this - bigNb;
 }
 
 template <typename T>
-void BigNumber::operator-=(const T& nb)
+void BigNumber::operator-=(const T& rhs)
 {
 	//this = this -= nb
-	BigNumber bigNb(nb, 0);
+	BigNumber bigNb(rhs, 0);
 	*this -= bigNb;
 }
 

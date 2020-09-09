@@ -425,7 +425,7 @@ namespace UnitTests
 		{
 			BigNumber a(9, 100);
 			BigNumber b(1, 10);
-			BigNumber expected;
+			BigNumber expected(9, 90);
 			BigNumber result;
 			result = a / b;
 			std::string msg = "expected " + expected.asString(false) + " but got " + result.asString(false);
@@ -439,6 +439,140 @@ namespace UnitTests
 			BigNumber b(2.65, 3);
 			a = BigNumber::to_double(b);
 			expected = 2650;
+
+			std::string msg = "expected " + std::to_string(expected) + " but got " + std::to_string(a);
+			Logger::WriteMessage(msg.c_str());
 			Assert::AreEqual(expected, a);
-		};
-	}
+		}
+
+		TEST_METHOD(BigNumberSoustraction1)
+		{
+			BigNumber a(1, 0);
+			BigNumber b(2, 0);
+			BigNumber result = a - b;
+			BigNumber expected(-1, 0);
+			std::string msg = "expected " + expected.asString(false) + " but got " + result.asString(false);
+			Logger::WriteMessage(msg.c_str());
+			Assert::IsTrue(result == expected);
+		}
+
+		TEST_METHOD(BigNumberSoustraction2)
+		{
+			BigNumber a(1, 0);
+			BigNumber b(9.99, 9999999);
+			BigNumber result = a - b;
+			BigNumber expected(-9.99, 9999999);
+			std::string msg = "expected " + expected.asString(false) + " but got " + result.asString(false);
+			Logger::WriteMessage(msg.c_str());
+			Assert::IsTrue(result == expected);
+		}
+		TEST_METHOD(BigNumberLE00)
+		{
+			BigNumber a(-9.99, 9999999);
+			int b = 0;
+			Assert::IsTrue(a <= b);
+		}
+
+		TEST_METHOD(BigNumberLE01)
+		{
+			BigNumber a(-9.99, 9999999);
+			BigNumber b(0, 0);
+			Assert::IsTrue(a <= b);
+		}
+
+		TEST_METHOD(BigNumberLE02)
+		{
+			BigNumber a(0, 0);
+			BigNumber b(-1.0, 12);
+			Assert::IsFalse(a <= b);
+		}
+
+		TEST_METHOD(BigNumberLE03)
+		{
+			BigNumber a(0, 0);
+			Assert::IsFalse(a <= -10);
+		}
+
+		TEST_METHOD(BigNumberLT00)
+		{
+			BigNumber a(-9.99, 9999999);
+			int b = 0;
+			Assert::IsTrue(a < b);
+		}
+
+		TEST_METHOD(BigNumberLT01)
+		{
+			BigNumber a(-9.99, 9999999);
+			BigNumber b(0, 0);
+			Assert::IsTrue(a < b);
+		}
+
+		TEST_METHOD(BigNumberLT02)
+		{
+			BigNumber a(0, 0);
+			BigNumber b(-1.0, 12);
+			Assert::IsFalse(a < b);
+		}
+
+		TEST_METHOD(BigNumberLT03)
+		{
+			BigNumber a(0, 0);
+			Assert::IsFalse(a < -10);
+		}
+
+		TEST_METHOD(BigNumberGT00)
+		{
+			BigNumber a(-9.99, 9999999);
+			int b = 0;
+			Assert::IsFalse(a > b);
+		}
+
+		TEST_METHOD(BigNumberGT01)
+		{
+			BigNumber a(-9.99, 9999999);
+			BigNumber b(0, 0);
+			Assert::IsFalse(a > b);
+		}
+
+		TEST_METHOD(BigNumberGT02)
+		{
+			BigNumber a(0, 0);
+			BigNumber b(-1.0, 12);
+			Assert::IsTrue(a > b);
+		}
+
+		TEST_METHOD(BigNumberGT03)
+		{
+			BigNumber a(0, 0);
+			Assert::IsTrue(a > -10);
+		}
+
+		TEST_METHOD(BigNumberGT04)
+		{
+			BigNumber a(-1, 0);
+			BigNumber b(1, 0);
+			Assert::IsFalse(a > b);
+		}
+
+		TEST_METHOD(BigNumberGE04)
+		{
+			BigNumber a(-1, 0);
+			BigNumber b(1, 0);
+			Assert::IsFalse(a >= b);
+		}
+
+		TEST_METHOD(BigNumberLE04)
+		{
+			BigNumber a(-1, 0);
+			BigNumber b(1, 0);
+			Assert::IsTrue(a <= b);
+		}
+
+		TEST_METHOD(BigNumberLT04)
+		{
+			BigNumber a(-1, 0);
+			BigNumber b(1, 0);
+			Assert::IsTrue(a < b);
+		}
+	};
+}
