@@ -37,6 +37,10 @@
 #define SCREEN_HEIGHT 1080
 #define MAX_PLATFORM_NB 9
 
+enum class GameState {
+	MENU, PLAY, QUIT
+};
+
 //------------------------------REMINDER-------------------------------------------
 // TOP = y position of the top left corner
 // LEFT = x position of the top left corner

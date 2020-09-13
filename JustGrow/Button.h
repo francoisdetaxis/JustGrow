@@ -17,6 +17,7 @@ public:
 	void setTextString(std::string str);
 	void setTooltipString(std::string str);
 	bool isHit(sf::RenderWindow& window);
+	const sf::Vector2f getPosition() { return _btnSprite.getPosition(); }
 	sf::Vector2u getSize() { return _btnTexture.getSize(); }
 private:
 	std::map<std::string, sf::Font> _fonts;

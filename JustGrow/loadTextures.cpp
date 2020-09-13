@@ -45,7 +45,7 @@ std::map<std::string, Mytexture> loadTextures()
 
 	//menu
 	Mytexture menu("./resources/image/menu/menu.png", 1);
-	Mytexture pinkbg("./resources/image/pinkgbg.png", 1);
+	Mytexture btn("./resources/image/menu/btn-default.png", 1);
 
 	//money
 	Mytexture coin("./resources/image/gold-coin.png", 1);
@@ -54,9 +54,9 @@ std::map<std::string, Mytexture> loadTextures()
 	//background
 	Mytexture background("./resources/image/backgrounds/game_background_1.png", 1);
 
-
 	std::map<std::string, Mytexture> textures{
 		{"face", face},
+		{"btn", btn},
 		{"background", background},
 		{"muteSound", muteSound},
 		{"sound", sound},
@@ -64,7 +64,6 @@ std::map<std::string, Mytexture> loadTextures()
 		{"timer", timer},
 		{"coinSmall", coinSmall},
 		{"coin", coin},
-		{"pinkbg", pinkbg},
 		{"clickUpgrade", clickUpgrade},
 		{"menu", menu},
 		{"monster1_idle", monster1_idle},

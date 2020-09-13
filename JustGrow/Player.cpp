@@ -50,6 +50,13 @@ void Player::drawCursor(sf::RenderWindow& window, Monster& monster)
 	}
 }
 
+void Player::drawCursor(sf::RenderWindow& window)
+{
+	//draw hand cursor
+	_handCursorSprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
+	window.draw(_handCursorSprite);
+}
+
 void Player::dealDmg(Monster& monster)
 {
 	std::random_device rd;     // only used once to initialise (seed) engine

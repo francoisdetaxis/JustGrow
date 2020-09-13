@@ -22,6 +22,7 @@ class Player
 public:
 	Player(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
 	void drawCursor(sf::RenderWindow& window, Monster& monster);
+	void drawCursor(sf::RenderWindow& window);
 	void dealDmg(Monster& monster);
 	void cheat(Monster& monster);
 	void drawDmg(sf::RenderWindow& window);
