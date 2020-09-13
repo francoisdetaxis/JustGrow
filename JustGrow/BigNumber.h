@@ -82,7 +82,6 @@ public:
 	template<typename T>
 	static BigNumber pow(const T& base, const int& exponent);
 
-private:
 	float _value;
 	int _exponent;
 };

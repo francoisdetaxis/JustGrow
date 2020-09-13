@@ -32,6 +32,7 @@
 #include "Stage.h"
 #include "ScrollView.h"
 #include "Gold.h"
+#include "saveGame.h"
 
 #define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080

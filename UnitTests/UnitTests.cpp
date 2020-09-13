@@ -577,5 +577,21 @@ namespace UnitTests
 			BigNumber b(1, 0);
 			Assert::IsTrue(a < b);
 		}
+
+		TEST_METHOD(BigNumberAsInt01)
+		{
+			BigNumber a(1.7, 1);
+			std::string msg = "a should be 17. a is " + a.asInt();
+			Logger::WriteMessage(msg.c_str());
+			Assert::IsTrue(a.asInt() == 17);
+		}
+
+		TEST_METHOD(BigNumberAsInt02)
+		{
+			BigNumber a(2.1, 2);
+			std::string msg = "a should be 17. a is " + a.asInt();
+			Logger::WriteMessage(msg.c_str());
+			Assert::IsTrue(a.asInt() == 210);
+		}
 	};
 }

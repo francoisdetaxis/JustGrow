@@ -126,6 +126,13 @@ int main(int argc, char* argv[])
 						gameState = GameState::PLAY;
 					if (event.mouseButton.button == sf::Mouse::Left && btnQuit.isHit(window))
 						gameState = GameState::QUIT;
+					if (event.mouseButton.button == sf::Mouse::Left && btnSave.isHit(window))
+						saveGame(player);
+					if (event.mouseButton.button == sf::Mouse::Left && btnLoad.isHit(window))
+					{
+						loadGame(player);
+						player.reloadUpgrades(btnclickUpgrade);
+					}
 				}
 			}
 			//DRAW EVERYTHING

@@ -31,6 +31,7 @@ public:
 	void clickUpgrade(Gold& gold, Button& upgradeBtn);
 	//int getClickDmg() { return _clickDmg; }
 	BigNumber getClickDmg() { return _clickDmg; }
+	void reloadUpgrades(Button& upgradeBtn);
 	void updateClickCost();
 	//int getClickCost() { return _clickUpgradeCost; }
 	BigNumber getClickCost() { return _clickUpgradeCost; }
@@ -38,18 +39,7 @@ public:
 	void updateHeroesMult();
 	int getClickLvl() { return _clickLvl; }
 
-private:
-	std::map<std::string, Mytexture> _textures;
-	std::map<std::string, sf::Font> _fonts;
-
-	Mytexture _attackCursor;
-	Mytexture _handCursor;
-
-	sf::Sprite _attackCursorSprite;
-	sf::Sprite _handCursorSprite;
-	sf::Font _dmgFont;
-	std::deque<Hit*> _hits;
-
+	//public because easier to save game...
 	//int _clickDmg;
 	BigNumber _clickDmg;
 	//int _globalMult;
@@ -64,4 +54,16 @@ private:
 	int _clickLvl;
 	//double _clickUpgradeCost;
 	BigNumber _clickUpgradeCost;
+
+private:
+	std::map<std::string, Mytexture> _textures;
+	std::map<std::string, sf::Font> _fonts;
+
+	Mytexture _attackCursor;
+	Mytexture _handCursor;
+
+	sf::Sprite _attackCursorSprite;
+	sf::Sprite _handCursorSprite;
+	sf::Font _dmgFont;
+	std::deque<Hit*> _hits;
 };

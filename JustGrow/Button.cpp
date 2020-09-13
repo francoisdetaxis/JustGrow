@@ -44,10 +44,10 @@ Button::Button(sf::Texture& btnTexture, std::map<std::string, sf::Font>& fonts)
 	_text.setString("UNINITIALIZED");
 
 	//tooltip
-	//_tooltip.setFont(fonts["dmgFont"]);
-	//_tooltip.setColor(sf::Color::Green);
+	_tooltip.setFont(fonts["dmgFont"]);
+	_tooltip.setColor(sf::Color::Green);
 	//_tooltip.setString("UNINITIALIZED");
-	//_tooltip.setPosition(_btnTexture.getSize().x + 25, 0);
+	_tooltip.setPosition(_btnTexture.getSize().x + 25, 0);
 
 	//btn rect
 	_btnRect.top = 0;

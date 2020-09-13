@@ -458,25 +458,25 @@ double BigNumber::to_double(const BigNumber& nb)
 int BigNumber::to_int(const BigNumber& nb)
 {
 	//TODO could overflow easily if BigNumber is too big for a double
-	int result = nb._value;
-	int exponent = nb._exponent;
+	float result = nb._value;
+	float exponent = nb._exponent;
 	while (exponent != 0)
 	{
 		result *= 10;
 		exponent--;
 	}
-	return result;
+	return (int)result;
 }
 
 int BigNumber::asInt()
 {
 	//TODO could overflow easily if BigNumber is too big for a double
-	int result = _value;
-	int exponent = _exponent;
+	float result = _value;
+	float exponent = _exponent;
 	while (exponent != 0)
 	{
 		result *= 10;
 		exponent--;
 	}
-	return result;
+	return (int)result;
 }

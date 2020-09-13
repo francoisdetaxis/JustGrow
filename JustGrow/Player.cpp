@@ -127,6 +127,11 @@ void Player::clickUpgrade(Gold& gold, Button& upgradeBtn)
 	}
 }
 
+void Player::reloadUpgrades(Button& upgradeBtn)
+{
+	upgradeBtn.setTextString("LVL UP\n" + _clickUpgradeCost.asString(true));
+	upgradeBtn.setTooltipString("DMG: " + _clickDmg.asString(true));
+}
 void Player::updateClickCost()
 {
 	if (_clickLvl <= 15)
