@@ -12,6 +12,8 @@
 #include "Gold.h"
 #include "BigNumber.h"
 
+#define MAX_MONSTER_NB 5
+
 class Stage;
 class Monster
 {

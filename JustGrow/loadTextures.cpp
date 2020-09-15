@@ -12,6 +12,12 @@ std::map<std::string, Mytexture> loadTextures()
 	Mytexture monster3_idle("./resources/image/sprites/monster3_idle.png", 12);
 	Mytexture monster3_dying("./resources/image/sprites/monster3_dying.png", 15);
 	Mytexture monster3_hurt("./resources/image/sprites/monster3_hurt.png", 12);
+	Mytexture monster4_idle("./resources/image/sprites/monster4_idle.png", 18);
+	Mytexture monster4_dying("./resources/image/sprites/monster4_dying.png", 15);
+	Mytexture monster4_hurt("./resources/image/sprites/monster4_hurt.png", 12);
+	Mytexture monster5_idle("./resources/image/sprites/monster5_idle.png", 18);
+	Mytexture monster5_dying("./resources/image/sprites/monster5_dying.png", 15);
+	Mytexture monster5_hurt("./resources/image/sprites/monster5_hurt.png", 12);
 
 	//platforms
 	//TODO limit the number of textures --> switcher the sprites texture is costly (investigate)
@@ -69,12 +75,18 @@ std::map<std::string, Mytexture> loadTextures()
 		{"monster1_idle", monster1_idle},
 		{"monster2_idle", monster2_idle},
 		{"monster3_idle", monster3_idle},
+		{"monster4_idle", monster4_idle},
+		{"monster5_idle", monster5_idle},
 		{"monster1_dying", monster1_dying},
 		{"monster2_dying", monster2_dying},
 		{"monster3_dying", monster3_dying},
+		{"monster4_dying", monster4_dying},
+		{"monster5_dying", monster5_dying},
 		{"monster1_hurt", monster1_hurt},
 		{"monster2_hurt", monster2_hurt},
 		{"monster3_hurt", monster3_hurt},
+		{"monster4_hurt", monster4_hurt},
+		{"monster5_hurt", monster5_hurt},
 		{"platform1", platform1},
 		{"platform2", platform2},
 		{"platform3", platform3},

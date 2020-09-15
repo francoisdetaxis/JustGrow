@@ -43,7 +43,7 @@ void Stage::nextLevel(Monster& monster, Gold& gold, Player& player)
 
 	if (this->isBoss())
 	{
-		_levelText.setString("Level " + std::to_string(_currentLevel) + "/1");
+		_levelText.setString("Level " + std::to_string(_currentLevel) + "/1"); //update level text
 	}
 	else
 	{
@@ -51,10 +51,19 @@ void Stage::nextLevel(Monster& monster, Gold& gold, Player& player)
 	}
 }
 
+void Stage::updateTexts()
+{
+	_stageText.setString("Stage " + std::to_string(_currentStage)); //update stage text
+	if (this->isBoss())
+		_levelText.setString("Level " + std::to_string(_currentLevel) + "/1"); //update level text
+	else
+		_levelText.setString("Level " + std::to_string(_currentLevel) + "/10");//update level text
+}
+
 void Stage::nextStage(Monster& monster, Gold& gold, Player& player)
 {
 	_currentStage++;
-	_stageText.setString("Stage " + std::to_string(_currentStage));
+	_stageText.setString("Stage " + std::to_string(_currentStage)); //update stage text
 	monster.increaseMaxHp(*this);
 	gold.increaseGain(*this, monster, player);
 	this->nextPlatform(monster);

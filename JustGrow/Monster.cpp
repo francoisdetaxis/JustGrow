@@ -94,8 +94,7 @@ void Monster::setPosition(int x, int y)
 	this->updateHitbox();
 
 	//hitbox borders (shape) = hitbox rect
-	_hitboxBordersShape.setPosition(_currentMonsterSprite.getPosition().x, _currentMonsterSprite.getPosition().y);
-	_hitboxBordersShape.setSize(sf::Vector2f(_currentMonsterHitboxRect.width, _currentMonsterHitboxRect.height));
+	this->updateHitboxBordersShape();
 }
 
 void Monster::setScale(float x, float y)
@@ -153,7 +152,7 @@ void Monster::updateHitbox()
 void Monster::updateHitboxBordersShape()
 {
 	_hitboxBordersShape.setPosition(_currentMonsterSprite.getPosition().x, _currentMonsterSprite.getPosition().y);
-	_hitboxBordersShape.setSize(sf::Vector2f(_currentMonsterSpriteWidth, _currentMonsterSpriteHeight));
+	_hitboxBordersShape.setSize(sf::Vector2f(_currentMonsterHitboxRect.width, _currentMonsterHitboxRect.height));
 }
 
 void Monster::setHpBarPosition()
@@ -370,6 +369,9 @@ void Monster::hurt()
 		_currentMonsterSpriteRect.width = _currentMonsterSpriteWidth;
 		_state = Monster::State::HURT;
 		_monsterAnimationClock.restart();
+		//TODO fix
+		this->updateHitbox();
+		this->updateHitboxBordersShape();
 	}
 	else {
 		_currentMonsterSpriteRect.left = 0;
@@ -401,6 +403,10 @@ void Monster::idle()
 		//!!!!!!!!!!!!!!!!!!!!!!!
 		_state = Monster::State::IDLE;
 		_monsterAnimationClock.restart();
+		//TODO fix
+		this->updateHitbox();
+
+		this->updateHitboxBordersShape();
 	}
 	else {
 	}
@@ -409,7 +415,7 @@ void Monster::idle()
 void Monster::nextMob()
 {
 	//Reset to first monster once we went through all the textures...
-	if (_currentMonsterNb == 3)
+	if (_currentMonsterNb == MAX_MONSTER_NB)
 		_currentMonsterNb = 0;
 
 	_currentMonsterNb++;
@@ -440,4 +446,8 @@ void Monster::nextMob()
 
 	_state = Monster::State::IDLE;
 	_monsterAnimationClock.restart();
+	//TODO fix
+	this->updateHitbox();
+
+	this->updateHitboxBordersShape();
 }

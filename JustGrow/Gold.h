@@ -26,13 +26,17 @@ public:
 	void Gold::draw(sf::RenderWindow& window);
 	void Gold::move(int x, int y);
 	void Gold::gain();
+	void updateText();
 	//bool spend(int amount);
 	bool spend(BigNumber amount);
+
+	//public because easier...
+	BigNumber _goldGain;
+	BigNumber _gold;
 private:
 	//int _goldGain;
 	//int _gold;
-	BigNumber _goldGain;
-	BigNumber _gold;
+
 	sf::Text _goldText;
 	sf::Sprite _goldSprite;
 	sf::Sound _goldSound;

@@ -127,11 +127,14 @@ int main(int argc, char* argv[])
 					if (event.mouseButton.button == sf::Mouse::Left && btnQuit.isHit(window))
 						gameState = GameState::QUIT;
 					if (event.mouseButton.button == sf::Mouse::Left && btnSave.isHit(window))
-						saveGame(player);
+						saveGame(player, gold, stage);
 					if (event.mouseButton.button == sf::Mouse::Left && btnLoad.isHit(window))
 					{
-						loadGame(player);
+						loadGame(player, gold, stage);
+						//all the changes in data have to take effect properly...below
 						player.reloadUpgrades(btnclickUpgrade);
+						gold.updateText();
+						stage.updateTexts();
 					}
 				}
 			}

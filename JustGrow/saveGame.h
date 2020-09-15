@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include "Player.h"
+#include "Gold.h"
+#include "Stage.h"
 
-void saveGame(const Player& player);
-void loadGame(Player& player);
+void loadGame(Player& player, Gold& gold, Stage& stage);
+void saveGame(const Player& player, const Gold& gold, const Stage& stage);

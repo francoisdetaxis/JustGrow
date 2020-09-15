@@ -15,7 +15,8 @@ Gold::Gold(std::map<std::string, Mytexture>& textures, std::map<std::string, sf:
 	_gold = BigNumber(0, 0);
 	_goldSprite.setTexture(textures["coin"].getTexture());
 	//_goldText.setString("0");
-	_goldText.setString(_gold.asString(true));
+	//_goldText.setString(_gold.asString(true));
+	this->updateText();
 	_goldText.setCharacterSize(48);
 	_goldText.setFont(fonts["dmgFont"]);
 	_goldText.setPosition(menu.getSize().x * 0.8, menu.getSize().y * 0.2);
@@ -61,8 +62,14 @@ void Gold::gain()
 {
 	_gold += _goldGain; //increase gold amount
 	//_goldText.setString(std::to_string(_gold)); //update gold text
-	_goldText.setString(_gold.asString(true)); //update gold text
+	//_goldText.setString(_gold.asString(true)); //update gold text
+	this->updateText();
 	_goldSound.play();
+}
+
+void Gold::updateText()
+{
+	_goldText.setString(_gold.asString(true)); //update gold text
 }
 
 //bool Gold::spend(int amount)
@@ -73,7 +80,8 @@ bool Gold::spend(BigNumber amount)
 	{
 		_gold -= amount;
 		//_goldText.setString(std::to_string(_gold)); //update gold text
-		_goldText.setString(_gold.asString(true)); //update gold text
+		//_goldText.setString(_gold.asString(true)); //update gold text
+		this->updateText();
 		return true;
 	}
 	else

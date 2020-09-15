@@ -19,6 +19,7 @@ class Stage
 public:
 	Stage(std::map<std::string, Mytexture>& textures, std::map<std::string, sf::Font>& fonts);
 	void nextLevel(Monster& monster, Gold& gold, Player& player);
+	void updateTexts();
 	void nextStage(Monster& monster, Gold& gold, Player& player);
 	bool isBoss();
 	void decreaseBossTimer(Monster& monster);
@@ -35,12 +36,14 @@ public:
 	void updateTextureRect();
 	void updateDebugShape();
 
+	//public because......
+	int _currentStage;
+	int _currentLevel;
+
 private:
 	std::map<std::string, Mytexture> _textures;
 	std::map<std::string, sf::Font> _fonts;
 
-	int _currentStage;
-	int _currentLevel;
 	int _currentPlatformNb;
 
 	float _bossTimeSeconds;
